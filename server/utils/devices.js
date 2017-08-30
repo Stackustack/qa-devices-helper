@@ -1,0 +1,44 @@
+// {
+// 'T1': {
+//     index: 'T1',
+//     brand: 'Samsung',
+//     model: 'Galaxy S II',
+//     androidVersion: '4.1.2',
+//     additionalNotes: 'qa+s2@netguru.pl',
+//     status: 'Available'
+// }, {
+//     ...
+// }
+
+const { devicesData } = require('./../data/devicesData.js')
+
+
+class Devices {
+  constructor() {
+    this.devicesList = devicesData
+  }
+
+  all() {
+    return this.devicesList
+  }
+
+  find(deviceIndex) {
+    const device = this.devicesList[deviceIndex]
+
+    if (device) {
+      return device
+    }
+
+    throw new Error(`Could not find device with ID: ${deviceIndex}`)
+  }
+
+  toggleAvailability(deviceIndex, user) {
+    const device = this.find(deviceIndex)
+    console.log('found device:', device['status'])
+
+    device['status'] === 'Available' ? device['status'] = 'Taken' : device['status'] = 'Available'
+    device['takenBy'] === '' ? device['takenBy'] = user : device['takenBy'] = ''
+  }
+}
+
+module.exports = { Devices };
