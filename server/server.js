@@ -1,5 +1,6 @@
 // Express, sockets and general server configuration 
 require('./config/config');
+require('dotenv').config()
 
 const express = require('express')
 const app = express();
@@ -31,7 +32,6 @@ app.use(express.static(publicPath));
 
 // Other usefull stuff
 const { logServer, saveUserToSession } = require('./utils/utils.js')
-const auth = require('./config/auth.js')
 
 // Importing Devices class
 const { Devices } = require('./utils/devices.js')
@@ -40,9 +40,9 @@ const devices = new Devices()
 // Googles OAUTH  
 function getOAuthClient() {
     return new OAuth2(
-        auth.googleAuth.clientID,
-        auth.googleAuth.clientSecret,
-        auth.googleAuth.redirectionUrl);
+        process.env.GOOGLE_CLIENT_ID,
+        process.env.GOOGLE_CLIENT_SECRET,
+        process.env.GOOGLE_REDIRECTION_URL);
 }
 
 function getAuthUrl() {
