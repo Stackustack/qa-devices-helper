@@ -1,4 +1,6 @@
 // Express, sockets and general server configuration 
+require('./config/config');
+
 const express = require('express')
 const app = express();
 const session = require('express-session')({
