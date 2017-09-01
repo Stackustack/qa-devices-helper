@@ -116,6 +116,11 @@ app.use('/debug', (req, res) => {
 })
 
 app.use('/', (req, res) => {
+    // redirect to /devices if user session is available
+    if (req.session.user) { 
+      return  res.redirect('/devices')
+    }
+
     const url = getAuthUrl()
     console.log('SESJA w "/":', req.session)
     console.log('--------------------')
