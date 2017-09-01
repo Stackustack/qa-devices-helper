@@ -65,12 +65,17 @@ io.use(sharedsession(session, {
 }));
 
 io.on('connection', (socket) => {
-    const user = socket.handshake.session.user.displayName
+    // handling redirect users with no user session
+    if (!socket.handshake.session.user) {
+        return socket.emit('redirect', '/');
+    }
+
+    const { displayName } = socket.handshake.session.user
 
     socket.emit('updateDevicesList', devices.all())
 
     socket.on('toggleDeviceState', (deviceIndex) => {
-        const device = devices.toggleAvailability(deviceIndex, user)
+        const device = devices.toggleAvailability(deviceIndex, displayName)
         io.emit('updateDevicesList', devices.all())
     })
 });
