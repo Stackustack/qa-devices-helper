@@ -5,25 +5,50 @@ const tBody = jQuery('tbody')
 
 // Handling Events from server
 socket.on('updateDevicesList', (devices) => {
-    tBody.html('')
+    clearTable()
+    populateTable(devices)
+})
 
-    for (let deviceIndex in devices) {
-        let tr = jQuery('<tr></tr>').attr('id', deviceIndex)
-
-        let td = jQuery('<td></td>').text(deviceIndex)
-        tr.append(td)
-        
-        for (let fieldData in devices[deviceIndex]) {
-            td = jQuery('<td></td>').text(devices[deviceIndex][fieldData])
-            tr.append(td)
-        }
-        tBody.append(tr)
-    }
+socket.on('redirect', function (url) {
+    window.location.href = url;
 })
 
 // Clicking row to emit 'toggle device state'
 tBody.on('click', 'tr', (data) => {
     const deviceIndex = data.currentTarget.cells[0].innerHTML
-    
+
     socket.emit('toggleDeviceState', deviceIndex)
 })
+
+function addDeviceIdToTableRow(tr, deviceIndex) {
+    const td = jQuery('<td></td>').text(deviceIndex)
+    tr.append(td)
+}
+
+function addRestDataToTableRow(tr, device) {
+    for (let fieldData in device) {
+        td = jQuery('<td></td>').text(device[fieldData])
+        tr.append(td)
+    }
+}
+
+function addAvabilityClassToRow(tr, device) {
+    device['status'] === 'Available' ? tr.addClass('positive') : tr.addClass('negative')
+}
+
+function clearTable() {
+    tBody.html('')
+}
+
+function populateTable(devices) {
+    for (let deviceIndex in devices) {
+        const device = devices[deviceIndex]
+        const tr = jQuery('<tr></tr>').attr('id', deviceIndex)
+
+        addDeviceIdToTableRow(tr, deviceIndex)
+        addRestDataToTableRow(tr, device)
+        addAvabilityClassToRow(tr, device)
+
+        tBody.append(tr)
+    }
+}
