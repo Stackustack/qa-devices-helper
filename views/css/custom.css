@@ -1,10 +1,11 @@
 .table-container {
-    padding: 5vh 10vh 5vh 10vh;
+    padding: 5vh 10vw 5vh 10vw;
 }
 
 .container {
-    width: 100vw;
     white-space: nowrap;
+    min-height: 100%;
+    min-width: 100%;
 
     background: #283048;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to bottom, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
