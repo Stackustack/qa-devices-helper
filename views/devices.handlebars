@@ -1,4 +1,22 @@
 <div class="container table-container">
+    {{!-- 'ARE YOU SURE YOU WANT TO TAKE THIS DEVICE FROM OTHER USER?' MODAL--}}
+    <div class="ui basic modal">
+        <div class="ui icon header">
+            <i class="archive icon"></i> Archive Old Messages
+        </div>
+        <div class="content">
+            <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
+        </div>
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+                <i class="remove icon"></i> No
+            </div>
+            <div class="ui green ok inverted button">
+                <i class="checkmark icon"></i> Yes
+            </div>
+        </div>
+    </div>
+    
     <table class="ui celled table fixed green selectable">
         <thead>
             <tr>
@@ -25,10 +43,9 @@
 {{!-- SOCKETS IO --}}
 <script src="/socket.io/socket.io.js"></script>
 
-{{!-- JQUERY  --}}
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-
+{{!-- JQUERY --}}
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    
 {{!-- SEMANTIC UI --}}
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
 

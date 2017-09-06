@@ -80,6 +80,9 @@ io.on('connection', (socket) => {
             io.emit('updateDevicesList', devices.all())
         } else {
             // HANDLE SITUATION WHEN CURRENT USER WANTS TO TAKE DEVICE FROM DIFFERENT USER
+            socket.emit('showModal')
+            console.log('eloooo')
+            // alert(`You're trying have fun with ${device} that is currently taken by ${deviceCurrentlyTakenBy}`)
         }
     })
 });
