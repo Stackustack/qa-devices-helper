@@ -15,9 +15,13 @@ socket.on('redirect', function (url) {
 
 // Clicking row to emit 'toggle device state'
 tBody.on('click', 'tr', (data) => {
-    const deviceIndex = data.currentTarget.cells[0].innerHTML
+    const deviceData = {
+        deviceIndex: data.currentTarget.cells[0].innerHTML,
+        deviceCurrentlyTakenBy: data.currentTarget.cells[6].innerHTML 
+    }
+    console.log(data)
 
-    socket.emit('toggleDeviceState', deviceIndex)
+    socket.emit('toggleDeviceState', deviceData)
 })
 
 function addDeviceIdToTableRow(tr, deviceIndex) {
@@ -43,7 +47,7 @@ function clearTable() {
 function populateTable(devices) {
     for (let deviceIndex in devices) {
         const device = devices[deviceIndex]
-        const tr = jQuery('<tr></tr>').attr('id', deviceIndex)
+        const tr = jQuery('<tr></tr>').attr('id', deviceIndex).addClass('center aligned')
 
         addDeviceIdToTableRow(tr, deviceIndex)
         addRestDataToTableRow(tr, device)

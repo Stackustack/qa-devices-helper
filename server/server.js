@@ -70,13 +70,17 @@ io.on('connection', (socket) => {
         return socket.emit('redirect', '/');
     }
 
-    const { displayName } = socket.handshake.session.user
+    const currentUser = socket.handshake.session.user.displayName
 
     socket.emit('updateDevicesList', devices.all())
 
-    socket.on('toggleDeviceState', (deviceIndex) => {
-        const device = devices.toggleAvailability(deviceIndex, displayName)
-        io.emit('updateDevicesList', devices.all())
+    socket.on('toggleDeviceState', ({ deviceIndex, deviceCurrentlyTakenBy }) => {
+        if (deviceReturnableByCurrentUser(currentUser, deviceCurrentlyTakenBy)) {
+            const device = devices.toggleAvailability(deviceIndex, currentUser)
+            io.emit('updateDevicesList', devices.all())
+        } else {
+            // HANDLE SITUATION WHEN CURRENT USER WANTS TO TAKE DEVICE FROM DIFFERENT USER
+        }
     })
 });
 
@@ -131,5 +135,10 @@ server.listen(port, () => {
     logServer(`Server started at ${port}`)
 });
 
+const deviceReturnableByCurrentUser = (currentUser, deviceCurrentlyTakenBy) => {
+    console.log('currentUser', currentUser)
+    console.log('deviceCurrentlyTakenBy', deviceCurrentlyTakenBy)
+    return (currentUser === deviceCurrentlyTakenBy || deviceCurrentlyTakenBy === '')
+}
 
 
