@@ -2,7 +2,7 @@ const socket = io();
 
 // Selectors
 const tBody = jQuery('tbody')
-const modal = jQuery('.ui.basic.modal')
+const retakeDevice = jQuery('.ui.basic.modal')
 
 // Handling Events from server
 socket.on('updateDevicesList', (devices) => {
@@ -15,8 +15,7 @@ socket.on('redirect', function (url) {
 })
 
 socket.on('showModal', function () {
-    console.log('MODAL:', modal)
-    modal.modal('show')
+    retakeDevice.modal('show')
 })
 
 // Clicking row to emit 'toggle device state'
