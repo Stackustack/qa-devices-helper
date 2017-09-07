@@ -2,7 +2,9 @@ const socket = io();
 
 // Selectors
 const tBody = jQuery('tbody')
-const retakeDevice = jQuery('.ui.basic.modal')
+const retakeModal = jQuery('.ui.basic.modal')
+const retakeYesBtn = jQuery('#retake_yes_button')
+const retakeNoBtn = jQuery('#retake_no_button')
 
 // Handling Events from server
 socket.on('updateDevicesList', (devices) => {
@@ -14,17 +16,36 @@ socket.on('redirect', function (url) {
     window.location.href = url;
 })
 
-socket.on('showModal', function () {
-    retakeDevice.modal('show')
+socket.on('showModal', function (data) {
+    try {
+        const deviceData = {
+            deviceIndex: data.currentTarget.cells[0].innerHTML,
+            deviceCurrentlyTakenBy: data.currentTarget.cells[6].innerHTML
+        }
+    } catch(e) {
+        console.log('Error while fetching device data when displaying modal, error:', e)
+    }
+
+    
+    retakeModal.modal('show')
+
+    retakeModal.on('click', retakeYesBtn, function () {
+        // TBD
+        // socket.emit('toggleDeviceState', deviceData)
+    })
+
+    retakeModal.on('click', retakeNoBtn, function () {
+        // TBD
+        // socket.emit('toggleDeviceState', deviceData)
+    })
 })
 
 // Clicking row to emit 'toggle device state'
 tBody.on('click', 'tr', (data) => {
     const deviceData = {
         deviceIndex: data.currentTarget.cells[0].innerHTML,
-        deviceCurrentlyTakenBy: data.currentTarget.cells[6].innerHTML 
+        deviceCurrentlyTakenBy: data.currentTarget.cells[6].innerHTML
     }
-    console.log(data)
 
     socket.emit('toggleDeviceState', deviceData)
 })
