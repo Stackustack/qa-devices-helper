@@ -1,22 +1,23 @@
-<div class="container table-container">
-    {{!-- 'ARE YOU SURE YOU WANT TO TAKE THIS DEVICE FROM OTHER USER?' MODAL--}}
-    <div class="ui basic modal">
-        <div class="ui icon header">
-            <i class="archive icon"></i> Archive Old Messages
+{{!-- 'ARE YOU SURE YOU WANT TO TAKE THIS DEVICE FROM OTHER USER?' MODAL--}}
+<div id="retake_modal" class="ui basic modal">
+    <div class="ui icon huge header">
+        <i class="warning sign icon"></i> You're about to retake this device from other QA
+    </div>
+    <div class="content">
+        <p>Does other QA (current owner) know about this?</p>
+    </div>
+    <div class="actions">
+        <div class="ui green ok inverted huge button">
+            <i class="checkmark icon"></i> Yeap
         </div>
-        <div class="content">
-            <p>Your inbox is getting full, would you like us to enable automatic archiving of old messages?</p>
-        </div>
-        <div class="actions">
-            <div class="ui red basic cancel inverted button">
-                <i class="remove icon"></i> No
-            </div>
-            <div class="ui green ok inverted button">
-                <i class="checkmark icon"></i> Yes
-            </div>
+        <div class="ui red basic cancel inverted huge button">
+            <i class="remove center icon"></i> Nope
         </div>
     </div>
-    
+</div>
+
+{{!-- DEVICES TABLE --}}
+<div class="container table-container">
     <table class="ui celled table fixed green selectable">
         <thead>
             <tr>
@@ -30,12 +31,16 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Populated with devices.js with following structure
-                <tr id="deviceIndex">
+            <!-- Populated with './js/devices.js', structure as follows:
+                <tr id="{{deviceIndex}}">
                     <td>{{id}}</td>
-                    <td>{{brand}}</td>
-                    ...
-                </tr> -->
+                    <td>{{model}}</td>
+                    <td>{{androidVersion}}</td>
+                    <td>{{notes}}</td>
+                    <td>{{status}}</td>
+                    <td>{{takenBy}}</td>
+                </tr> 
+            -->
         </tbody>
     </table>
 </div>
@@ -44,10 +49,11 @@
 <script src="/socket.io/socket.io.js"></script>
 
 {{!-- JQUERY --}}
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+
 {{!-- SEMANTIC UI --}}
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
 
-{{!-- POPULATING DECIVES TABLE AND TABLE EVENTS --}}
+{{!-- JS POPULATING DECIVES TABLE AND TABLE EVENTS --}}
 <script src="./js/devices.js"></script>

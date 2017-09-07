@@ -1,7 +1,4 @@
-.table-container {
-    padding: 5vh 10vw 5vh 10vw;
-}
-
+/* GENERAL */
 .container {
     white-space: nowrap;
     min-height: 100%;
@@ -12,8 +9,28 @@
     background: linear-gradient(to bottom, #859398, #283048); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+/* LOGIN PAGE */
 .login {
     display: flex;
     justify-content: center;
     padding-top: 20vh;
+}
+
+/* DEVICES PAGE */
+.table-container {
+    padding: 5vh 10vw 5vh 10vw;
+}
+
+/* 'RETAKE DEVICE' MODAL */
+#retake_modal .actions {
+    text-align: center;
+}
+
+#retake_modal i.warning.sign.icon  {
+    margin-bottom: 5vh
+}
+
+#retake_modal .content {
+    text-align: center;
+    font-size: 1.25rem;
 }
