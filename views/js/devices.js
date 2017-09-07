@@ -16,27 +16,11 @@ socket.on('redirect', function (url) {
     window.location.href = url;
 })
 
-socket.on('showModal', function (data) {
-    try {
-        const deviceData = {
-            deviceIndex: data.currentTarget.cells[0].innerHTML,
-            deviceCurrentlyTakenBy: data.currentTarget.cells[6].innerHTML
-        }
-    } catch(e) {
-        console.log('Error while fetching device data when displaying modal, error:', e)
-    }
-
-    
+socket.on('showModal', function ({ deviceIndex, deviceCurrentlyTakenBy }) {
     retakeModal.modal('show')
 
-    retakeModal.on('click', retakeYesBtn, function () {
-        // TBD
-        // socket.emit('toggleDeviceState', deviceData)
-    })
-
-    retakeModal.on('click', retakeNoBtn, function () {
-        // TBD
-        // socket.emit('toggleDeviceState', deviceData)
+    retakeYesBtn.click(function () {
+        return socket.emit('retakeDevice', deviceIndex)
     })
 })
 

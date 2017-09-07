@@ -34,10 +34,15 @@ class Devices {
 
   toggleAvailability(deviceIndex, user) {
     const device = this.find(deviceIndex)
-    console.log('found device:', device['status'])
 
     device['status'] === 'Available' ? device['status'] = 'Taken' : device['status'] = 'Available'
     device['takenBy'] === '' ? device['takenBy'] = user : device['takenBy'] = ''
+  }
+
+  // UNIT TESTS NEEDED
+  giveDeviceToUser(deviceIndex, user) {
+    const device = this.find(deviceIndex)
+    device['takenBy'] = user
   }
 }
 

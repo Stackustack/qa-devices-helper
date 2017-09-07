@@ -75,13 +75,18 @@ io.on('connection', (socket) => {
     socket.emit('updateDevicesList', devices.all())
 
     socket.on('toggleDeviceState', ({ deviceIndex, deviceCurrentlyTakenBy }) => {
+
         if (deviceReturnableByCurrentUser(currentUser, deviceCurrentlyTakenBy)) {
             const device = devices.toggleAvailability(deviceIndex, currentUser)
             io.emit('updateDevicesList', devices.all())
         } else {
-            // HANDLE SITUATION WHEN CURRENT USER WANTS TO TAKE DEVICE FROM DIFFERENT USER
-            socket.emit('showModal')
+            socket.emit('showModal', ({ deviceIndex, deviceCurrentlyTakenBy }))
         }
+    })
+    
+    socket.on('retakeDevice', (deviceIndex) => {
+        devices.giveDeviceToUser(deviceIndex, currentUser)
+        io.emit('updateDevicesList', devices.all())
     })
 });
 
