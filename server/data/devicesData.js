@@ -12,8 +12,8 @@ const devicesData = {
         model: 'Galaxy S3 Neo',
         androidVersion: '4.4.2',
         additionalNotes: 'qa+s3@netguru.pl',
-        status: 'Available',
-        takenBy: ''
+        status: 'Taken',
+        takenBy: 'Krystyna Laska-Vanilii'
     },
     'T4': {
         brand: 'LG',
