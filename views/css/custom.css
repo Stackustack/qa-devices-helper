@@ -1,5 +1,5 @@
 /* GENERAL */
-.container {
+body {
     white-space: nowrap;
     min-height: 100%;
     min-width: 100%;
@@ -10,10 +10,29 @@
 }
 
 /* LOGIN PAGE */
+#logo-maintext {
+    padding-top: 9%;
+    letter-spacing: 1rem; 
+    font-size: 4.3rem;
+}
+
+#logo-subtext {
+    margin-top: -1%;
+    font-size: 1.50rem;
+    letter-spacing: 0.33rem;
+    padding-bottom: 5%;
+
+} 
+
+#header-text .header {
+    color: rgba(0,0,0,0.6);
+    text-shadow: 2px 2px 3px rgba(255,255,255,0.1);
+}
+
 .login {
     display: flex;
     justify-content: center;
-    padding-top: 20vh;
+    /* padding-top: 0; */
 }
 
 /* DEVICES PAGE */
