@@ -31,7 +31,7 @@ app.use(express.static(publicPath));
 
 
 // Other usefull stuff
-const { logServer, saveUserToSession } = require('./utils/utils.js')
+const { logServer, saveUserToSession, keepHerokuFromIdling } = require('./utils/utils.js')
 
 // Importing Devices class
 const { Devices } = require('./utils/devices.js')
@@ -88,7 +88,7 @@ io.on('connection', (socket) => {
             socket.emit('retakeDeviceFlow', ({ deviceIndex, deviceCurrentlyTakenBy }))
         }
     })
-    
+
     socket.on('retakeDevice', (deviceIndex) => {
         devices.giveDeviceToUser(deviceIndex, currentUser)
         io.emit('updateDevicesList', devices.all())
@@ -101,11 +101,11 @@ app.use("/oauthCallback", (req, res) => {
     oauth2Client.getToken(code, async (err, tokens) => {
         if (!err) {
             oauth2Client.setCredentials(tokens);
-            
+
             try {
                 await saveUserToSession(req, res, oauth2Client)
-            } catch(err) {
-                res.render('error', {message: err})
+            } catch (err) {
+                res.render('error', { message: err })
             }
 
             res.redirect('devices')
@@ -118,7 +118,7 @@ app.use("/oauthCallback", (req, res) => {
 
 app.use('/devices', (req, res) => {
     if (!req.session.user) {
-       return res.redirect('/')
+        return res.redirect('/')
     }
 
     res.render('devices')
@@ -130,13 +130,15 @@ app.use('/debug', (req, res) => {
 
 app.use('/', (req, res) => {
     // redirect to /devices if user session is available
-    if (req.session.user) { 
-      return  res.redirect('/devices')
+    if (req.session.user) {
+        return res.redirect('/devices')
     }
 
     const url = getAuthUrl()
     res.render('login', { url })
 })
+
+keepHerokuFromIdling('0:25:00')
 
 server.listen(port, () => {
     logServer(`Server started at ${port}`)

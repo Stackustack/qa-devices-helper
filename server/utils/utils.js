@@ -1,6 +1,6 @@
 var google = require('googleapis');
-
 var plus = google.plus('v1');
+const numeral = require('numeral');
 
 const logServer = (data) => {
     const timestamp = new Date
@@ -21,4 +21,14 @@ const saveUserToSession = (req, res, client) => {
     })
 }
 
-module.exports = { logServer, saveUserToSession }
+// TESTS NEEDED
+const keepHerokuFromIdling = (interval) => {
+    const intervalInMs = numeral(interval).value()*1000
+    
+    setInterval(function () {
+        // http.get("https://secret-crag-36808.herokuapp.com");
+        console.log(intervalInMs)
+    }, intervalInMs)
+}
+
+module.exports = { logServer, saveUserToSession, keepHerokuFromIdling }
