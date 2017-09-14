@@ -49,7 +49,6 @@ function getAuthUrl() {
     var oauth2Client = getOAuthClient();
 
     var scopes = [
-        // 'https://www.googleapis.com/auth/userinfo.profile',
         'https://www.googleapis.com/auth/userinfo.email'
     ];
     var url = oauth2Client.generateAuthUrl({
