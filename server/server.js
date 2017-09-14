@@ -74,7 +74,7 @@ io.on('connection', (socket) => {
     const currentUser = socket.handshake.session.user.displayName
     const currentUserEmail = socket.handshake.session.user.emails[0].value
 
-    // lets connecting users xD
+    // logs connecting users xD
     console.log(`USER CONNECTED: ${currentUser} - ${currentUserEmail}`)
 
     socket.emit('updateDevicesList', devices.all())
@@ -143,8 +143,6 @@ server.listen(port, () => {
 });
 
 const deviceReturnableByCurrentUser = (currentUser, deviceCurrentlyTakenBy) => {
-    console.log('currentUser', currentUser)
-    console.log('deviceCurrentlyTakenBy', deviceCurrentlyTakenBy)
     return (currentUser === deviceCurrentlyTakenBy || deviceCurrentlyTakenBy === '')
 }
 
