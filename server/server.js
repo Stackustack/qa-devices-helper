@@ -49,7 +49,8 @@ function getAuthUrl() {
     var oauth2Client = getOAuthClient();
 
     var scopes = [
-        'https://www.googleapis.com/auth/userinfo.profile'
+        // 'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email'
     ];
     var url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
@@ -71,8 +72,10 @@ io.on('connection', (socket) => {
     }
 
     const currentUser = socket.handshake.session.user.displayName
+    const currentUserEmail = socket.handshake.session.user.emails[0].value
 
-    console.log('USER CONNECTED:', currentUser)
+    // lets connecting users xD
+    console.log(`USER CONNECTED: ${currentUser} - ${currentUserEmail}`)
 
     socket.emit('updateDevicesList', devices.all())
 
@@ -122,8 +125,6 @@ app.use('/devices', (req, res) => {
 })
 
 app.use('/debug', (req, res) => {
-    console.log('SESJA w "debugu":', req.session)
-    console.log('--------------------')
     res.render('debug', { data: req.session })
 })
 
@@ -134,8 +135,6 @@ app.use('/', (req, res) => {
     }
 
     const url = getAuthUrl()
-    console.log('SESJA w "/":', req.session)
-    console.log('--------------------')
     res.render('login', { url })
 })
 
