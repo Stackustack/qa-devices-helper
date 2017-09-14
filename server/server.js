@@ -72,6 +72,8 @@ io.on('connection', (socket) => {
 
     const currentUser = socket.handshake.session.user.displayName
 
+    console.log('USER CONNECTED:', currentUser)
+
     socket.emit('updateDevicesList', devices.all())
 
     socket.on('toggleDeviceState', ({ deviceIndex, deviceCurrentlyTakenBy }) => {
@@ -80,7 +82,7 @@ io.on('connection', (socket) => {
             const device = devices.toggleAvailability(deviceIndex, currentUser)
             io.emit('updateDevicesList', devices.all())
         } else {
-            socket.emit('showModal', ({ deviceIndex, deviceCurrentlyTakenBy }))
+            socket.emit('retakeDeviceFlow', ({ deviceIndex, deviceCurrentlyTakenBy }))
         }
     })
     

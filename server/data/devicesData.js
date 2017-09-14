@@ -12,8 +12,8 @@ const devicesData = {
         model: 'Galaxy S3 Neo',
         androidVersion: '4.4.2',
         additionalNotes: 'qa+s3@netguru.pl',
-        status: 'Taken',
-        takenBy: 'Krystyna Laska-Vanilii'
+        status: 'Available',
+        takenBy: ''
     },
     'T4': {
         brand: 'LG',
@@ -52,8 +52,8 @@ const devicesData = {
         model: 'Moto G',
         androidVersion: '6.0.1',
         additionalNotes: '',
-        status: 'Available',
-        takenBy: ''
+        status: 'Taken',
+        takenBy: 'Borzena Dyslektyczka'
     },
     'T11': {
         brand: 'LG',
@@ -76,8 +76,8 @@ const devicesData = {
         model: 'Nexus 6p',
         androidVersion: '6.0.1',
         additionalNotes: 'Assigned to Michał Jung only (Ghinwa)',
-        status: 'Available',
-        takenBy: ''
+        status: 'Taken',
+        takenBy: 'Krystyna Laska-Vanilii'
     },
     'T13B': {
         brand: 'Google',

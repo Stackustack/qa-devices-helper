@@ -13,10 +13,10 @@ socket.on('updateDevicesList', (devices) => {
 })
 
 socket.on('redirect', function (url) {
-    window.location.href = url;
+    redirectTo(url)
 })
 
-socket.on('showModal', function ({ deviceIndex, deviceCurrentlyTakenBy }) {
+socket.on('retakeDeviceFlow', function ({ deviceIndex, deviceCurrentlyTakenBy }) {
     retakeModal.modal('show')
 
     retakeYesBtn.click(function () {
@@ -65,4 +65,8 @@ function populateTable(devices) {
 
         tBody.append(tr)
     }
+}
+
+function redirectTo(url) {
+    window.location.href = url;
 }
