@@ -31,7 +31,12 @@ app.use(express.static(publicPath));
 
 
 // Other usefull stuff
-const { logServer, saveUserToSession, keepHerokuFromIdling } = require('./utils/utils.js')
+const { 
+    logServer, 
+    saveUserToSession, 
+    keepHerokuFromIdling, 
+    deviceReturnableByCurrentUser 
+} = require('./utils/utils.js')
 
 // Importing Devices class
 const { Devices } = require('./utils/devices.js')
@@ -142,9 +147,5 @@ keepHerokuFromIdling('0:25:00')
 server.listen(port, () => {
     logServer(`Server started at ${port}`)
 });
-
-const deviceReturnableByCurrentUser = (currentUser, deviceCurrentlyTakenBy) => {
-    return (currentUser === deviceCurrentlyTakenBy || deviceCurrentlyTakenBy === '')
-}
 
 

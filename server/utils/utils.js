@@ -31,4 +31,15 @@ const keepHerokuFromIdling = (interval) => {
     }, intervalInMs)
 }
 
-module.exports = { logServer, saveUserToSession, keepHerokuFromIdling }
+// GUESS THIS SHOULD BE MOVED TO DEVICES CLASS BUT HEY, FUCK IT XD 
+// ALSO, TEST NEEDED
+const deviceReturnableByCurrentUser = (currentUser, deviceCurrentlyTakenBy) => {
+    return (currentUser === deviceCurrentlyTakenBy || deviceCurrentlyTakenBy === '')
+}
+
+module.exports = { 
+    logServer, 
+    saveUserToSession, 
+    keepHerokuFromIdling,
+    deviceReturnableByCurrentUser 
+}
