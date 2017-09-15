@@ -1,4 +1,4 @@
-// Express, sockets and general server configuration 
+// Express, sockets and general server configuration
 require('./config/config');
 require('dotenv').config()
 
@@ -31,18 +31,18 @@ app.use(express.static(publicPath));
 
 
 // Other usefull stuff
-const { 
-    logServer, 
-    saveUserToSession, 
-    keepHerokuFromIdling, 
-    deviceReturnableByCurrentUser 
+const {
+    logServer,
+    saveUserToSession,
+    keepHerokuFromIdling,
+    deviceReturnableByCurrentUser
 } = require('./utils/utils.js')
 
 // Importing Devices class
 const { Devices } = require('./utils/devices.js')
 const devices = new Devices()
 
-// Googles OAUTH  
+// Googles OAUTH
 function getOAuthClient() {
     return new OAuth2(
         process.env.GOOGLE_CLIENT_ID,
@@ -147,5 +147,3 @@ keepHerokuFromIdling('0:25:00')
 server.listen(port, () => {
     logServer(`Server started at ${port}`)
 });
-
-
