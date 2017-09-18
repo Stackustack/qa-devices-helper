@@ -56,7 +56,20 @@ function addDeviceIdToTableRow(tr, deviceIndex) {
 
 function addRestDataToTableRow(tr, device) {
     for (let fieldData in device) {
-        td = jQuery('<td></td>').text(device[fieldData])
+        const td = jQuery('<td></td>')
+
+        if (fieldData === 'status') {
+            const label = jQuery('<div></div>').addClass('ui label')
+            const deviceStatus = device[fieldData]
+
+            addColorToLabel(label, deviceStatus)
+
+            label.text(device[fieldData])
+            td.append(label)
+        } else {
+            td.text(device[fieldData])
+        }
+
         tr.append(td)
     }
 }
@@ -81,15 +94,24 @@ function populateTable(devices) {
         addDeviceIdToTableRow(tr, deviceIndex)
         addRestDataToTableRow(tr, device)
         addAvabilityClassToRow(tr, device)
-
-        if (device.status === 'Ongoing RETAKE') {
-          tr.addClass('disabled')
-        }
+        disableRowIfOngoingRetake(tr, device.status)
 
         tBody.append(tr)
     }
 }
 
+function disableRowIfOngoingRetake(tableRow, deviceStatus) {
+    if (deviceStatus === 'Ongoing RETAKE') {
+      tableRow.addClass('disabled')
+    }
+}
+
 function redirectTo(url) {
     window.location.href = url;
+}
+
+function addColorToLabel(label, deviceStatus) {
+    if (deviceStatus === 'Taken')           { label.addClass('orange') }
+    if (deviceStatus === 'Ongoing RETAKE')  { label.addClass('yellow') }
+    if (deviceStatus === 'Available')       { label.addClass('green') }
 }
