@@ -17,15 +17,30 @@ socket.on('redirect', function (url) {
 })
 
 socket.on('retakeDeviceFlow', function ({ deviceIndex, deviceCurrentlyTakenBy }) {
+    socket.emit('reserveDevice', deviceIndex)
+
     retakeModal.modal('show')
 
     retakeYesBtn.click(function () {
         return socket.emit('retakeDevice', deviceIndex)
     })
+
+    retakeNoBtn.click(function () {
+        return socket.emit('retakeCanceled', deviceIndex)
+    })
+})
+
+socket.on('ongoingRetakeModal', function() {
+
 })
 
 // Clicking row to emit 'toggle device state'
 tBody.on('click', 'tr', (data) => {
+    const deviceStatus = data.currentTarget.cells[5].innerHTML
+
+    // HANDLE SITUATION WHEN DEVICE IS BEING RETAKEN
+    if (deviceStatus === 'Ongoing RETAKE') { return }
+
     const deviceData = {
         deviceIndex: data.currentTarget.cells[0].innerHTML,
         deviceCurrentlyTakenBy: data.currentTarget.cells[6].innerHTML
@@ -47,7 +62,11 @@ function addRestDataToTableRow(tr, device) {
 }
 
 function addAvabilityClassToRow(tr, device) {
-    device['status'] === 'Available' ? tr.addClass('positive') : tr.addClass('negative')
+    if (device.status === 'Available')      { return tr.addClass('positive') }
+    if (device.status === 'Taken')          { return tr.addClass('negative') }
+    if (device.status === 'Ongoing RETAKE') { return tr.addClass('warning') }
+
+    return console.log('Error: Innapropiate status text')
 }
 
 function clearTable() {
@@ -62,6 +81,10 @@ function populateTable(devices) {
         addDeviceIdToTableRow(tr, deviceIndex)
         addRestDataToTableRow(tr, device)
         addAvabilityClassToRow(tr, device)
+
+        if (device.status === 'Ongoing RETAKE') {
+          tr.addClass('disabled')
+        }
 
         tBody.append(tr)
     }

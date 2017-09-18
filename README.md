@@ -18,7 +18,6 @@ to install dependencies.
 Now you need to fill the secrets needed for Google OAuth - they're stored in '.env' file. 
 ```
 cp .env.sample .env
-
 ```
 You can ask me for them (@juni @ Netguru's Slack) or you can setup app for yourself. 
 

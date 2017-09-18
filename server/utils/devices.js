@@ -32,6 +32,18 @@ class Devices {
     throw new Error(`Could not find device with ID: ${deviceIndex}`)
   }
 
+  blockDevice(deviceIndex) {
+    const device = this.find(deviceIndex)
+
+    device['status']  = 'Ongoing RETAKE'
+  }
+
+  unblockDevice(deviceIndex) {
+    const device = this.find(deviceIndex)
+
+    device['status']  = 'Taken'
+  }
+
   toggleAvailability(deviceIndex, user) {
     const device = this.find(deviceIndex)
 
@@ -40,9 +52,16 @@ class Devices {
   }
 
   // UNIT TESTS NEEDED
+  setStatus(deviceIndex, status) {
+    const device = this.find(deviceIndex)
+    device['status'] = status
+  }
+
+  // UNIT TESTS NEEDED
   giveDeviceToUser(deviceIndex, user) {
     const device = this.find(deviceIndex)
     device['takenBy'] = user
+    this.setStatus(deviceIndex, 'Taken')
   }
 }
 

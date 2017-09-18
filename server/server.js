@@ -84,7 +84,6 @@ io.on('connection', (socket) => {
     socket.emit('updateDevicesList', devices.all())
 
     socket.on('toggleDeviceState', ({ deviceIndex, deviceCurrentlyTakenBy }) => {
-
         if (deviceReturnableByCurrentUser(currentUser, deviceCurrentlyTakenBy)) {
             const device = devices.toggleAvailability(deviceIndex, currentUser)
             io.emit('updateDevicesList', devices.all())
@@ -93,8 +92,18 @@ io.on('connection', (socket) => {
         }
     })
 
+    socket.on('reserveDevice', (deviceIndex) => {
+        devices.blockDevice(deviceIndex)
+        io.emit('updateDevicesList', devices.all())
+    })
+
     socket.on('retakeDevice', (deviceIndex) => {
         devices.giveDeviceToUser(deviceIndex, currentUser)
+        io.emit('updateDevicesList', devices.all())
+    })
+
+    socket.on('retakeCanceled', (deviceIndex) => {
+        devices.unblockDevice(deviceIndex)
         io.emit('updateDevicesList', devices.all())
     })
 });
