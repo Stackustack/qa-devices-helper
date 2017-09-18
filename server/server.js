@@ -70,16 +70,17 @@ io.use(sharedsession(session, {
 }));
 
 io.on('connection', (socket) => {
-    // handling redirect users with no user session
-    if (!socket.handshake.session.user) {
-        return socket.emit('redirect', '/');
-    }
+    const userSession = socket.handshake.session.user
 
-    const currentUser = socket.handshake.session.user.displayName
-    const currentUserEmail = socket.handshake.session.user.emails[0].value
+    // handling redirect users with no user session
+    if (!userSession) { return socket.emit('redirect', '/') }
 
     // logs connecting users xD
     console.log(`USER CONNECTED: ${currentUser} - ${currentUserEmail}`)
+
+    const currentUser         = userSession.displayName
+    const currentUserEmail    = userSession.emails[0].value // only for logging users xD
+    const currentUserPicture  = userSession.image.url
 
     socket.emit('updateDevicesList', devices.all())
 
