@@ -53,7 +53,10 @@ const devicesData = {
         androidVersion: '6.0.1',
         additionalNotes: '',
         status: 'Taken',
-        takenBy: 'Borzena Dyslektyczka'
+        takenBy: {
+          currentUser: 'Borzena Dyslektyczka',
+          currentUserPicture: 'https://semantic-ui.com/images/avatar/small/matt.jpg'
+        }
     },
     'T11': {
         brand: 'LG',
@@ -77,7 +80,10 @@ const devicesData = {
         androidVersion: '6.0.1',
         additionalNotes: 'Assigned to Michał Jung only (Ghinwa)',
         status: 'Taken',
-        takenBy: 'Krystyna Laska-Vanilii'
+        takenBy: {
+          currentUser: 'Krystyna Laska-Vanilii',
+          currentUserPicture: 'https://semantic-ui.com/images/avatar/small/elliot.jpg'
+        }
     },
     'T13B': {
         brand: 'Google',
