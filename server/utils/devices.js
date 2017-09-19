@@ -6,6 +6,10 @@
 //     androidVersion: '4.1.2',
 //     additionalNotes: 'qa+s2@netguru.pl',
 //     status: 'Available'
+//     takenBy: {
+//        userName: 'Andrew Golara',
+//        userPicture: 'url address'
+//     }
 // }, {
 //     ...
 // }
