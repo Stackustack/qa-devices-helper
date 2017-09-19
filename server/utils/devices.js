@@ -35,7 +35,7 @@ class Devices {
   blockDevice(deviceIndex) {
     const device = this.find(deviceIndex)
 
-    device['status']  = 'Ongoing RETAKE'
+    device['status']  = 'RETAKE'
   }
 
   unblockDevice(deviceIndex) {

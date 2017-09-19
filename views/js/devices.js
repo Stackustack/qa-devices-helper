@@ -39,7 +39,7 @@ tBody.on('click', 'tr', (data) => {
     const deviceStatus = data.currentTarget.cells[5].innerHTML
 
     // HANDLE SITUATION WHEN DEVICE IS BEING RETAKEN
-    if (deviceStatus === 'Ongoing RETAKE') { return }
+    if (deviceStatus === 'RETAKE') { return }
 
     const deviceData = {
         deviceIndex: data.currentTarget.cells[0].innerHTML,
@@ -77,7 +77,7 @@ function addRestDataToTableRow(tr, device) {
 function addAvabilityClassToRow(tr, device) {
     if (device.status === 'Available')      { return tr.addClass('positive') }
     if (device.status === 'Taken')          { return tr.addClass('negative') }
-    if (device.status === 'Ongoing RETAKE') { return tr.addClass('warning') }
+    if (device.status === 'RETAKE') { return tr.addClass('warning') }
 
     return console.log('Error: Innapropiate status text')
 }
@@ -101,7 +101,7 @@ function populateTable(devices) {
 }
 
 function disableRowIfOngoingRetake(tableRow, deviceStatus) {
-    if (deviceStatus === 'Ongoing RETAKE') {
+    if (deviceStatus === 'RETAKE') {
       tableRow.addClass('disabled')
     }
 }
@@ -112,6 +112,6 @@ function redirectTo(url) {
 
 function addColorToLabel(label, deviceStatus) {
     if (deviceStatus === 'Taken')           { label.addClass('orange') }
-    if (deviceStatus === 'Ongoing RETAKE')  { label.addClass('yellow') }
+    if (deviceStatus === 'RETAKE')  { label.addClass('yellow') }
     if (deviceStatus === 'Available')       { label.addClass('green') }
 }
