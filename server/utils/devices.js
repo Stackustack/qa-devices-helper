@@ -47,8 +47,8 @@ class Devices {
   toggleAvailability(deviceIndex, user) {
     const device = this.find(deviceIndex)
 
-    device['status'] === 'Available' ? device['status'] = 'Taken' : device['status'] = 'Available'
-    device['takenBy'] === '' ? device['takenBy'] = user : device['takenBy'] = ''
+    device.status === 'Available' ? device.status = 'Taken' : device.status = 'Available'
+    device.takenBy === '' ? device.takenBy = user : device.takenBy = ''
   }
 
   // UNIT TESTS NEEDED
