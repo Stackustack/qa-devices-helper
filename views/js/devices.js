@@ -59,15 +59,37 @@ function addRestDataToTableRow(tr, device) {
         const td = jQuery('<td></td>')
 
         if (fieldData === 'status') {
+            const deviceStatus  = device[fieldData]
+
+            const handIcon      = jQuery('<i class="hand paper icon"></i>')
+            const exchangeIcon  = jQuery('<i class="exchange icon"></i>')
+            const spinnerIcon   = jQuery('<i class="asterisk loading icon"></i>')
+
+            const span = jQuery(`<span>${deviceStatus}</span>`)
             const label = jQuery('<div></div>').addClass('ui label')
-            const deviceStatus = device[fieldData]
+
+            if (device.status === 'Available')       { label.append(handIcon) }
+            if (device.status === 'Taken')           { label.append(exchangeIcon) }
+            if (device.status === 'RETAKE')          { label.append(spinnerIcon) }
+
+            label.append(span)
 
             addColorToLabel(label, deviceStatus)
 
-            label.text(device[fieldData])
             td.append(label)
+        } else if (fieldData === 'takenBy') {
+            if (device.status === 'Taken' || device.status === 'RETAKE') {
+                td.text('')
+
+                const label = jQuery('<div></div>').addClass('ui image label basic orange')
+                const img = jQuery('<img></img>').addClass('ui avatar image').attr('src', device.takenBy.currentUserPicture)
+
+                label.append(img).append(device.takenBy.currentUser)
+
+                td.append(label)
+            }
         } else {
-            td.text(device[fieldData])
+          td.text(device[fieldData])
         }
 
         tr.append(td)
