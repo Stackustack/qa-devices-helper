@@ -70,23 +70,30 @@ io.use(sharedsession(session, {
 }));
 
 io.on('connection', (socket) => {
-    const userSession = socket.handshake.session.user
+    const userSession         = socket.handshake.session.user
 
     // handling redirect users with no user session
     if (!userSession) { return socket.emit('redirect', '/') }
-
-    // logs connecting users xD
-    console.log(`USER CONNECTED: ${currentUser} - ${currentUserEmail}`)
 
     const currentUser         = userSession.displayName
     const currentUserEmail    = userSession.emails[0].value // only for logging users xD
     const currentUserPicture  = userSession.image.url
 
+    const user = {
+      currentUser,
+      currentUserPicture
+    }
+
+
+
+    // logs connecting users xD
+    console.log(`USER CONNECTED: ${currentUser} - ${currentUserEmail}`)
+
     socket.emit('updateDevicesList', devices.all())
 
     socket.on('toggleDeviceState', ({ deviceIndex, deviceCurrentlyTakenBy }) => {
         if (deviceReturnableByCurrentUser(currentUser, deviceCurrentlyTakenBy)) {
-            const device = devices.toggleAvailability(deviceIndex, currentUser)
+            devices.toggleAvailability(deviceIndex, user)
             io.emit('updateDevicesList', devices.all())
         } else {
             socket.emit('retakeDeviceFlow', ({ deviceIndex, deviceCurrentlyTakenBy }))
