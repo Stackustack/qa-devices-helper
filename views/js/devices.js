@@ -59,37 +59,11 @@ function addRestDataToTableRow(tr, device) {
         const td = jQuery('<td></td>')
 
         if (fieldData === 'status') {
-            const deviceStatus  = device[fieldData]
-
-            const handIcon      = jQuery('<i class="hand paper icon"></i>')
-            const exchangeIcon  = jQuery('<i class="exchange icon"></i>')
-            const spinnerIcon   = jQuery('<i class="asterisk loading icon"></i>')
-
-            const span = jQuery(`<span>${deviceStatus}</span>`)
-            const label = jQuery('<div></div>').addClass('ui label')
-
-            if (device.status === 'Available')       { label.append(handIcon) }
-            if (device.status === 'Taken')           { label.append(exchangeIcon) }
-            if (device.status === 'RETAKE')          { label.append(spinnerIcon) }
-
-            label.append(span)
-
-            addColorToLabel(label, deviceStatus)
-
-            td.append(label)
+            setupDeviceStatusCell(td, device)
         } else if (fieldData === 'takenBy') {
-            if (device.status === 'Taken' || device.status === 'RETAKE') {
-                td.text('')
-
-                const label = jQuery('<div></div>').addClass('ui image label basic orange')
-                const img = jQuery('<img></img>').addClass('ui avatar image').attr('src', device.takenBy.currentUserPicture)
-
-                label.append(img).append(device.takenBy.currentUser)
-
-                td.append(label)
-            }
+            setupDeviceTakenByCell(td, device)
         } else {
-          td.text(device[fieldData])
+            setupOtherTableCell(td, device[fieldData])
         }
 
         tr.append(td)
@@ -136,4 +110,46 @@ function addColorToLabel(label, deviceStatus) {
     if (deviceStatus === 'Taken')           { label.addClass('orange') }
     if (deviceStatus === 'RETAKE')  { label.addClass('yellow') }
     if (deviceStatus === 'Available')       { label.addClass('green') }
+}
+
+function addCorrectIconToLabel(label, deviceStatus) {
+  const handIcon      = jQuery('<i class="hand paper icon"></i>')
+  const exchangeIcon  = jQuery('<i class="exchange icon"></i>')
+  const spinnerIcon   = jQuery('<i class="asterisk loading icon"></i>')
+
+  if (deviceStatus === 'Available')       { return label.append(handIcon) }
+  if (deviceStatus === 'Taken')           { return label.append(exchangeIcon) }
+  if (deviceStatus === 'RETAKE')          { return label.append(spinnerIcon) }
+}
+
+function setupDeviceStatusCell(tableCell, device) {
+  const deviceStatus  = device.status
+
+  const span = jQuery(`<span>${deviceStatus}</span>`)
+  const label = jQuery('<div></div>').addClass('ui label')
+
+  addCorrectIconToLabel(label, deviceStatus)
+
+  label.append(span)
+
+  addColorToLabel(label, deviceStatus)
+
+  tableCell.append(label)
+}
+
+function setupDeviceTakenByCell(tableCell, device) {
+  const deviceStatus = device.status
+
+  if (deviceStatus === 'Taken' || deviceStatus === 'RETAKE') {
+      const label = jQuery('<div></div>').addClass('ui image label basic orange')
+      const img = jQuery('<img></img>').addClass('ui avatar image').attr('src', device.takenBy.currentUserPicture)
+
+      label.append(img).append(device.takenBy.currentUser)
+
+      tableCell.append(label)
+  }
+}
+
+function setupOtherTableCell(tableCell, fieldData) {
+  tableCell.text(fieldData)
 }
