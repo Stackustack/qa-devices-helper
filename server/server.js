@@ -77,38 +77,50 @@ io.on('connection', (socket) => {
     // handling redirect users with no user session
     if (!userSession) { return socket.emit('redirect', '/') }
 
-    const currentUser         = userSession.displayName
-    const currentUserEmail    = userSession.emails[0].value // only for logging users xD
-    const currentUserPicture  = userSession.image.url
+    const userName         = userSession.displayName
+    const userEmail    = userSession.emails[0].value // only for logging users xD
+    const userPicture  = userSession.image.url
 
-    const user = {
-      currentUser,
-      currentUserPicture
+    const sessionUser = {
+      name: userName,
+      email: userEmail,
+      picture: userPicture
     }
 
 
 
     // logs connecting users xD
-    console.log(`USER CONNECTED: ${currentUser} - ${currentUserEmail}`)
+    console.log(`USER CONNECTED: ${sessionUser.name} - ${sessionUser.email}`)
 
     socket.emit('updateDevicesList', devices.all())
 
-    socket.on('toggleDeviceState', ({ deviceIndex, deviceCurrentlyTakenBy }) => {
-        if (deviceReturnableByCurrentUser(currentUser, deviceCurrentlyTakenBy)) {
-            devices.toggleAvailability(deviceIndex, user)
+    // socket.on('toggleDeviceState', ({ deviceIndex, deviceCurrentlyTakenBy }) => {
+    //     if (deviceReturnableByCurrentUser(user.name, deviceCurrentlyTakenBy)) {
+    //         devices.toggleAvailability(deviceIndex, user)
+    //         io.emit('updateDevicesList', devices.all())
+    //     } else {
+    //         socket.emit('retakeDeviceFlow', ({ deviceIndex, deviceCurrentlyTakenBy }))
+    //     }
+    // })
+
+    socket.on('toggleDeviceState', (deviceId) => {
+        const device = devices.find(deviceId)
+        const currentOwner = devices.getCurrentOwnerOfDevice(deviceId)
+
+        if (currentOwner == null || currentOwner == sessionUser.name ) { // TODO: REFACTOR MET 'deviceReturnableByCurrentUser'
+            devices.toggleAvailability(deviceId, sessionUser)
             io.emit('updateDevicesList', devices.all())
         } else {
-            socket.emit('retakeDeviceFlow', ({ deviceIndex, deviceCurrentlyTakenBy }))
+            devices.blockDevice(deviceId)
+            io.emit('updateDevicesList', devices.all())
+
+            socket.emit('retakeDeviceFlow', deviceId)
         }
     })
 
-    socket.on('reserveDevice', (deviceIndex) => {
-        devices.blockDevice(deviceIndex)
-        io.emit('updateDevicesList', devices.all())
-    })
-
     socket.on('retakeDevice', (deviceIndex) => {
-        devices.giveDeviceToUser(deviceIndex, currentUser)
+        devices.giveDeviceToUser(deviceIndex, sessionUser)
+        console.log(sessionUser)
         io.emit('updateDevicesList', devices.all())
     })
 

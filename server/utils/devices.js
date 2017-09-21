@@ -6,9 +6,9 @@
 //     androidVersion: '4.1.2',
 //     additionalNotes: 'qa+s2@netguru.pl',
 //     status: 'Available'
-//     takenBy: {
-//        userName: 'Andrew Golara',
-//        userPicture: 'url address'
+//     takenByUser: {
+//        name: 'Andrew Golara',
+//        picture: 'url address'
 //     }
 // }, {
 //     ...
@@ -52,20 +52,28 @@ class Devices {
     const device = this.find(deviceIndex)
 
     device.status === 'Available' ? device.status = 'Taken' : device.status = 'Available'
-    device.takenBy === '' ? device.takenBy = user : device.takenBy = ''
+    device.takenByUser === null ? device.takenByUser = user : device.takenBy = null
   }
 
   // UNIT TESTS NEEDED
   setStatus(deviceIndex, status) {
     const device = this.find(deviceIndex)
-    device['status'] = status
+    device.status = status
   }
 
   // UNIT TESTS NEEDED
   giveDeviceToUser(deviceIndex, user) {
     const device = this.find(deviceIndex)
-    device['takenBy'] = user
+    device.takenByUser = user
+    console.log(device)
     this.setStatus(deviceIndex, 'Taken')
+  }
+
+  getCurrentOwnerOfDevice(deviceId) {
+    const device = this.find(deviceId)
+
+    if (device.takenByUser != null) { return device.takenByUser.name }
+    if (device.takenByUser == null) { return null }
   }
 }
 

@@ -16,37 +16,33 @@ socket.on('redirect', function (url) {
     redirectTo(url)
 })
 
-socket.on('retakeDeviceFlow', function ({ deviceIndex, deviceCurrentlyTakenBy }) {
-    socket.emit('reserveDevice', deviceIndex)
+socket.on('retakeDeviceFlow', function (deviceId) {
+    // socket.emit('reserveDevice', deviceId)
 
     retakeModal.modal('show')
 
     retakeYesBtn.click(function () {
-        return socket.emit('retakeDevice', deviceIndex)
+        return socket.emit('retakeDevice', deviceId)
     })
 
     retakeNoBtn.click(function () {
-        return socket.emit('retakeCanceled', deviceIndex)
+        return socket.emit('retakeCanceled', deviceId)
     })
-})
-
-socket.on('ongoingRetakeModal', function() {
-
 })
 
 // Clicking row to emit 'toggle device state'
 tBody.on('click', 'tr', (data) => {
     const deviceStatus = data.currentTarget.cells[5].innerHTML
 
-    // HANDLE SITUATION WHEN DEVICE IS BEING RETAKEN
+    // HANDLE SITUATION WHEN DEVICE IS BEING RETAKEN AND ITS NOT POSSIBLE TO TAKE IT RIGHT NOW
     if (deviceStatus === 'RETAKE') { return }
 
     const deviceData = {
-        deviceIndex: data.currentTarget.cells[0].innerHTML,
-        deviceCurrentlyTakenBy: data.currentTarget.cells[6].innerHTML
+        deviceIndex: data.currentTarget.cells[0].textContent,
+        // deviceCurrentlyTakenBy: data.currentTarget.cells[6].textContent
     }
 
-    socket.emit('toggleDeviceState', deviceData)
+    socket.emit('toggleDeviceState', deviceData.deviceIndex)
 })
 
 function addDeviceIdToTableRow(tr, deviceIndex) {
@@ -60,7 +56,7 @@ function addRestDataToTableRow(tr, device) {
 
         if (fieldData === 'status') {
             setupDeviceStatusCell(td, device)
-        } else if (fieldData === 'takenBy') {
+        } else if (fieldData === 'takenByUser') {
             setupDeviceTakenByCell(td, device)
         } else {
             setupOtherTableCell(td, device[fieldData])
@@ -108,7 +104,7 @@ function redirectTo(url) {
 
 function addColorToLabel(label, deviceStatus) {
     if (deviceStatus === 'Taken')           { label.addClass('orange') }
-    if (deviceStatus === 'RETAKE')  { label.addClass('yellow') }
+    if (deviceStatus === 'RETAKE')          { label.addClass('yellow') }
     if (deviceStatus === 'Available')       { label.addClass('green') }
 }
 
@@ -142,9 +138,9 @@ function setupDeviceTakenByCell(tableCell, device) {
 
   if (deviceStatus === 'Taken' || deviceStatus === 'RETAKE') {
       const label = jQuery('<div></div>').addClass('ui image label basic orange')
-      const img = jQuery('<img></img>').addClass('ui avatar image').attr('src', device.takenBy.currentUserPicture)
+      const img = jQuery('<img></img>').addClass('ui avatar image').attr('src', device.takenByUser.picture)
 
-      label.append(img).append(device.takenBy.currentUser)
+      label.append(img).append(device.takenByUser.name)
 
       tableCell.append(label)
   }

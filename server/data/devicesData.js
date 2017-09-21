@@ -5,7 +5,7 @@ const devicesData = {
         androidVersion: '4.1.2',
         additionalNotes: 'qa+s2@netguru.pl',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T3': {
         brand: 'Samsung',
@@ -13,7 +13,7 @@ const devicesData = {
         androidVersion: '4.4.2',
         additionalNotes: 'qa+s3@netguru.pl',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T4': {
         brand: 'LG',
@@ -21,7 +21,7 @@ const devicesData = {
         androidVersion: '5.0.2',
         additionalNotes: 'qa+lgg3@netguru.pl',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T5': {
         brand: 'Samsung',
@@ -29,7 +29,7 @@ const devicesData = {
         androidVersion: '5.0.0',
         additionalNotes: 'qa+note@netguru.pl',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T6': {
         brand: 'HTC',
@@ -37,7 +37,7 @@ const devicesData = {
         androidVersion: '5.0.1',
         additionalNotes: 'qa+htc@netguru.pl',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T7': {
         brand: 'Samsung',
@@ -45,7 +45,7 @@ const devicesData = {
         androidVersion: '4.4.2',
         additionalNotes: '',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T10': {
         brand: 'Motorola',
@@ -53,9 +53,9 @@ const devicesData = {
         androidVersion: '6.0.1',
         additionalNotes: '',
         status: 'Taken',
-        takenBy: {
-          currentUser: 'Borzena Dyslektyczka',
-          currentUserPicture: 'https://semantic-ui.com/images/avatar/small/matt.jpg'
+        takenByUser: {
+          name: 'Borzena Dyslektyczka',
+          picture: 'https://semantic-ui.com/images/avatar/small/matt.jpg'
         }
     },
     'T11': {
@@ -64,7 +64,7 @@ const devicesData = {
         androidVersion: '5.1.1',
         additionalNotes: 'Assigned to Maciek Kownacki only (Roboteam)',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T12': {
         brand: 'Sony',
@@ -72,7 +72,7 @@ const devicesData = {
         androidVersion: '5.1',
         additionalNotes: '',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T13A': {
         brand: 'Google',
@@ -80,9 +80,9 @@ const devicesData = {
         androidVersion: '6.0.1',
         additionalNotes: 'Assigned to Michał Jung only (Ghinwa)',
         status: 'Taken',
-        takenBy: {
-          currentUser: 'Krystyna Laska-Vanilii',
-          currentUserPicture: 'https://semantic-ui.com/images/avatar/small/elliot.jpg'
+        takenByUser: {
+          name: 'Krystyna Laska-Vanilii',
+          picture: 'https://semantic-ui.com/images/avatar/small/elliot.jpg'
         }
     },
     'T13B': {
@@ -91,7 +91,7 @@ const devicesData = {
         androidVersion: '7.0',
         additionalNotes: '',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T14': {
         brand: 'Google',
@@ -99,7 +99,7 @@ const devicesData = {
         androidVersion: '6.0.1',
         additionalNotes: '',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T15': {
         brand: 'LG',
@@ -107,7 +107,7 @@ const devicesData = {
         androidVersion: '6.0.1',
         additionalNotes: '',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T16': {
         brand: 'Samsung',
@@ -115,7 +115,7 @@ const devicesData = {
         androidVersion: '6.0.1',
         additionalNotes: '',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T17': {
         brand: 'Sony',
@@ -123,7 +123,7 @@ const devicesData = {
         androidVersion: '5.1.1',
         additionalNotes: '',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     },
     'T18': {
         brand: 'Samsung',
@@ -131,7 +131,7 @@ const devicesData = {
         androidVersion: '5.1.1',
         additionalNotes: '',
         status: 'Available',
-        takenBy: ''
+        takenByUser: null
     }
 }
 
