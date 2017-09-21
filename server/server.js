@@ -33,9 +33,11 @@ app.use(express.static(publicPath));
 // Other usefull stuff
 const {
     logServer,
-    saveUserToSession,
+    getUserDataFromOAuthClient,
     keepHerokuFromIdling,
-    deviceReturnableByCurrentUser
+    deviceReturnableByCurrentUser,
+    authorizedUser,
+    saveUserToSession
 } = require('./utils/utils.js')
 
 // Importing Devices class
@@ -117,23 +119,28 @@ io.on('connection', (socket) => {
 });
 
 app.use("/oauthCallback", (req, res) => {
-    var oauth2Client = getOAuthClient();
-    var code = req.query.code;
-    oauth2Client.getToken(code, async (err, tokens) => {
-        if (!err) {
-            oauth2Client.setCredentials(tokens);
+    var oauth2Client = getOAuthClient()
+    var code = req.query.code
+    const session = req.session
 
-            try {
-                await saveUserToSession(req, res, oauth2Client)
-            } catch (err) {
-                res.render('error', { message: err })
+    oauth2Client.getToken(code, async (err, tokens) => {
+        if (err) { return res.render('error', { message: err }) }
+
+        oauth2Client.setCredentials(tokens);
+
+        try {
+            const user = await getUserDataFromOAuthClient(req, res, oauth2Client)
+
+            if (!authorizedUser(user)) {
+                throw new Error(`Account you're authenticating with (${user.emails[0].value}) doesn't have NETGURU.PL domain :(`)
             }
 
-            res.redirect('devices')
+            saveUserToSession(session, user)
+        } catch (err) {
+            return res.render('error', { message: err })
         }
-        else {
-            res.render('error', { message: err })
-        }
+
+        res.redirect('devices')
     });
 });
 

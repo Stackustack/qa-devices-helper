@@ -9,7 +9,7 @@ const logServer = (data) => {
     console.log(`[${timestamp}]: ${data}`)
 }
 
-const saveUserToSession = (req, res, client) => {
+const getUserDataFromOAuthClient = (req, res, client) => {
     return new Promise((resolve, reject) => {
         plus.people.get({
             userId: 'me',
@@ -17,29 +17,40 @@ const saveUserToSession = (req, res, client) => {
         }, function (err, response) {
             resolve(response || err);
         });
-    }).then(function (data) {
-        req.session.user = data
     })
+    // .then(function (data) {
+    //     req.session.user = data
+    // })
 }
 
 // TESTS NEEDED
 const keepHerokuFromIdling = (interval) => {
     const intervalInMs = numeral(interval).value()*1000
-    
+
     setInterval(function () {
         http.get("https://qa-devices-helper.herokuapp.com/");
     }, intervalInMs)
 }
 
-// GUESS THIS SHOULD BE MOVED TO DEVICES CLASS BUT HEY, FUCK IT XD 
+// GUESS THIS SHOULD BE MOVED TO DEVICES CLASS BUT HEY, FUCK IT XD
 // ALSO, TEST NEEDED
 const deviceReturnableByCurrentUser = (currentUser, deviceCurrentlyTakenBy) => {
     return (currentUser === deviceCurrentlyTakenBy || deviceCurrentlyTakenBy === '')
 }
 
-module.exports = { 
-    logServer, 
-    saveUserToSession, 
+const authorizedUser = (user) => {
+    if (user.domain === 'netguru.pl') { return true}
+}
+
+const saveUserToSession = (session, user) => {
+  session.user = user
+}
+
+module.exports = {
+    logServer,
+    getUserDataFromOAuthClient,
     keepHerokuFromIdling,
-    deviceReturnableByCurrentUser 
+    deviceReturnableByCurrentUser,
+    authorizedUser,
+    saveUserToSession
 }

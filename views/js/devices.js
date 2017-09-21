@@ -73,7 +73,7 @@ function addRestDataToTableRow(tr, device) {
 function addAvabilityClassToRow(tr, device) {
     if (device.status === 'Available')      { return tr.addClass('positive') }
     if (device.status === 'Taken')          { return tr.addClass('negative') }
-    if (device.status === 'RETAKE') { return tr.addClass('warning') }
+    if (device.status === 'RETAKE')         { return tr.addClass('warning') }
 
     return console.log('Error: Innapropiate status text')
 }
