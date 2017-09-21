@@ -3,6 +3,9 @@ var plus = google.plus('v1');
 const numeral = require('numeral');
 const http = require('http')
 
+require('dotenv').config()
+
+
 const logServer = (data) => {
     const timestamp = new Date
 
@@ -36,7 +39,7 @@ const deviceReturnableByCurrentUser = (currentUser, deviceCurrentlyTakenBy) => {
 }
 
 const authorizedUser = (user) => {
-    if (user.domain === 'netguru.pl') { return true}
+    if (user.domain === process.env.AUTHRORIZATION_DOMAIN) { return true }
 }
 
 const saveUserToSession = (session, user) => {
