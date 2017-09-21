@@ -12,7 +12,7 @@ body {
 /* LOGIN PAGE */
 #logo-maintext {
     padding-top: 9%;
-    letter-spacing: 1rem; 
+    letter-spacing: 1rem;
     font-size: 4.3rem;
 }
 
@@ -22,7 +22,7 @@ body {
     letter-spacing: 0.33rem;
     padding-bottom: 5%;
 
-} 
+}
 
 #header-text .header {
     color: rgba(0,0,0,0.6);
@@ -52,4 +52,10 @@ body {
 #retake_modal .content {
     text-align: center;
     font-size: 1.25rem;
+}
+
+/* ERROR PAGE */
+
+#error_message {
+  padding: 40px;
 }
