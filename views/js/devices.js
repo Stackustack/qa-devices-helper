@@ -29,11 +29,7 @@ socket.on('retakeDeviceFlow', function (deviceId) {
         return socket.emit('retakeCanceled', deviceId)
     })
 
-    setTimeout(function () {
-        console.log('schowanie modala i emit "retakeCanceled"')
-        retakeModal.modal('hide')
-        socket.emit('retakeCanceled', deviceId)
-    }, 10000)
+    hideModalAndUnblockDeviceAfterTimeout(socket, deviceId)
 })
 
 // Clicking row to emit 'toggle device state'
@@ -154,4 +150,11 @@ function setupDeviceTakenByCell(tableCell, device) {
 
 function setupOtherTableCell(tableCell, fieldData) {
   tableCell.text(fieldData)
+}
+
+function hideModalAndUnblockDeviceAfterTimeout(socket, deviceId) {
+    setTimeout(function () {
+        retakeModal.modal('hide')
+        socket.emit('retakeCanceled', deviceId)
+    }, 10000)
 }
