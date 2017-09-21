@@ -18,9 +18,6 @@ const getUserDataFromOAuthClient = (req, res, client) => {
             resolve(response || err);
         });
     })
-    // .then(function (data) {
-    //     req.session.user = data
-    // })
 }
 
 // TESTS NEEDED
@@ -46,11 +43,21 @@ const saveUserToSession = (session, user) => {
   session.user = user
 }
 
+const ensureRetakeStatusReset = (device, devices, io, deviceId) => {
+    setTimeout(function() {
+        if (device.status == 'RETAKE') {
+            devices.unblockDevice(deviceId)
+            io.emit('updateDevicesList', devices.all())
+        }
+    }, 15000)
+}
+
 module.exports = {
     logServer,
     getUserDataFromOAuthClient,
     keepHerokuFromIdling,
     deviceReturnableByCurrentUser,
     authorizedUser,
-    saveUserToSession
+    saveUserToSession,
+    ensureRetakeStatusReset
 }

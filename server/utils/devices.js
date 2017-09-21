@@ -45,7 +45,7 @@ class Devices {
   unblockDevice(deviceIndex) {
     const device = this.find(deviceIndex)
 
-    device['status']  = 'Taken'
+    device.status  = 'Taken'
   }
 
   toggleAvailability(deviceIndex, user) {

@@ -37,7 +37,8 @@ const {
     keepHerokuFromIdling,
     deviceReturnableByCurrentUser,
     authorizedUser,
-    saveUserToSession
+    saveUserToSession,
+    ensureRetakeStatusReset
 } = require('./utils/utils.js')
 
 // Importing Devices class
@@ -87,21 +88,10 @@ io.on('connection', (socket) => {
       picture: userPicture
     }
 
-
-
     // logs connecting users xD
     console.log(`USER CONNECTED: ${sessionUser.name} - ${sessionUser.email}`)
 
     socket.emit('updateDevicesList', devices.all())
-
-    // socket.on('toggleDeviceState', ({ deviceIndex, deviceCurrentlyTakenBy }) => {
-    //     if (deviceReturnableByCurrentUser(user.name, deviceCurrentlyTakenBy)) {
-    //         devices.toggleAvailability(deviceIndex, user)
-    //         io.emit('updateDevicesList', devices.all())
-    //     } else {
-    //         socket.emit('retakeDeviceFlow', ({ deviceIndex, deviceCurrentlyTakenBy }))
-    //     }
-    // })
 
     socket.on('toggleDeviceState', (deviceId) => {
         const device = devices.find(deviceId)
@@ -115,6 +105,9 @@ io.on('connection', (socket) => {
             io.emit('updateDevicesList', devices.all())
 
             socket.emit('retakeDeviceFlow', deviceId)
+
+            // ENSURE DEVICE WAS UNBLOCKED AFTER 10 SECONDS (IN CASE USER CLOSED THE TAB / REFRESHED THE PAGE)
+            ensureRetakeStatusReset(device, devices, io, deviceId)
         }
     })
 
@@ -125,6 +118,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('retakeCanceled', (deviceIndex) => {
+        console.log('reset z retakeCanceled')
         devices.unblockDevice(deviceIndex)
         io.emit('updateDevicesList', devices.all())
     })

@@ -17,9 +17,9 @@ socket.on('redirect', function (url) {
 })
 
 socket.on('retakeDeviceFlow', function (deviceId) {
-    // socket.emit('reserveDevice', deviceId)
 
-    retakeModal.modal('show')
+    retakeModal.modal('setting', 'closable', false)
+               .modal('show')
 
     retakeYesBtn.click(function () {
         return socket.emit('retakeDevice', deviceId)
@@ -28,6 +28,12 @@ socket.on('retakeDeviceFlow', function (deviceId) {
     retakeNoBtn.click(function () {
         return socket.emit('retakeCanceled', deviceId)
     })
+
+    setTimeout(function () {
+        console.log('schowanie modala i emit "retakeCanceled"')
+        retakeModal.modal('hide')
+        socket.emit('retakeCanceled', deviceId)
+    }, 10000)
 })
 
 // Clicking row to emit 'toggle device state'
