@@ -39,10 +39,19 @@ body {
     text-shadow: 2px 2px 3px rgba(255,255,255,0.1);
 }
 
-.login {
+#login-button-container {
     display: flex;
     justify-content: center;
-    /* padding-top: 0; */
+    padding-top: 3vw;
+}
+
+#login-button {
+    width: 600px;
+    font-size: 2rem
+}
+
+#google-icon {
+  margin-right: 30px;
 }
 
 /* DEVICES PAGE */
