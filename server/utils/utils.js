@@ -1,7 +1,9 @@
-var google = require('googleapis');
-var plus = google.plus('v1');
-const numeral = require('numeral');
-const http = require('http')
+var google      = require('googleapis');
+var plus        = google.plus('v1');
+const numeral   = require('numeral');
+const http      = require('http')
+const { User }  = require('./../models/user.js')
+
 
 require('dotenv').config()
 
@@ -28,7 +30,7 @@ const keepHerokuFromIdling = (interval) => {
     const intervalInMs = numeral(interval).value()*1000
 
     setInterval(function () {
-        http.get("https://qa-devices-helper.herokuapp.com/");
+        http.get("http://qa-devices-helper.herokuapp.com/");
     }, intervalInMs)
 }
 
@@ -42,8 +44,8 @@ const authorizedUser = (user) => {
     if (user.domain === process.env.AUTHRORIZATION_DOMAIN) { return true }
 }
 
-const saveUserToSession = (session, user) => {
-  session.user = user
+const saveUserToSession = (parsedUser, session) => {
+  session.user = parsedUser
 }
 
 const ensureRetakeStatusReset = (device, devices, io, deviceId) => {
@@ -55,6 +57,22 @@ const ensureRetakeStatusReset = (device, devices, io, deviceId) => {
     }, 15000)
 }
 
+const parseUserFromOAuth = (userObjFromOAuth) => {
+    return {
+      name: userObjFromOAuth.displayName,
+      email: userObjFromOAuth.emails[0].value,
+      picture: userObjFromOAuth.image.url
+    }
+}
+
+const renderUserUnauthorisedNotification = (userEmail) => {
+  return `Account you're authenticating with (${userEmail}) doesn't have NETGURU.PL domain :(`
+}
+
+const newUserToDB = (parsedUser) => {
+  return new User(parsedUser).save()
+}
+
 module.exports = {
     logServer,
     getUserDataFromOAuthClient,
@@ -62,5 +80,8 @@ module.exports = {
     deviceReturnableByCurrentUser,
     authorizedUser,
     saveUserToSession,
-    ensureRetakeStatusReset
+    ensureRetakeStatusReset,
+    parseUserFromOAuth,
+    renderUserUnauthorisedNotification,
+    newUserToDB
 }

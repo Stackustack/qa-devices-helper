@@ -17,6 +17,11 @@ const path = require('path')
 // const publicPath = path.join(__dirname, '../public'); // when using public path
 const publicPath = path.join(__dirname, '../views'); // when using handlebars
 
+// MongoDB - Mongoose
+const { mongoose } = require('./db/mongoose.js')
+const { User }     = require('./models/user.js')
+const { Device }   = require('./models/device.js')
+
 // Google Oauth2
 var google = require('googleapis');
 var OAuth2 = google.auth.OAuth2;
@@ -38,7 +43,10 @@ const {
     deviceReturnableByCurrentUser,
     authorizedUser,
     saveUserToSession,
-    ensureRetakeStatusReset
+    ensureRetakeStatusReset,
+    parseUserFromOAuth,
+    renderUserUnauthorisedNotification,
+    newUserToDB
 } = require('./utils/utils.js')
 
 // Importing Devices class
@@ -73,20 +81,10 @@ io.use(sharedsession(session, {
 }));
 
 io.on('connection', (socket) => {
-    const userSession         = socket.handshake.session.user
+    const sessionUser         = socket.handshake.session.user
 
     // handling redirect users with no user session
-    if (!userSession) { return socket.emit('redirect', '/') }
-
-    const userName         = userSession.displayName
-    const userEmail    = userSession.emails[0].value // only for logging users xD
-    const userPicture  = userSession.image.url
-
-    const sessionUser = {
-      name: userName,
-      email: userEmail,
-      picture: userPicture
-    }
+    if (!sessionUser) { return socket.emit('redirect', '/') }
 
     // logs connecting users xD
     console.log(`USER CONNECTED: ${sessionUser.name} - ${sessionUser.email}`)
@@ -113,21 +111,19 @@ io.on('connection', (socket) => {
 
     socket.on('retakeDevice', (deviceIndex) => {
         devices.giveDeviceToUser(deviceIndex, sessionUser)
-        console.log(sessionUser)
         io.emit('updateDevicesList', devices.all())
     })
 
     socket.on('retakeCanceled', (deviceIndex) => {
-        console.log('reset z retakeCanceled')
         devices.unblockDevice(deviceIndex)
         io.emit('updateDevicesList', devices.all())
     })
 });
 
 app.use("/oauthCallback", (req, res) => {
-    var oauth2Client = getOAuthClient()
-    var code = req.query.code
-    const session = req.session
+    const oauth2Client  = getOAuthClient()
+    const code          = req.query.code
+    const session       = req.session
 
     oauth2Client.getToken(code, async (err, tokens) => {
         if (err) { return res.render('error', { message: err }) }
@@ -135,20 +131,23 @@ app.use("/oauthCallback", (req, res) => {
         oauth2Client.setCredentials(tokens);
 
         try {
-            const user = await getUserDataFromOAuthClient(req, res, oauth2Client)
+            const userFromOAuth = await getUserDataFromOAuthClient(req, res, oauth2Client)
+            const user          = parseUserFromOAuth(userFromOAuth)
+            const userFromDB    = await User.findByEmail(user.email) || await newUserToDB(user)
 
-            if (!authorizedUser(user)) {
-                throw new Error(`Account you're authenticating with (${user.emails[0].value}) doesn't have NETGURU.PL domain :(`)
+            if (userFromDB.isUnauthorized()) {
+                throw new Error(renderUserUnauthorisedNotification(user.email))
             }
 
-            saveUserToSession(session, user)
+            saveUserToSession(user, session)
+
         } catch (err) {
             return res.render('error', { message: err })
         }
 
         res.redirect('devices')
-    });
-});
+    })
+})
 
 app.use('/devices', (req, res) => {
     if (!req.session.user) {
