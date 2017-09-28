@@ -30,7 +30,7 @@ const keepHerokuFromIdling = (interval) => {
     const intervalInMs = numeral(interval).value()*1000
 
     setInterval(function () {
-        http.get("https://qa-devices-helper.herokuapp.com/");
+        http.get("http://qa-devices-helper.herokuapp.com/");
     }, intervalInMs)
 }
 
