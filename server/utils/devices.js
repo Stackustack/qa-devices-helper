@@ -65,7 +65,6 @@ class Devices {
   giveDeviceToUser(deviceIndex, user) {
     const device = this.find(deviceIndex)
     device.takenByUser = user
-    console.log(device)
     this.setStatus(deviceIndex, 'Taken')
   }
 
