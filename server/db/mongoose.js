@@ -1,7 +1,7 @@
 const mongose = require('mongoose')
 
 mongose.Promise = global.Promise
-mongose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/TestDBMoongose', {
+mongose.connect(process.env.MONGODB_URI, {
   // useMongoClient: true, // enable to get rid of 'decrapted' warning at startup
 })
 
