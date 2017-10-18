@@ -18,3 +18,5 @@ yarn-error.log*
 .DS_STORE
 
 /server/config/auth.js
+
+todo.txt
