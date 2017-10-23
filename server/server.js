@@ -49,6 +49,12 @@ const {
     newUserToDB
 } = require('./utils/utils.js')
 
+// BodyParser
+const bodyParser = require('body-parser')
+app.use(bodyParser.json());
+
+
+
 // Importing Devices class
 const { Devices } = require('./utils/devices.js')
 const devices = new Devices()
@@ -161,6 +167,73 @@ app.use('/debug', (req, res) => {
     res.render('debug', { data: req.session })
 })
 
+
+
+// API /DEVICES ENDPOINT
+
+app.get('/api-v1/devices', (req, res) => {
+  Device
+    .find()
+    .then((devices) => {
+      res.send({ devices })
+    }), (e) => {
+      res.status(400).send(e)
+    }
+})
+app.get('/api-v1/devices/:codeName', (req, res) => {
+  const codeName = req.params.codeName
+
+  Device
+    .findOne({codeName})
+    .then((doc) => {
+      if (!doc) {
+        res.status(404).send({
+          errors: `Device not found`,
+          message: `Device with code name '${codeName}' was not found in the DB.`
+        })
+      }
+
+      res.send(doc)
+    }), (e) => {
+      res.status(400).send({
+        errors: `${e}`,
+        message: `Error while searching for device in DB.`
+      })
+    }
+})
+app.post('/api-v1/devices', (req, res) => {
+  const devicesArray = req.body
+
+  Device
+    .insertMany(devicesArray)
+    .then((docs) => {
+      res.send(docs)
+    }, (e) => {
+      res.status(400).send(e)
+    })
+})
+app.delete('/api-v1/devices/:codeName', (req, res) => {
+  const codeName = req.params.codeName
+
+  Device
+    .findOneAndRemove({codeName})
+    .then((doc) => {
+      if (!doc) {
+        return res.status(404).send({
+          message: `Device with code name "${codeName}" not found`
+        })
+      }
+
+      res.send({doc})
+    })
+    .catch((e) => {
+      res.status(400).send({
+        errors: `${e}`,
+        message: `Error while removing device "${codeName}".`
+      })
+    })
+})
+
 app.use('/', (req, res) => {
     // redirect to /devices if user session is available
     if (req.session.user) {
@@ -175,4 +248,5 @@ keepHerokuFromIdling('0:25:00')
 
 server.listen(port, () => {
     logServer(`Server started at ${port}`)
+    logServer(`Connected to DB: ${process.env.MONGODB_URI}`)
 });
