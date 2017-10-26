@@ -1,0 +1,164 @@
+[
+  {
+    "codeName": "T1",
+    "brand": "Samsung",
+    "model": "Galaxy S II",
+    "osType": "Android",
+    "osVersion": "4.1.2",
+    "notes": "qa+s2@netguru.pl"
+  },
+  {
+    "codeName": "T3",
+    "brand": "Samsung",
+    "model": "Galaxy S3 Neo",
+    "osType": "Android",
+    "osVersion": "4.4.2",
+    "notes": "qa+s3@netguru.pl"
+  },
+  {
+    "codeName": "T4",
+    "brand": "LG",
+    "model": "G3 S",
+    "osType": "Android",
+    "osVersion": "5.0.2",
+    "notes": "qa+lgg3@netguru.pl"
+  },
+  {
+    "codeName": "T5",
+    "brand": "Samsung",
+    "model": "Galaxy Note 3",
+    "osType": "Android",
+    "osVersion": "5.0.0",
+    "notes": "qa+note@netguru.pl"
+  },
+  {
+    "codeName": "T6",
+    "brand": "HTC",
+    "model": "One M8",
+    "osType": "Android",
+    "osVersion": "5.0.1",
+    "notes": "qa+htc@netguru.pl"
+  },
+  {
+    "codeName": "T7",
+    "brand": "Samsung",
+    "model": "Galaxy S4 Mini",
+    "osType": "Android",
+    "osVersion": "4.4.2"
+  },
+  {
+    "codeName": "T10",
+    "brand": "Motorola",
+    "model": "Moto G",
+    "osType": "Android",
+    "osVersion": "6.0.1"
+  },
+  {
+    "codeName": "T11",
+    "brand": "LG",
+    "model": "K10",
+    "osType": "Android",
+    "osVersion": "5.1.1",
+    "notes": "Assigned to Maciek Kownacki only (Roboteam)"
+  },
+  {
+    "codeName": "T12",
+    "brand": "Sony",
+    "model": "Xperia M5",
+    "osType": "Android",
+    "osVersion": "5.1"
+  },
+  {
+    "codeName": "T13A",
+    "brand": "Google (Huawei)",
+    "model": "Nexus 6p",
+    "osType": "Android",
+    "osVersion": "6.0.1",
+    "notes": "Assigned to Michal Jung only (WebSummit)"
+  },
+  {
+    "codeName": "T13B",
+    "brand": "Google (Huawei)",
+    "model": "Nexus 6p",
+    "osType": "Android",
+    "osVersion": "7.0"
+  },
+  {
+    "codeName": "T14",
+    "brand": "Google (LG)",
+    "model": "Nexus 5X",
+    "osType": "Android",
+    "osVersion": "6.0.1"
+  },
+  {
+    "codeName": "T15",
+    "brand": "LG",
+    "model": "G5",
+    "osType": "Android",
+    "osVersion": "6.0.1"
+  },
+  {
+    "codeName": "T17",
+    "brand": "Sony",
+    "model": "Xperia Z5",
+    "osType": "Android",
+    "osVersion": "5.1.1"
+  },
+  {
+    "codeName": "T18",
+    "brand": "Samsung",
+    "model": "Note 5",
+    "osType": "Android",
+    "osVersion": "5.1.1"
+  },
+  {
+    "codeName": "T20",
+    "brand": "Samsung",
+    "model": "Galaxy S6",
+    "osType": "Android",
+    "osVersion": "6.0.1",
+    "notes": "Assigned to Marta Grzesiak only (MyNeveo)"
+  },
+  {
+    "codeName": "T21",
+    "brand": "Google (HTC)",
+    "model": "Pixel",
+    "osType": "Android",
+    "osVersion": "7.1.2"
+  },
+  {
+    "codeName": "T22",
+    "brand": "LG ",
+    "model": "G Flex2",
+    "osType": "Android",
+    "osVersion": "5.1.1"
+  },
+  {
+    "codeName": "T23",
+    "brand": "Samsung",
+    "model": "A3 2016",
+    "osType": "Android",
+    "osVersion": "6.0.1"
+  },
+  {
+    "codeName": "T24",
+    "brand": "Samsung",
+    "model": "S8",
+    "osType": "Android",
+    "osVersion": "7.0"
+  },
+  {
+    "codeName": "T25",
+    "brand": "Samsung",
+    "model": "S7 Edge",
+    "osType": "Android",
+    "osVersion": "7.0"
+  },
+  {
+    "codeName": "T26",
+    "brand": "Samsung",
+    "model": "S6 Edge",
+    "osType": "Android",
+    "osVersion": "6.0.1"
+  }
+]
