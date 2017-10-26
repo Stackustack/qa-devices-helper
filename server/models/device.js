@@ -27,16 +27,27 @@ const DeviceSchema = mongoose.Schema({
     type: String,
     trim: true
   },
+  notes: {
+    required: false,
+    type: String,
+    trim: true
+  },
   status: {
-    default: 'free', // should i have status as 'free'/'taken'/'retake' or rather set is as Int 0 = 'Free', 1 = ...
+    default: 'Available', // should i have status as 'Available'/'Taken'/'Retake' or rather set is as Int 0 = 'Free', 1 = ...
     type: String,
     trim: true
   },
   currentOwner: {
     default: null, // is it allowed to set 'default' to 'null' and 'type' to 'String' at the same time?
-    type: String,
+    type: Object,
   }
 })
+
+DeviceSchema.statics.fetchAll = function() {
+  const Device = this
+
+  return Device.find()
+}
 
 const Device = mongoose.model('Device', DeviceSchema)
 
