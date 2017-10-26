@@ -17,10 +17,11 @@ const path = require('path')
 // const publicPath = path.join(__dirname, '../public'); // when using public path
 const publicPath = path.join(__dirname, '../views'); // when using handlebars
 
-// MongoDB - Mongoose
+// MongoDB, Mongoose and models
 const { mongoose } = require('./db/mongoose.js')
 const { User }     = require('./models/user.js')
-const { Device }   = require('./models/device.js')
+const { Devices } = require('./utils/devices.js') // Device model is used here
+const devices = new Devices()
 
 // Google Oauth2
 var google = require('googleapis');
@@ -53,12 +54,6 @@ const {
 const bodyParser = require('body-parser')
 app.use(bodyParser.json());
 
-
-
-// Importing Devices class
-const { Devices } = require('./utils/devices.js')
-const devices = new Devices()
-
 // Googles OAUTH
 function getOAuthClient() {
     return new OAuth2(
@@ -87,31 +82,30 @@ io.use(sharedsession(session, {
 }));
 
 io.on('connection', (socket) => {
-    const sessionUser         = socket.handshake.session.user
+    const sessionUser = socket.handshake.session.user
 
     // handling redirect users with no user session
     if (!sessionUser) { return socket.emit('redirect', '/') }
 
-    // logs connecting users xD
-    console.log(`USER CONNECTED: ${sessionUser.name} - ${sessionUser.email}`)
+    socket.emit('updateDevicesList', devices.list)
 
-    socket.emit('updateDevicesList', devices.all())
-
-    socket.on('toggleDeviceState', (deviceId) => {
-        const device = devices.find(deviceId)
-        const currentOwner = devices.getCurrentOwnerOfDevice(deviceId)
+    // this need some refactor right now :)
+    socket.on('toggleDeviceState', (deviceCodeName) => {
+        const device = devices.find(deviceCodeName)
+        // device.getOwner()
+        const currentOwner = devices.currentOwnerOf(deviceCodeName)
 
         if (currentOwner == null || currentOwner == sessionUser.name ) { // TODO: REFACTOR MET 'deviceReturnableByCurrentUser'
-            devices.toggleAvailability(deviceId, sessionUser)
-            io.emit('updateDevicesList', devices.all())
+            devices.toggleAvailability(deviceCodeName, sessionUser)
+            io.emit('updateDevicesList', devices.all()) // REFACTOR NEEDED: .all() is the same as .list, so list shold be just used everywhere
         } else {
-            devices.blockDevice(deviceId)
+            devices.blockDevice(deviceCodeName)
             io.emit('updateDevicesList', devices.all())
 
-            socket.emit('retakeDeviceFlow', deviceId)
+            socket.emit('retakeDeviceFlow', deviceCodeName)
 
             // ENSURE DEVICE WAS UNBLOCKED AFTER 10 SECONDS (IN CASE USER CLOSED THE TAB / REFRESHED THE PAGE)
-            ensureRetakeStatusReset(device, devices, io, deviceId)
+            ensureRetakeStatusReset(device, devices, io, deviceCodeName)
         }
     })
 
@@ -169,8 +163,7 @@ app.use('/debug', (req, res) => {
 
 
 
-// API /DEVICES ENDPOINT
-
+// API DEVICES ENDPOINT
 app.get('/api-v1/devices', (req, res) => {
   Device
     .find()
