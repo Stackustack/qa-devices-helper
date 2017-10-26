@@ -1,39 +1,46 @@
-// {
-// 'T1': {
-//     index: 'T1',
+// NEW MODEL
+// [ { _id: 59edfaf2fe29921a2f227101,
+//     __v: 0,
+//     codeName: 't1-1508768499',
 //     brand: 'Samsung',
-//     model: 'Galaxy S II',
-//     androidVersion: '4.1.2',
-//     additionalNotes: 'qa+s2@netguru.pl',
-//     status: 'Available'
-//     takenByUser: {
-//        name: 'Andrew Golara',
-//        picture: 'url address'
-//     }
-// }, {
-//     ...
-// }
+//     model: 'S8-1',
+//     osType: 'Android',
+//     osVersion: '7.1',
+//     currentOwner: null,
+//     status: 'Available' // or 'Taken', 'Retake'
+// },
+// { ...
+// } ]
 
-const { devicesData } = require('./../data/devicesData.js')
+// deprecated - old implementation which used data/devicesData
+// now devices from stored on server are used
+// const { devicesData } = require('./../data/devicesData.js')
 
+// new implementation of above
+const { Device }   = require('./../models/device.js')
 
 class Devices {
   constructor() {
-    this.devicesList = devicesData
+    Device
+      .fetchAll()
+      .then(res => { this.list = res })
+      .catch(e  => { console.log(e) })
   }
 
   all() {
-    return this.devicesList
+    return this.list
   }
 
-  find(deviceIndex) {
-    const device = this.devicesList[deviceIndex]
+  find(deviceCodeName) {
+    const device = this.list.find((device) => {
+      return device.codeName === deviceCodeName
+    })
 
     if (device) {
       return device
     }
 
-    throw new Error(`Could not find device with ID: ${deviceIndex}`)
+    throw new Error(`Could not find device with ID: ${deviceCodeName}`)
   }
 
   blockDevice(deviceIndex) {
@@ -48,11 +55,11 @@ class Devices {
     device.status  = 'Taken'
   }
 
-  toggleAvailability(deviceIndex, user) {
-    const device = this.find(deviceIndex)
+  toggleAvailability(deviceCodeName, user) {
+    const device = this.find(deviceCodeName)
 
     device.status === 'Available' ? device.status = 'Taken' : device.status = 'Available'
-    device.takenByUser === null ? device.takenByUser = user : device.takenBy = null
+    device.currentOwner === null ? device.currentOwner = user : device.currentOwner = null
   }
 
   // UNIT TESTS NEEDED
@@ -68,7 +75,7 @@ class Devices {
     this.setStatus(deviceIndex, 'Taken')
   }
 
-  getCurrentOwnerOfDevice(deviceId) {
+  currentOwnerOf(deviceId) {
     const device = this.find(deviceId)
 
     if (device.takenByUser != null) { return device.takenByUser.name }

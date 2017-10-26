@@ -34,11 +34,18 @@ socket.on('retakeDeviceFlow', function (deviceId) {
 
 // Clicking row to emit 'toggle device state'
 tBody.on('click', 'tr', (data) => {
+
+    // REFACTOR NEEDED
+    // WTF? deviceStatus doesn't return status but some HTML code...
+    // this might be 'data.currentTarget.cells[5].textContent' to work (it came during debuging)
     const deviceStatus = data.currentTarget.cells[5].innerHTML
 
     // HANDLE SITUATION WHEN DEVICE IS BEING RETAKEN AND ITS NOT POSSIBLE TO TAKE IT RIGHT NOW
     if (deviceStatus === 'RETAKE') { return }
 
+    // REFACTOR NEEDED
+    // why not just 'deviceCodeName = data.currentTarget.cells[6].textContent'
+    // and emit just that?
     const deviceData = {
         deviceIndex: data.currentTarget.cells[0].textContent,
         // deviceCurrentlyTakenBy: data.currentTarget.cells[6].textContent
@@ -47,24 +54,21 @@ tBody.on('click', 'tr', (data) => {
     socket.emit('toggleDeviceState', deviceData.deviceIndex)
 })
 
-function addDeviceIdToTableRow(tr, deviceIndex) {
-    const td = jQuery('<td></td>').text(deviceIndex)
-    tr.append(td)
-}
+function addDeviceDataToTableRow(tr, device) {
+    const dataTypes = ['codeName', 'brand', 'model', 'osVersion', 'notes', 'status', 'currentOwner']
 
-function addRestDataToTableRow(tr, device) {
-    for (let fieldData in device) {
-        const td = jQuery('<td></td>')
+    for (dataType of dataTypes) {
+      const td = jQuery('<td></td>')
 
-        if (fieldData === 'status') {
-            setupDeviceStatusCell(td, device)
-        } else if (fieldData === 'takenByUser') {
-            setupDeviceTakenByCell(td, device)
-        } else {
-            setupOtherTableCell(td, device[fieldData])
-        }
+      if (dataType === 'status') {
+          setupDeviceStatusCell(td, device)
+      } else if (dataType === 'currentOwner') {
+          setupDeviceTakenByCell(td, device)
+      } else {
+          setupOtherTableCell(td, device[dataType])
+      }
 
-        tr.append(td)
+      tr.append(td)
     }
 }
 
@@ -81,16 +85,12 @@ function clearTable() {
 }
 
 function populateTable(devices) {
-    for (let deviceIndex in devices) {
-        const device = devices[deviceIndex]
-        const tr = jQuery('<tr></tr>').attr('id', deviceIndex).addClass('center aligned')
+    for (let device of devices) {
+      const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
 
-        addDeviceIdToTableRow(tr, deviceIndex)
-        addRestDataToTableRow(tr, device)
-        addAvabilityClassToRow(tr, device)
-        disableRowIfOngoingRetake(tr, device.status)
-
-        tBody.append(tr)
+      addDeviceDataToTableRow(tr, device)
+      console.log(device)
+      tBody.append(tr)
     }
 }
 
@@ -121,16 +121,15 @@ function addCorrectIconToLabel(label, deviceStatus) {
 }
 
 function setupDeviceStatusCell(tableCell, device) {
-  const deviceStatus  = device.status
-
-  const span = jQuery(`<span>${deviceStatus}</span>`)
+  const status = device.status
+  const span = jQuery(`<span>${status}</span>`)
   const label = jQuery('<div></div>').addClass('ui label')
 
-  addCorrectIconToLabel(label, deviceStatus)
+  addCorrectIconToLabel(label, status)
 
   label.append(span)
 
-  addColorToLabel(label, deviceStatus)
+  addColorToLabel(label, status)
 
   tableCell.append(label)
 }
@@ -140,9 +139,9 @@ function setupDeviceTakenByCell(tableCell, device) {
 
   if (deviceStatus === 'Taken' || deviceStatus === 'RETAKE') {
       const label = jQuery('<div></div>').addClass('ui image label basic orange')
-      const img = jQuery('<img></img>').addClass('ui avatar image').attr('src', device.takenByUser.picture)
+      const img = jQuery('<img></img>').addClass('ui avatar image').attr('src', device.currentOwner.picture)
 
-      label.append(img).append(device.takenByUser.name)
+      label.append(img).append(device.currentOwner.name)
 
       tableCell.append(label)
   }
