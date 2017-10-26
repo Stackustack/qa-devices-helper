@@ -20,6 +20,7 @@ const publicPath = path.join(__dirname, '../views'); // when using handlebars
 // MongoDB, Mongoose and models
 const { mongoose } = require('./db/mongoose.js')
 const { User }     = require('./models/user.js')
+const { Log }      = require('./models/log.js')
 const { Device }   = require('./models/device.js')
 const { Devices }  = require('./utils/devices.js') // Device model is used here
 const devices = new Devices()
