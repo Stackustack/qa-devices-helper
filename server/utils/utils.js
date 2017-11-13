@@ -44,8 +44,8 @@ const authorizedUser = (user) => {
     if (user.domain === process.env.AUTHRORIZATION_DOMAIN) { return true }
 }
 
-const saveUserToSession = (parsedUser, session) => {
-  session.user = parsedUser
+const saveUserToSession = (user, session) => {
+  session.user = user
 }
 
 const ensureRetakeStatusReset = (device, devices, io, deviceId) => {

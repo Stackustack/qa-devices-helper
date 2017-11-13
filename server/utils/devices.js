@@ -12,12 +12,8 @@
 // { ...
 // } ]
 
-// deprecated - old implementation which used data/devicesData
-// now devices from stored on server are used
-// const { devicesData } = require('./../data/devicesData.js')
-
-// new implementation of above
-const { Device }   = require('./../models/device.js')
+const { Device }  = require('./../models/device.js')
+const { Log }     = require('./../models/log.js')
 
 class Devices {
   constructor() {
@@ -58,8 +54,37 @@ class Devices {
   toggleAvailability(deviceCodeName, user) {
     const device = this.find(deviceCodeName)
 
-    device.status === 'Available' ? device.status = 'Taken' : device.status = 'Available'
-    device.currentOwner === null ? device.currentOwner = user : device.currentOwner = null
+    if (device.status === 'Available') {
+      device.status = 'Taken'
+      device.currentOwner = user
+
+      const log = new Log({
+        _device: device._id,
+        _deviceTakenByUser: device.currentOwner._id
+      })
+
+      log.save()
+
+    } else if (device.status === 'Taken') {
+      device.status = 'Available'
+      device.currentOwner = null
+
+      Log.findOneAndUpdate({
+          _device: device._id,
+          deviceReturned: false
+      }, {
+        $set: {
+          deviceReturned: true,
+          returnTimestamp: Math.floor(Date.now() / 1000)
+        }
+      }, {
+        new: true
+      }).then((doc) => {
+        console.log('DeviceLog correctly closed:', doc)
+      }).catch(e => {
+        console.log('Error while closing DeviceLog:', e)
+      })
+    }
   }
 
   // UNIT TESTS NEEDED
@@ -78,8 +103,10 @@ class Devices {
   currentOwnerOf(deviceId) {
     const device = this.find(deviceId)
 
-    if (device.takenByUser != null) { return device.takenByUser.name }
-    if (device.takenByUser == null) { return null }
+    console.log('device:', device)
+
+    if (device.currentOwner != null) { return device.currentOwner.name }
+    if (device.currentOwner == null) { return null }
   }
 }
 
