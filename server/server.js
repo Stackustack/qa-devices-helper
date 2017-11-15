@@ -20,9 +20,10 @@ const publicPath = path.join(__dirname, '../views'); // when using handlebars
 // MongoDB, Mongoose and models
 const { mongoose } = require('./db/mongoose.js')
 const { User }     = require('./models/user.js')
+const { Log }      = require('./models/log.js')
 const { Device }   = require('./models/device.js')
 const { Devices }  = require('./utils/devices.js') // Device model is used here
-const devices = new Devices()
+const devices      = new Devices()
 
 // Google Oauth2
 var google = require('googleapis');
@@ -93,10 +94,9 @@ io.on('connection', (socket) => {
     // this need some refactor right now :)
     socket.on('toggleDeviceState', (deviceCodeName) => {
         const device = devices.find(deviceCodeName)
-        // device.getOwner()
         const currentOwner = devices.currentOwnerOf(deviceCodeName)
 
-        if (currentOwner == null || currentOwner == sessionUser.name ) { // TODO: REFACTOR MET 'deviceReturnableByCurrentUser'
+        if (currentOwner == null || currentOwner == sessionUser.name ) { // TODO: REFACTOR METHOD 'deviceReturnableByCurrentUser'
             devices.toggleAvailability(deviceCodeName, sessionUser)
             io.emit('updateDevicesList', devices.all()) // REFACTOR NEEDED: .all() is the same as .list, so list shold be just used everywhere
         } else {
@@ -111,7 +111,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('retakeDevice', (deviceIndex) => {
-        devices.giveDeviceToUser(deviceIndex, sessionUser)
+        devices.passDeviceToUser(deviceIndex, sessionUser)
         io.emit('updateDevicesList', devices.all())
     })
 
@@ -137,10 +137,10 @@ app.use("/oauthCallback", (req, res) => {
             const userFromDB    = await User.findByEmail(user.email) || await newUserToDB(user)
 
             if (userFromDB.isUnauthorized()) {
-                throw new Error(renderUserUnauthorisedNotification(user.email))
+                throw new Error(renderUserUnauthorisedNotification(userFromDB.email))
             }
 
-            saveUserToSession(user, session)
+            saveUserToSession(userFromDB, session)
 
         } catch (err) {
             return res.render('error', { message: err })

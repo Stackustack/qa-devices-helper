@@ -12,12 +12,8 @@
 // { ...
 // } ]
 
-// deprecated - old implementation which used data/devicesData
-// now devices from stored on server are used
-// const { devicesData } = require('./../data/devicesData.js')
-
-// new implementation of above
-const { Device }   = require('./../models/device.js')
+const { Device }  = require('./../models/device.js')
+const { Log }     = require('./../models/log.js')
 
 class Devices {
   constructor() {
@@ -58,8 +54,18 @@ class Devices {
   toggleAvailability(deviceCodeName, user) {
     const device = this.find(deviceCodeName)
 
-    device.status === 'Available' ? device.status = 'Taken' : device.status = 'Available'
-    device.currentOwner === null ? device.currentOwner = user : device.currentOwner = null
+    if (device.status === 'Available') {
+      device.status = 'Taken'
+      device.currentOwner = user
+
+      Log.new(device)
+
+    } else if (device.status === 'Taken') {
+      device.status = 'Available'
+      device.currentOwner = null
+
+      Log.findByDeviceAndClose(device)
+    }
   }
 
   // UNIT TESTS NEEDED
@@ -69,17 +75,24 @@ class Devices {
   }
 
   // UNIT TESTS NEEDED
-  giveDeviceToUser(deviceIndex, user) {
+  passDeviceToUser(deviceIndex, user) {
     const device = this.find(deviceIndex)
-    device.takenByUser = user
-    this.setStatus(deviceIndex, 'Taken')
+
+    // Finish DeviceLog for current User
+    Log.findByDeviceAndClose(device)
+
+    device.status = 'Taken'
+    device.currentOwner = user
+
+    // Start new DeviceLog for new User
+    Log.new(device)
   }
 
   currentOwnerOf(deviceId) {
     const device = this.find(deviceId)
 
-    if (device.takenByUser != null) { return device.takenByUser.name }
-    if (device.takenByUser == null) { return null }
+    if (device.currentOwner != null) { return device.currentOwner.name }
+    if (device.currentOwner == null) { return null }
   }
 }
 
