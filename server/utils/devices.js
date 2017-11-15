@@ -58,32 +58,13 @@ class Devices {
       device.status = 'Taken'
       device.currentOwner = user
 
-      const log = new Log({
-        _device: device._id,
-        _deviceTakenByUser: device.currentOwner._id
-      })
-
-      log.save()
+      Log.new(device)
 
     } else if (device.status === 'Taken') {
       device.status = 'Available'
       device.currentOwner = null
 
-      Log.findOneAndUpdate({
-          _device: device._id,
-          deviceReturned: false
-      }, {
-        $set: {
-          deviceReturned: true,
-          returnTimestamp: Math.floor(Date.now() / 1000)
-        }
-      }, {
-        new: true
-      }).then((doc) => {
-        console.log('DeviceLog correctly closed:', doc)
-      }).catch(e => {
-        console.log('Error while closing DeviceLog:', e)
-      })
+      Log.findByDeviceAndClose(device)
     }
   }
 
@@ -94,16 +75,21 @@ class Devices {
   }
 
   // UNIT TESTS NEEDED
-  giveDeviceToUser(deviceIndex, user) {
+  passDeviceToUser(deviceIndex, user) {
     const device = this.find(deviceIndex)
-    device.takenByUser = user
-    this.setStatus(deviceIndex, 'Taken')
+
+    // Finish DeviceLog for current User
+    Log.findByDeviceAndClose(device)
+
+    device.status = 'Taken'
+    device.currentOwner = user
+
+    // Start new DeviceLog for new User
+    Log.new(device)
   }
 
   currentOwnerOf(deviceId) {
     const device = this.find(deviceId)
-
-    console.log('device:', device)
 
     if (device.currentOwner != null) { return device.currentOwner.name }
     if (device.currentOwner == null) { return null }

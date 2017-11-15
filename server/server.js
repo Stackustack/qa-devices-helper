@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
         const device = devices.find(deviceCodeName)
         const currentOwner = devices.currentOwnerOf(deviceCodeName)
 
-        if (currentOwner == null || currentOwner == sessionUser.name ) { // TODO: REFACTOR MET 'deviceReturnableByCurrentUser'
+        if (currentOwner == null || currentOwner == sessionUser.name ) { // TODO: REFACTOR METHOD 'deviceReturnableByCurrentUser'
             devices.toggleAvailability(deviceCodeName, sessionUser)
             io.emit('updateDevicesList', devices.all()) // REFACTOR NEEDED: .all() is the same as .list, so list shold be just used everywhere
         } else {
@@ -111,7 +111,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('retakeDevice', (deviceIndex) => {
-        devices.giveDeviceToUser(deviceIndex, sessionUser)
+        devices.passDeviceToUser(deviceIndex, sessionUser)
         io.emit('updateDevicesList', devices.all())
     })
 

@@ -5,6 +5,7 @@ const tBody = jQuery('tbody')
 const retakeModal = jQuery('.ui.basic.modal')
 const retakeYesBtn = jQuery('#retake_yes_button')
 const retakeNoBtn = jQuery('#retake_no_button')
+const topMenuItem = jQuery('a.item')
 
 // Handling Events from server
 socket.on('updateDevicesList', (devices) => {
