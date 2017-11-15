@@ -59,6 +59,10 @@ body {
     padding: 5vh 10vw 5vh 10vw;
 }
 
+#top_menu {
+  margin: 5vh 10vw 0vh 10vw;
+}
+
 /* 'RETAKE DEVICE' MODAL */
 #retake_modal .actions {
     text-align: center;
