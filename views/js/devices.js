@@ -5,7 +5,7 @@ const tBody = jQuery('tbody')
 const retakeModal = jQuery('.ui.basic.modal')
 const retakeYesBtn = jQuery('#retake_yes_button')
 const retakeNoBtn = jQuery('#retake_no_button')
-const topMenuItem = jQuery('a.item')
+const topMenu = jQuery('#top_menu')
 
 // Handling Events from server
 socket.on('updateDevicesList', (devices) => {
@@ -55,6 +55,14 @@ tBody.on('click', 'tr', (data) => {
     socket.emit('toggleDeviceState', deviceData.deviceIndex)
 })
 
+// Handling changing Android / Apple / BrowserStack
+topMenu.on('click', 'a.item', (data => {
+  handleTabActivationAndDeactivation(data)
+
+  // populate choosen system devices (for example browser stack)
+  
+}))
+
 function addDeviceDataToTableRow(tr, device) {
     const dataTypes = ['codeName', 'brand', 'model', 'osVersion', 'notes', 'status', 'currentOwner']
 
@@ -90,7 +98,6 @@ function populateTable(devices) {
       const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
 
       addDeviceDataToTableRow(tr, device)
-      console.log(device)
       tBody.append(tr)
     }
 }
@@ -157,4 +164,11 @@ function hideModalAndUnblockDeviceAfterTimeout(socket, deviceId) {
         retakeModal.modal('hide')
         socket.emit('retakeCanceled', deviceId)
     }, 10000)
+}
+
+function handleTabActivationAndDeactivation(data) {
+  const tab = data.currentTarget
+
+  $('.active').removeClass('active')
+  $(tab).addClass('active')
 }
