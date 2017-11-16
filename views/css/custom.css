@@ -9,14 +9,11 @@ body {
     background: -webkit-linear-gradient(to bottom, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to bottom, #859398, #283048); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
 .container {
     white-space: nowrap;
     min-height: 100%;
     min-width: 100%;
-
-    background: #283048;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #859398, #283048); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 /* LOGIN PAGE */
@@ -54,13 +51,20 @@ body {
   margin-right: 30px;
 }
 
-/* DEVICES PAGE */
-.table-container {
-    padding: 5vh 10vw 5vh 10vw;
+#top_menu {
+  margin: 0vh 0vw 5vh 0vw;
 }
 
-#top_menu {
-  margin: 5vh 10vw 0vh 10vw;
+#devices_page {
+  padding: 5vh 10vw 5vh 10vw;
+
+  white-space: nowrap;
+  min-height: 100%;
+  min-width: 100%;
+
+  background: #283048;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #859398, #283048); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 /* 'RETAKE DEVICE' MODAL */
