@@ -68,7 +68,8 @@ function getAuthUrl() {
     var oauth2Client = getOAuthClient();
 
     var scopes = [
-        'https://www.googleapis.com/auth/userinfo.email'
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile'
     ];
     var url = oauth2Client.generateAuthUrl({
         access_type: 'offline',
