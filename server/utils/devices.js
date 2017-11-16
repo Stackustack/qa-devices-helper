@@ -39,6 +39,16 @@ class Devices {
     throw new Error(`Could not find device with ID: ${deviceCodeName}`)
   }
 
+  findWithSystem(systemType) {
+    const devices = this.list.filter((device) => {
+      console.log('porownuje:', device)
+      console.log('z:', systemType)
+      return device.osType === systemType
+    })
+
+    return devices
+  }
+
   blockDevice(deviceIndex) {
     const device = this.find(deviceIndex)
 

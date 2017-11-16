@@ -89,7 +89,7 @@ io.on('connection', (socket) => {
     // handling redirect users with no user session
     if (!sessionUser) { return socket.emit('redirect', '/') }
 
-    socket.emit('updateDevicesList', devices.list)
+    socket.emit('updateDevicesList', devices.findWithSystem('Android'))
 
     // this need some refactor right now :)
     socket.on('toggleDeviceState', (deviceCodeName) => {
@@ -99,6 +99,7 @@ io.on('connection', (socket) => {
         if (currentOwner == null || currentOwner == sessionUser.name ) { // TODO: REFACTOR METHOD 'deviceReturnableByCurrentUser'
             devices.toggleAvailability(deviceCodeName, sessionUser)
             io.emit('updateDevicesList', devices.all()) // REFACTOR NEEDED: .all() is the same as .list, so list shold be just used everywhere
+
         } else {
             devices.blockDevice(deviceCodeName)
             io.emit('updateDevicesList', devices.all())
@@ -117,6 +118,10 @@ io.on('connection', (socket) => {
 
     socket.on('retakeCanceled', (deviceIndex) => {
         devices.unblockDevice(deviceIndex)
+        io.emit('updateDevicesList', devices.all())
+    })
+
+    socket.on('refreshDevicesList', () => {
         io.emit('updateDevicesList', devices.all())
     })
 });
