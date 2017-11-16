@@ -138,6 +138,7 @@ app.use("/oauthCallback", (req, res) => {
 
         try {
             const userFromOAuth = await getUserDataFromOAuthClient(req, res, oauth2Client)
+            console.log('userFromOAuth:', userFromOAuth)
             const user          = parseUserFromOAuth(userFromOAuth)
             const userFromDB    = await User.findByEmail(user.email) || await newUserToDB(user)
 

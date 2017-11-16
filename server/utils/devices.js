@@ -41,8 +41,6 @@ class Devices {
 
   findWithSystem(systemType) {
     const devices = this.list.filter((device) => {
-      console.log('porownuje:', device)
-      console.log('z:', systemType)
       return device.osType === systemType
     })
 
