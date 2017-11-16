@@ -160,5 +160,68 @@
     "model": "S6 Edge",
     "osType": "Android",
     "osVersion": "6.0.1"
+  },
+  {
+    "codeName": "BS1",
+    "brand": "-",
+    "model": "-",
+    "osType": "BrowserStack",
+    "osVersion": "-"
+  },
+  {
+    "codeName": "BS2",
+    "brand": "-",
+    "model": "-",
+    "osType": "BrowserStack",
+    "osVersion": "-"
+  },
+  {
+    "codeName": "BS3",
+    "brand": "-",
+    "model": "-",
+    "osType": "BrowserStack",
+    "osVersion": "-"
+  },
+  {
+    "codeName": "BS4",
+    "brand": "-",
+    "model": "-",
+    "osType": "BrowserStack",
+    "osVersion": "-"
+  },
+  {
+    "codeName": "T2",
+    "brand": "Apple",
+    "model": "iPhone 4S",
+    "osType": "iOS",
+    "osVersion": "9.3"
+  },
+  {
+    "codeName": "T3(iP)",
+    "brand": "Apple",
+    "model": "iPhone 4S",
+    "osType": "iOS",
+    "osVersion": "9.3.5"
+  },
+  {
+    "codeName": "iP01",
+    "brand": "Apple",
+    "model": "iPhone 6+",
+    "osType": "iOS",
+    "osVersion": "8.4"
+  },
+  {
+    "codeName": "iP02",
+    "brand": "Apple",
+    "model": "iPhone 6",
+    "osType": "iOS",
+    "osVersion": "9.2"
+  },
+  {
+    "codeName": "iP03",
+    "brand": "Apple",
+    "model": "iPhone 5S",
+    "osType": "iOS",
+    "osVersion": "10.2"
   }
 ]
