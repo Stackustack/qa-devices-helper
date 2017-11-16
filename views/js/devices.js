@@ -9,8 +9,10 @@ const topMenu = jQuery('#top_menu')
 
 // Handling Events from server
 socket.on('updateDevicesList', (devices) => {
+    const activeSystem = jQuery('.active')[0].innerText
+
     clearTable()
-    populateTable(devices)
+    populateTable(devices, activeSystem)
 })
 
 socket.on('redirect', function (url) {
@@ -60,7 +62,7 @@ topMenu.on('click', 'a.item', (data => {
   handleTabActivationAndDeactivation(data)
 
   // populate choosen system devices (for example browser stack)
-  
+  socket.emit('refreshDevicesList')
 }))
 
 function addDeviceDataToTableRow(tr, device) {
@@ -93,12 +95,14 @@ function clearTable() {
     tBody.html('')
 }
 
-function populateTable(devices) {
+function populateTable(devices, activeSystem) {
     for (let device of devices) {
-      const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
+      if (device.osType === activeSystem) {
+        const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
 
-      addDeviceDataToTableRow(tr, device)
-      tBody.append(tr)
+        addDeviceDataToTableRow(tr, device)
+        tBody.append(tr)
+      }
     }
 }
 
