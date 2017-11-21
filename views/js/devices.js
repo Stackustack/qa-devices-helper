@@ -10,7 +10,11 @@ const topMenu = jQuery('#top_menu')
 // Handling Events from server
 socket.on('updateDevicesList', (devices) => {
     const activeSystemTab = jQuery('#os_submenu .active')[0].innerText
-    const activeParamTab  = jQuery('#params_submenu .active')[0].innerText
+    let activeParamTab  = undefined
+
+    if (activeSystemTab === 'iOS' || activeSystemTab === 'Android') {
+      activeParamTab = jQuery('#params_submenu .active')[0].innerText
+    }
 
     clearTable()
     populateTable(devices, activeSystemTab, activeParamTab)
@@ -65,8 +69,8 @@ topMenu.on('click', '#os_submenu a.item', (data => {
   // active correct tab and deactive others
   handleTabActivationAndDeactivation(data)
 
-  // show/hide additional tabs (with OS versions) based on choosen system (ios/android)
-  handleSecondTabRenderind(targetSystem)
+  // show/hide additional tabs (with OS versions) based on choosen system (ios/android) and activate default value (fe 'ALL')
+  handleSecondTabRendering(targetSystem)
 
   // populate choosen system devices (for example browser stack)
   socket.emit('refreshDevicesList')
@@ -115,7 +119,7 @@ function populateTable(devices, activeSystemTab, activeParamTab) {
     const regexOsShortiOS = /\d+/
 
     for (let device of devices) {
-      let shortOsVersion = ""
+      let shortOsVersion = undefined
 
       if (device.osType === 'Android') {
         shortOsVersion = device.osVersion.match(regexOsShortAndroid)[0]
@@ -124,9 +128,12 @@ function populateTable(devices, activeSystemTab, activeParamTab) {
       }
 
       if (device.osType === activeSystemTab) {
-        if (activeParamTab === 'ALL') {
+        if (activeParamTab === undefined) { // for BrowserStack
           const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
-
+          addDeviceDataToTableRow(tr, device)
+          tBody.append(tr)
+        } else if (activeParamTab === 'ALL') {
+          const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
           addDeviceDataToTableRow(tr, device)
           tBody.append(tr)
         } else if (activeParamTab.indexOf(shortOsVersion) !== -1) {
@@ -205,7 +212,6 @@ function hideModalAndUnblockDeviceAfterTimeout(socket, deviceId) {
 
 function handleTabActivationAndDeactivation(data) {
   const tab = data.currentTarget
-  console.log('tab', tab)
 
   $('#os_submenu .active').removeClass('active')
   $(tab).addClass('active')
@@ -218,19 +224,24 @@ function handleParamsTabActivationAndDeactivation(data) {
   $(tabElement).addClass('active')
 }
 
-function handleSecondTabRenderind(targetSystem) {
+function handleSecondTabRendering(targetSystem) {
   if (targetSystem === 'iOS') {
     $('#params_submenu_android').css('display', 'none')
     $('#params_submenu_ios').css('display', 'unset')
+    $('#params_submenu .active').removeClass('active')
+    $('#params_submenu_ios div a:first-of-type').addClass('active')
   }
 
   if (targetSystem === 'Android') {
     $('#params_submenu_android').css('display', 'unset')
     $('#params_submenu_ios').css('display', 'none')
+    $('#params_submenu .active').removeClass('active')
+    $('#params_submenu_android div a:first-of-type').addClass('active')
   }
 
   if (targetSystem === 'BrowserStack') {
     $('#params_submenu_android').css('display', 'none')
     $('#params_submenu_ios').css('display', 'none')
+    $('#params_submenu .active').removeClass('active')
   }
 }
