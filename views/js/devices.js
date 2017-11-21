@@ -9,10 +9,11 @@ const topMenu = jQuery('#top_menu')
 
 // Handling Events from server
 socket.on('updateDevicesList', (devices) => {
-    const activeSystem = jQuery('.active')[0].innerText
+    const activeSystemTab = jQuery('#os_submenu .active')[0].innerText
+    const activeParamTab  = jQuery('#params_submenu .active')[0].innerText
 
     clearTable()
-    populateTable(devices, activeSystem)
+    populateTable(devices, activeSystemTab, activeParamTab)
 })
 
 socket.on('redirect', function (url) {
@@ -58,10 +59,18 @@ tBody.on('click', 'tr', (data) => {
 })
 
 // Handling changing Android / Apple / BrowserStack
-topMenu.on('click', 'a.item', (data => {
+topMenu.on('click', '#os_submenu a.item', (data => {
   handleTabActivationAndDeactivation(data)
 
   // populate choosen system devices (for example browser stack)
+  socket.emit('refreshDevicesList')
+}))
+
+// Handling changing Android / Apple / BrowserStack
+topMenu.on('click', '#params_submenu a.item', (data => {
+  handleParamsTabActivationAndDeactivation(data)
+
+  // populate table with devices with correct system (for example KitKat)
   socket.emit('refreshDevicesList')
 }))
 
@@ -95,13 +104,44 @@ function clearTable() {
     tBody.html('')
 }
 
-function populateTable(devices, activeSystem) {
-    for (let device of devices) {
-      if (device.osType === activeSystem) {
-        const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
+function populateTable(devices, activeSystemTab, activeParamTab) {
+    const regexOsShortAndroid = /\d\.\d/
+    const regexOsShortiOS = /\d+/
+    // let activeParam = ""
+    //
+    // if (activeSystemTab === 'Android' && activeParamTab === 'ALL') {
+    //   activeParam = activeParamTab
+    // } else if (activeSystemTab === 'Android') {
+    //   activeParam = activeParamTab.match(regexOsAndroid)[0]
+    // }
 
-        addDeviceDataToTableRow(tr, device)
-        tBody.append(tr)
+    for (let device of devices) {
+      let shortOsVersion = ""
+
+      if (device.osType === 'Android') {
+        shortOsVersion = device.osVersion.match(regexOsShortAndroid)[0]
+      } else if (device.osType === 'iOS') {
+        shortOsVersion = device.osVersion.match(regexOsShortiOS)[0]
+      }
+      // if (device.osType === activeSystemTab && device.osVersion === activeParam) {
+
+      console.log('activeParamTab', activeParamTab)
+      console.log('shortOsVersion', shortOsVersion)
+
+      if (device.osType === activeSystemTab) {
+
+
+        if (activeParamTab === 'ALL') {
+          const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
+
+          addDeviceDataToTableRow(tr, device)
+          tBody.append(tr)
+        } else if (activeParamTab.indexOf(shortOsVersion) !== -1) {
+          const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
+
+          addDeviceDataToTableRow(tr, device)
+          tBody.append(tr)
+        }
       }
     }
 }
@@ -173,6 +213,13 @@ function hideModalAndUnblockDeviceAfterTimeout(socket, deviceId) {
 function handleTabActivationAndDeactivation(data) {
   const tab = data.currentTarget
 
-  $('.active').removeClass('active')
+  $('#os_submenu .active').removeClass('active')
+  $(tab).addClass('active')
+}
+
+function handleParamsTabActivationAndDeactivation(data) {
+  const tab = data.currentTarget
+
+  $('#params_submenu .active').removeClass('active')
   $(tab).addClass('active')
 }
