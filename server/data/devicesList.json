@@ -162,32 +162,44 @@
     "osVersion": "6.0.1"
   },
   {
+    "codeName": "BS0",
+    "brand": "-",
+    "model": "-",
+    "osType": "BrowserStack",
+    "osVersion": "-",
+    "notes": "qa@netguru.pl"
+  },
+  {
     "codeName": "BS1",
     "brand": "-",
     "model": "-",
     "osType": "BrowserStack",
-    "osVersion": "-"
+    "osVersion": "-",
+    "notes": "qa+1@netguru.pl"
   },
   {
     "codeName": "BS2",
     "brand": "-",
     "model": "-",
     "osType": "BrowserStack",
-    "osVersion": "-"
+    "osVersion": "-",
+    "notes": "qa+2@netguru.pl"
   },
   {
     "codeName": "BS3",
     "brand": "-",
     "model": "-",
     "osType": "BrowserStack",
-    "osVersion": "-"
+    "osVersion": "-",
+    "notes": "qa+3@netguru.pl"
   },
   {
     "codeName": "BS4",
     "brand": "-",
     "model": "-",
     "osType": "BrowserStack",
-    "osVersion": "-"
+    "osVersion": "-",
+    "notes": "qa+4@netguru.pl"
   },
   {
     "codeName": "T2",
@@ -223,5 +235,180 @@
     "model": "iPhone 5S",
     "osType": "iOS",
     "osVersion": "10.2"
+  },
+  {
+    "codeName": "iP06",
+    "brand": "Apple",
+    "model": "iPhone 5S",
+    "osType": "iOS",
+    "osVersion": "8.4"
+  },
+  {
+    "codeName": "iP07",
+    "brand": "Apple",
+    "model": "iPhone 6",
+    "osType": "iOS",
+    "osVersion": "10.0.1"
+  },
+  {
+    "codeName": "iP08",
+    "brand": "Apple",
+    "model": "iPhone 6",
+    "osType": "iOS",
+    "osVersion": "9.2"
+  },
+  {
+    "codeName": "iP09",
+    "brand": "Apple",
+    "model": "iPhone 6",
+    "osType": "iOS",
+    "osVersion": "9.2.1"
+  },
+  {
+    "codeName": "iP10",
+    "brand": "Apple",
+    "model": "iPhone 6",
+    "osType": "iOS",
+    "osVersion": "8.4.1"
+  },
+  {
+    "codeName": "iP12",
+    "brand": "Apple",
+    "model": "iPhone 6",
+    "osType": "iOS",
+    "osVersion": "11.0"
+  },
+  {
+    "codeName": "iP14",
+    "brand": "Apple",
+    "model": "iPhone 6+",
+    "osType": "iOS",
+    "osVersion": "10.1.1"
+  },
+  {
+    "codeName": "iP17",
+    "brand": "Apple",
+    "model": "iPhone 6S",
+    "osType": "iOS",
+    "osVersion": "9.2.1"
+  },
+  {
+    "codeName": "iP18",
+    "brand": "Apple",
+    "model": "iPhone 6S+",
+    "osType": "iOS",
+    "osVersion": "10.0.2"
+  },
+  {
+    "codeName": "iP21",
+    "brand": "Apple",
+    "model": "iPhone 6S",
+    "osType": "iOS",
+    "osVersion": "10.3.3"
+  },
+  {
+    "codeName": "iP22",
+    "brand": "Apple",
+    "model": "iPhone 6S",
+    "osType": "iOS",
+    "osVersion": "10.0.2"
+  },
+  {
+    "codeName": "iP23",
+    "brand": "Apple",
+    "model": "iPhone SE",
+    "osType": "iOS",
+    "osVersion": "10.1.1"
+  },
+  {
+    "codeName": "iP24",
+    "brand": "Apple",
+    "model": "iPhone 7",
+    "osType": "iOS",
+    "osVersion": "10.3.3"
+  },
+  {
+    "codeName": "iP25",
+    "brand": "Apple",
+    "model": "iPhone 6S+",
+    "osType": "iOS",
+    "osVersion": "10.1.1"
+  },
+  {
+    "codeName": "iP26",
+    "brand": "Apple",
+    "model": "iPhone 7+",
+    "osType": "iOS",
+    "osVersion": "10.0.2"
+  },
+  {
+    "codeName": "iP27",
+    "brand": "Apple",
+    "model": "iPhone 6S",
+    "osType": "iOS",
+    "osVersion": "10.2.1"
+  },
+  {
+    "codeName": "iP28",
+    "brand": "Apple",
+    "model": "iPhone 6S",
+    "osType": "iOS",
+    "osVersion": "10.0.2"
+  },
+  {
+    "codeName": "iP29",
+    "brand": "Apple",
+    "model": "iPhone 6s",
+    "osType": "iOS",
+    "osVersion": "11.0.2"
+  },
+  {
+    "codeName": "iP30",
+    "brand": "Apple",
+    "model": "iPhone 6s",
+    "osType": "iOS",
+    "osVersion": "10.0.2"
+  },
+  {
+    "codeName": "iP31",
+    "brand": "Apple",
+    "model": "iPhone 7",
+    "osType": "iOS",
+    "osVersion": "10.3.1"
+  },
+  {
+    "codeName": "iP32",
+    "brand": "Apple",
+    "model": "iPhone 7",
+    "osType": "iOS",
+    "osVersion": "11.1.1"
+  },
+  {
+    "codeName": "iP33",
+    "brand": "Apple",
+    "model": "iPhone SE",
+    "osType": "iOS",
+    "osVersion": "10.2"
+  },
+  {
+    "codeName": "iP34",
+    "brand": "Apple",
+    "model": "iPhone 6s",
+    "osType": "iOS",
+    "osVersion": "9.3.2"
+  },
+  {
+    "codeName": "iP35",
+    "brand": "Apple",
+    "model": "iPhone 6s",
+    "osType": "iOS",
+    "osVersion": "10.3.2"
+  },
+  {
+    "codeName": "iP36",
+    "brand": "Apple",
+    "model": "iPhone 5",
+    "osType": "iOS",
+    "osVersion": "9.3.4"
   }
 ]
