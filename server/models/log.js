@@ -46,8 +46,6 @@ LogSchema.statics.findByDeviceAndClose = function(deviceObj) {
     }
   }, {
     new: true
-  }).then((doc) => {
-    console.log('DeviceLog correctly closed:', doc)
   }).catch(e => {
     console.log('Error while closing DeviceLog:', e)
   })

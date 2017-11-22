@@ -49,6 +49,8 @@ class Devices {
 
   blockDevice(deviceIndex) {
     const device = this.find(deviceIndex)
+    // console.log("device: ", device)
+
 
     if (device.status !== 'Available') {
         device.status  = 'RETAKE'

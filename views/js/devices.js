@@ -26,27 +26,23 @@ socket.on('redirect', function (url) {
 
 socket.on('retakeDeviceFlow', function (deviceId) {
 
-    retakeModal.modal('setting', 'closable', false)
-               .modal('show')
-
-    retakeYesBtn.click(function () {
-        return socket.emit('retakeDevice', deviceId)
-    })
-
-    retakeNoBtn.click(function () {
-        return socket.emit('retakeCanceled', deviceId)
-    })
+   retakeModal.modal({
+                'closable': false,
+                onDeny: () => {
+                  socket.emit('retakeCanceled', deviceId)
+                },
+                onApprove: () => {
+                  socket.emit('retakeDevice', deviceId)
+                }
+              })
+              .modal('show')
 
     hideModalAndUnblockDeviceAfterTimeout(socket, deviceId)
 })
 
 // Clicking row to emit 'toggle device state'
 tBody.on('click', 'tr', (data) => {
-
-    // REFACTOR NEEDED
-    // WTF? deviceStatus doesn't return status but some HTML code...
-    // this might be 'data.currentTarget.cells[5].textContent' to work (it came during debuging)
-    const deviceStatus = data.currentTarget.cells[5].innerHTML
+    const deviceStatus = data.currentTarget.cells[5].textContent
 
     // HANDLE SITUATION WHEN DEVICE IS BEING RETAKEN AND ITS NOT POSSIBLE TO TAKE IT RIGHT NOW
     if (deviceStatus === 'RETAKE') { return }
