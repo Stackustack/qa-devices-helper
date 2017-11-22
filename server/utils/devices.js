@@ -50,13 +50,17 @@ class Devices {
   blockDevice(deviceIndex) {
     const device = this.find(deviceIndex)
 
-    device['status']  = 'RETAKE'
+    if (device.status !== 'Available') {
+        device.status  = 'RETAKE'
+    }
   }
 
   unblockDevice(deviceIndex) {
     const device = this.find(deviceIndex)
 
-    device.status  = 'Taken'
+    if (device.status !== 'Available') {
+        device.status  = 'Taken'
+    }
   }
 
   toggleAvailability(deviceCodeName, user) {
