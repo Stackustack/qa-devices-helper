@@ -17,6 +17,10 @@ const path = require('path')
 // const publicPath = path.join(__dirname, '../public'); // when using public path
 const publicPath = path.join(__dirname, '../views'); // when using handlebars
 
+// Favicon
+const favicon = require('serve-favicon');
+app.use(favicon(path.join(__dirname,'public','images','favicon.ico')));
+
 // MongoDB, Mongoose and models
 const { mongoose } = require('./db/mongoose.js')
 const { User }     = require('./models/user.js')
