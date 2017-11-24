@@ -107,7 +107,9 @@ io.on('connection', (socket) => {
 
             socket.emit('retakeDeviceFlow', deviceCodeName)
 
-            // ENSURE DEVICE WAS UNBLOCKED AFTER 10 SECONDS (IN CASE USER CLOSED THE TAB / REFRESHED THE PAGE)
+            // ENSURE DEVICE WAS UNBLOCKED AFTER 20 SECONDS (IN CASE USER CLOSED THE TAB / REFRESHED THE PAGE)
+            // I think this might be done with something like on.disconnect or something...
+            // I really need to refactor this abomination xDDDDD
             ensureRetakeStatusReset(device, devices, io, deviceCodeName)
         }
     })

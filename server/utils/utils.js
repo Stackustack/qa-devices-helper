@@ -54,7 +54,7 @@ const ensureRetakeStatusReset = (device, devices, io, deviceId) => {
             devices.unblockDevice(deviceId)
             io.emit('updateDevicesList', devices.all())
         }
-    }, 15000)
+    }, 20000)
 }
 
 const parseUserFromOAuth = (userObjFromOAuth) => {

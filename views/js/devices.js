@@ -7,6 +7,9 @@ const retakeYesBtn = jQuery('#retake_yes_button')
 const retakeNoBtn = jQuery('#retake_no_button')
 const topMenu = jQuery('#top_menu')
 
+// Timer
+let timeoutForRetake
+
 // Handling Events from server
 socket.on('updateDevicesList', (devices) => {
     const activeSystemTab = jQuery('#os_submenu .active')[0].innerText
@@ -30,9 +33,11 @@ socket.on('retakeDeviceFlow', function (deviceId) {
                 'closable': false,
                 onDeny: () => {
                   socket.emit('retakeCanceled', deviceId)
+                  clearTimeout(timeoutForRetake)
                 },
                 onApprove: () => {
                   socket.emit('retakeDevice', deviceId)
+                  clearTimeout(timeoutForRetake)
                 }
               })
               .modal('show')
@@ -200,7 +205,7 @@ function setupOtherTableCell(tableCell, fieldData) {
 }
 
 function hideModalAndUnblockDeviceAfterTimeout(socket, deviceId) {
-    setTimeout(function () {
+    timeoutForRetake = setTimeout(function () {
         retakeModal.modal('hide')
         socket.emit('retakeCanceled', deviceId)
     }, 10000)
