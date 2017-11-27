@@ -3,7 +3,7 @@
     "codeName": "T1",
     "brand": "Samsung",
     "model": "Galaxy S II",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "4.1.2",
     "notes": "qa+s2@netguru.pl"
   },
@@ -11,7 +11,7 @@
     "codeName": "T3",
     "brand": "Samsung",
     "model": "Galaxy S3 Neo",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "4.4.2",
     "notes": "qa+s3@netguru.pl"
   },
@@ -19,7 +19,7 @@
     "codeName": "T4",
     "brand": "LG",
     "model": "G3 S",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "5.0.2",
     "notes": "qa+lgg3@netguru.pl"
   },
@@ -27,7 +27,7 @@
     "codeName": "T5",
     "brand": "Samsung",
     "model": "Galaxy Note 3",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "5.0.0",
     "notes": "qa+note@netguru.pl"
   },
@@ -35,7 +35,7 @@
     "codeName": "T6",
     "brand": "HTC",
     "model": "One M8",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "5.0.1",
     "notes": "qa+htc@netguru.pl"
   },
@@ -43,21 +43,21 @@
     "codeName": "T7",
     "brand": "Samsung",
     "model": "Galaxy S4 Mini",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "4.4.2"
   },
   {
     "codeName": "T10",
     "brand": "Motorola",
     "model": "Moto G",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "6.0.1"
   },
   {
     "codeName": "T11",
     "brand": "LG",
     "model": "K10",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "5.1.1",
     "notes": "Assigned to Maciek Kownacki only (Roboteam)"
   },
@@ -65,14 +65,14 @@
     "codeName": "T12",
     "brand": "Sony",
     "model": "Xperia M5",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "5.1"
   },
   {
     "codeName": "T13A",
     "brand": "Google (Huawei)",
     "model": "Nexus 6p",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "6.0.1",
     "notes": "Assigned to Michal Jung only (WebSummit)"
   },
@@ -80,42 +80,42 @@
     "codeName": "T13B",
     "brand": "Google (Huawei)",
     "model": "Nexus 6p",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "8.0"
   },
   {
     "codeName": "T14",
     "brand": "Google (LG)",
     "model": "Nexus 5X",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "6.0.1"
   },
   {
     "codeName": "T15",
     "brand": "LG",
     "model": "G5",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "6.0.1"
   },
   {
     "codeName": "T17",
     "brand": "Sony",
     "model": "Xperia Z5",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "5.1.1"
   },
   {
     "codeName": "T18",
     "brand": "Samsung",
     "model": "Note 5",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "5.1.1"
   },
   {
     "codeName": "T20",
     "brand": "Samsung",
     "model": "Galaxy S6",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "6.0.1",
     "notes": "Assigned to Marta Grzesiak only (MyNeveo)"
   },
@@ -123,49 +123,49 @@
     "codeName": "T21",
     "brand": "Google (HTC)",
     "model": "Pixel",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "7.1.2"
   },
   {
     "codeName": "T22",
     "brand": "LG ",
     "model": "G Flex2",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "5.1.1"
   },
   {
     "codeName": "T23",
     "brand": "Samsung",
     "model": "A3 2016",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "6.0.1"
   },
   {
     "codeName": "T24",
     "brand": "Samsung",
     "model": "S8",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "7.0"
   },
   {
     "codeName": "T25",
     "brand": "Samsung",
     "model": "S7 Edge",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "7.0"
   },
   {
     "codeName": "T26",
     "brand": "Samsung",
     "model": "S6 Edge",
-    "osType": "Android",
+    "osType": "android",
     "osVersion": "6.0.1"
   },
   {
     "codeName": "BS0",
     "brand": "-",
     "model": "-",
-    "osType": "BrowserStack",
+    "osType": "browserstack",
     "osVersion": "-",
     "notes": "qa@netguru.pl"
   },
@@ -173,7 +173,7 @@
     "codeName": "BS1",
     "brand": "-",
     "model": "-",
-    "osType": "BrowserStack",
+    "osType": "browserstack",
     "osVersion": "-",
     "notes": "qa+1@netguru.pl"
   },
@@ -181,7 +181,7 @@
     "codeName": "BS2",
     "brand": "-",
     "model": "-",
-    "osType": "BrowserStack",
+    "osType": "browserstack",
     "osVersion": "-",
     "notes": "qa+2@netguru.pl"
   },
@@ -189,7 +189,7 @@
     "codeName": "BS3",
     "brand": "-",
     "model": "-",
-    "osType": "BrowserStack",
+    "osType": "browserstack",
     "osVersion": "-",
     "notes": "qa+3@netguru.pl"
   },
@@ -197,7 +197,7 @@
     "codeName": "BS4",
     "brand": "-",
     "model": "-",
-    "osType": "BrowserStack",
+    "osType": "browserstack",
     "osVersion": "-",
     "notes": "qa+4@netguru.pl"
   },
@@ -205,210 +205,290 @@
     "codeName": "T2",
     "brand": "Apple",
     "model": "iPhone 4S",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "9.3"
   },
   {
     "codeName": "T3(iP)",
     "brand": "Apple",
     "model": "iPhone 4S",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "9.3.5"
   },
   {
     "codeName": "iP01",
     "brand": "Apple",
     "model": "iPhone 6+",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "8.4"
   },
   {
     "codeName": "iP02",
     "brand": "Apple",
     "model": "iPhone 6",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "9.2"
   },
   {
     "codeName": "iP03",
     "brand": "Apple",
     "model": "iPhone 5S",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "10.2"
   },
   {
     "codeName": "iP06",
     "brand": "Apple",
     "model": "iPhone 5S",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "8.4"
   },
   {
     "codeName": "iP07",
     "brand": "Apple",
     "model": "iPhone 6",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "10.0.1"
   },
   {
     "codeName": "iP08",
     "brand": "Apple",
     "model": "iPhone 6",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "9.2"
   },
   {
     "codeName": "iP09",
     "brand": "Apple",
     "model": "iPhone 6",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "9.2.1"
   },
   {
     "codeName": "iP10",
     "brand": "Apple",
     "model": "iPhone 6",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "8.4.1"
   },
   {
     "codeName": "iP12",
     "brand": "Apple",
     "model": "iPhone 6",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "11.0"
   },
   {
     "codeName": "iP14",
     "brand": "Apple",
     "model": "iPhone 6+",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "10.1.1"
   },
   {
     "codeName": "iP17",
     "brand": "Apple",
-    "model": "iPhone 6S",
-    "osType": "iOS",
+    "model": "iPhone 6s",
+    "osType": "ios",
     "osVersion": "9.2.1"
   },
   {
     "codeName": "iP18",
     "brand": "Apple",
-    "model": "iPhone 6S+",
-    "osType": "iOS",
+    "model": "iPhone 6s+",
+    "osType": "ios",
     "osVersion": "10.0.2"
   },
   {
     "codeName": "iP21",
     "brand": "Apple",
-    "model": "iPhone 6S",
-    "osType": "iOS",
+    "model": "iPhone 6s",
+    "osType": "ios",
     "osVersion": "10.3.3"
   },
   {
     "codeName": "iP22",
     "brand": "Apple",
-    "model": "iPhone 6S",
-    "osType": "iOS",
+    "model": "iPhone 6s",
+    "osType": "ios",
     "osVersion": "10.0.2"
   },
   {
     "codeName": "iP23",
     "brand": "Apple",
     "model": "iPhone SE",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "10.1.1"
   },
   {
     "codeName": "iP24",
     "brand": "Apple",
     "model": "iPhone 7",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "10.3.3"
   },
   {
     "codeName": "iP25",
     "brand": "Apple",
-    "model": "iPhone 6S+",
-    "osType": "iOS",
+    "model": "iPhone 6s+",
+    "osType": "ios",
     "osVersion": "10.1.1"
   },
   {
     "codeName": "iP26",
     "brand": "Apple",
     "model": "iPhone 7+",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "10.0.2"
   },
   {
     "codeName": "iP27",
     "brand": "Apple",
-    "model": "iPhone 6S",
-    "osType": "iOS",
+    "model": "iPhone 6s",
+    "osType": "ios",
     "osVersion": "10.2.1"
   },
   {
     "codeName": "iP28",
     "brand": "Apple",
-    "model": "iPhone 6S",
-    "osType": "iOS",
+    "model": "iPhone 6s",
+    "osType": "ios",
     "osVersion": "10.0.2"
   },
   {
     "codeName": "iP29",
     "brand": "Apple",
     "model": "iPhone 6s",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "11.0.2"
   },
   {
     "codeName": "iP30",
     "brand": "Apple",
     "model": "iPhone 6s",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "10.0.2"
   },
   {
     "codeName": "iP31",
     "brand": "Apple",
     "model": "iPhone 7",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "10.3.1"
   },
   {
     "codeName": "iP32",
     "brand": "Apple",
     "model": "iPhone 7",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "11.1.1"
   },
   {
     "codeName": "iP33",
     "brand": "Apple",
     "model": "iPhone SE",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "10.2"
   },
   {
     "codeName": "iP34",
     "brand": "Apple",
     "model": "iPhone 6s",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "9.3.2"
   },
   {
     "codeName": "iP35",
     "brand": "Apple",
     "model": "iPhone 6s",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "10.3.2"
   },
   {
     "codeName": "iP36",
     "brand": "Apple",
     "model": "iPhone 5",
-    "osType": "iOS",
+    "osType": "ios",
     "osVersion": "9.3.4"
+  },
+  {
+    "codeName": "iPad",
+    "brand": "Apple",
+    "model": "iPad (9.7-inch)",
+    "deviceType": "tablet",
+    "osType": "ios",
+    "osVersion": "8.1.3"
+  },
+  {
+    "codeName": "iPad1",
+    "brand": "Apple",
+    "model": "iPad Air 2 (9.7-inch)",
+    "deviceType": "tablet",
+    "osType": "ios",
+    "osVersion": "11.0"
+  },
+  {
+    "codeName": "iPad2",
+    "brand": "Apple",
+    "model": "iPad Pro (12.9-inch)",
+    "deviceType": "tablet",
+    "osType": "ios",
+    "osVersion": "10.3.1"
+  },
+  {
+    "codeName": "iPad4",
+    "brand": "Apple",
+    "model": "iPad Mini 4 (7.9-inch)",
+    "deviceType": "tablet",
+    "osType": "ios",
+    "osVersion": "9.3.2"
+  },
+  {
+    "codeName": "iPad5",
+    "brand": "Apple",
+    "model": "iPad Air 2 (9.7-inch)",
+    "deviceType": "tablet",
+    "osType": "ios",
+    "osVersion": "10.1.1"
+  },
+  {
+    "codeName": "iPad6",
+    "brand": "Apple",
+    "model": "iPad Mini 4 (7.9-inch)",
+    "deviceType": "tablet",
+    "osType": "ios",
+    "osVersion": "10.3.1"
+  },
+  {
+    "codeName": "iPad7",
+    "brand": "Apple",
+    "model": "iPad Pro (9.7-inch)",
+    "deviceType": "tablet",
+    "osType": "ios",
+    "osVersion": "11.0"
+  },
+  {
+    "codeName": "AS07",
+    "brand": "Asus",
+    "model": "Nexus 7 (7-inch)",
+    "deviceType": "tablet",
+    "osType": "android",
+    "osVersion": "5.1"
+  },
+  {
+    "codeName": "TB01",
+    "brand": "Samsung",
+    "model": "Galaxy Tab S 10.5",
+    "deviceType": "tablet",
+    "osType": "android",
+    "osVersion": "4.4.2"
+  },
+  {
+    "codeName": "TB02",
+    "brand": "Samsung",
+    "model": "Galaxy Tab 4 (7-inch)",
+    "deviceType": "tablet",
+    "osType": "android",
+    "osVersion": "4.4.2"
   }
 ]
