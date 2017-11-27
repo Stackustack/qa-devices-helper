@@ -116,29 +116,60 @@ function clearTable() {
 }
 
 function populateTable(devices, activeSystemTab, activeParamTab) {
-    const regexOsShortAndroid = /\d\.\d/
-    const regexOsShortiOS = /\d+/
+    // Tablets
+    if (activeSystemTab === 'tablet') {
+      return devices.filter(device => {
+        device.deviceType === 'tablet' ? addRowWithDevice(device) : false
+      })
+    }
 
-    for (let device of devices) {
-      let shortOsVersion = undefined
+    // BrowserStack
+    if (activeSystemTab === 'browserstack') {
+      return devices.filter(device => {
+        device.osType === 'browserstack' ? addRowWithDevice(device) : false
+      })
+    }
 
-      if (device.osType === 'android') {
-        shortOsVersion = device.osVersion.match(regexOsShortAndroid)[0]
-      } else if (device.osType === 'ios') {
-        shortOsVersion = device.osVersion.match(regexOsShortiOS)[0]
-      }
+    // all Android devices
+    if (activeSystemTab === 'android' && activeParamTab === 'ALL') {
+      return devices.filter(device => {
+        device.osType === 'android' && device.deviceType !== 'tablet' ? addRowWithDevice(device) : false
+      })
+    }
 
-      if (device.osType === activeSystemTab && device.deviceType !== 'tablet') {
-        if (activeParamTab === undefined) { // for BrowserStack
-          addRowWithDevice(device)
-        } else if (activeParamTab === 'ALL') {
-          addRowWithDevice(device)
-        } else if (activeParamTab.indexOf(shortOsVersion) !== -1) {
-          addRowWithDevice(device)
-        }
-      } else if (activeSystemTab === 'tablet' && device.deviceType === "tablet") {
-        addRowWithDevice(device)
-      }
+    // Android filtered by version
+    if (activeSystemTab === 'android') {
+      const androidDevices = devices.filter(device => {
+        return device.osType === 'android'
+      })
+
+      return androidDevices.filter(device => {
+        const regexOsShortAndroid = /\d\.\d/
+        const shortOsVersion = device.osVersion.match(regexOsShortAndroid)[0]
+
+        activeParamTab.indexOf(shortOsVersion) !== -1 ? addRowWithDevice(device) : false
+      })
+    }
+
+    // all iOS devices
+    if (activeSystemTab === 'ios' && activeParamTab === 'ALL') {
+      return devices.filter(device => {
+        device.osType === 'ios' && device.deviceType !== 'tablet' ? addRowWithDevice(device) : false
+      })
+    }
+
+    // iOS filtered by version
+    if (activeSystemTab === 'ios') {
+      const iosDevices = devices.filter(device => {
+        return device.osType === 'ios'
+      })
+
+      return iosDevices.filter(device => {
+        const regexOsShortiOS = /\d+/
+        const shortOsVersion = device.osVersion.match(regexOsShortiOS)[0]
+
+        activeParamTab.indexOf(shortOsVersion) !== -1 ? addRowWithDevice(device) : false
+      })
     }
 }
 
