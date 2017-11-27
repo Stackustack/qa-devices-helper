@@ -100,9 +100,37 @@ class Devices {
       }).catch(e => {
         console.log('Error while toggling device:', e)
       })
-      
+
       // Turn off logging for now
       // Log.findByDeviceAndClose(device)
+    }
+  }
+
+  toggleAvailabilityInDB(deviceCodeName, sessionUser) {
+    const device = this.find(deviceCodeName)
+      
+    if (device.status === 'Available') {
+      Device.findOneAndUpdate({
+        codeName: deviceCodeName
+      }, {
+        $set: {
+          currentOwner: user,
+          status: 'Taken'
+        }
+      }).catch(e => {
+        console.log('Error while toggling device:', e)
+      })
+    } else if (device.status === 'Taken') {
+      Device.findOneAndUpdate({
+        codeName: deviceCodeName
+      }, {
+        $set: {
+          currentOwner: null,
+          status: 'Available'
+        }
+      }).catch(e => {
+        console.log('Error while toggling device:', e)
+      })
     }
   }
 
