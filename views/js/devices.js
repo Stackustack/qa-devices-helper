@@ -12,10 +12,10 @@ let timeoutForRetake
 
 // Handling Events from server
 socket.on('updateDevicesList', (devices) => {
-    const activeSystemTab = jQuery('#os_submenu .active')[0].innerText
+    const activeSystemTab = jQuery('#os_submenu .active').attr("active-tab")
     let activeParamTab  = undefined
 
-    if (activeSystemTab === 'iOS' || activeSystemTab === 'Android') {
+    if (activeSystemTab === 'ios' || activeSystemTab === 'android') {
       activeParamTab = jQuery('#params_submenu .active')[0].innerText
     }
 
@@ -122,27 +122,22 @@ function populateTable(devices, activeSystemTab, activeParamTab) {
     for (let device of devices) {
       let shortOsVersion = undefined
 
-      if (device.osType === 'Android') {
+      if (device.osType === 'android') {
         shortOsVersion = device.osVersion.match(regexOsShortAndroid)[0]
-      } else if (device.osType === 'iOS') {
+      } else if (device.osType === 'ios') {
         shortOsVersion = device.osVersion.match(regexOsShortiOS)[0]
       }
 
-      if (device.osType === activeSystemTab) {
+      if (device.osType === activeSystemTab && device.deviceType !== 'tablet') {
         if (activeParamTab === undefined) { // for BrowserStack
-          const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
-          addDeviceDataToTableRow(tr, device)
-          tBody.append(tr)
+          addRowWithDevice(device)
         } else if (activeParamTab === 'ALL') {
-          const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
-          addDeviceDataToTableRow(tr, device)
-          tBody.append(tr)
+          addRowWithDevice(device)
         } else if (activeParamTab.indexOf(shortOsVersion) !== -1) {
-          const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
-
-          addDeviceDataToTableRow(tr, device)
-          tBody.append(tr)
+          addRowWithDevice(device)
         }
+      } else if (activeSystemTab === 'tablet' && device.deviceType === "tablet") {
+        addRowWithDevice(device)
       }
     }
 }
@@ -225,6 +220,13 @@ function handleParamsTabActivationAndDeactivation(data) {
   $(tabElement).addClass('active')
 }
 
+function addRowWithDevice(device) {
+  const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
+
+  addDeviceDataToTableRow(tr, device)
+  tBody.append(tr)
+}
+
 function handleSecondTabRendering(targetSystem) {
   if (targetSystem === 'iOS') {
     $('#params_submenu_android').css('display', 'none')
@@ -238,6 +240,12 @@ function handleSecondTabRendering(targetSystem) {
     $('#params_submenu_ios').css('display', 'none')
     $('#params_submenu .active').removeClass('active')
     $('#params_submenu_android div a:first-of-type').addClass('active')
+  }
+
+  if (targetSystem === 'Tablets') {
+    $('#params_submenu_android').css('display', 'none')
+    $('#params_submenu_ios').css('display', 'none')
+    $('#params_submenu .active').removeClass('active')
   }
 
   if (targetSystem === 'BrowserStack') {

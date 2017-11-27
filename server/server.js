@@ -94,7 +94,7 @@ io.on('connection', (socket) => {
     // handling redirect users with no user session
     if (!sessionUser) { return socket.emit('redirect', '/') }
 
-    socket.emit('updateDevicesList', devices.findWithSystem('Android'))
+    socket.emit('updateDevicesList', devices.findWithSystem('android'))
 
     // this need some refactor right now :)
     socket.on('toggleDeviceState', (deviceCodeName) => {

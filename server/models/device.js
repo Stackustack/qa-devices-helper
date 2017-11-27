@@ -22,6 +22,10 @@ const DeviceSchema = mongoose.Schema({
     type: String,  // or Int and 0 = 'Android', 1 = 'iOS' ?
     trim: true
   },
+  deviceType: {
+    type: String,  // tablet or phone
+    trim: true
+  },
   osVersion: {
     required: true,
     type: String,
