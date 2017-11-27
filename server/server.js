@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
         if (currentOwner == null || currentOwner == sessionUser.name ) { // TODO: REFACTOR METHOD 'deviceReturnableByCurrentUser'
             devices.toggleAvailability(deviceCodeName, sessionUser)
             io.emit('updateDevicesList', devices.all()) // REFACTOR NEEDED: .all() is the same as .list, so list shold be just used everywhere
-
+            devices.toggleAvailabilityInDB(deviceCodeName, sessionUser)
         } else {
             devices.blockDevice(deviceCodeName)
             io.emit('updateDevicesList', devices.all())
