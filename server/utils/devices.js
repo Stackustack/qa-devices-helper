@@ -106,9 +106,9 @@ class Devices {
     }
   }
 
-  toggleAvailabilityInDB(deviceCodeName, sessionUser) {
+  toggleAvailabilityInDB(deviceCodeName, user) {
     const device = this.find(deviceCodeName)
-      
+
     if (device.status === 'Available') {
       Device.findOneAndUpdate({
         codeName: deviceCodeName
