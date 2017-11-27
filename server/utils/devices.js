@@ -72,13 +72,37 @@ class Devices {
       device.status = 'Taken'
       device.currentOwner = user
 
-      Log.new(device)
+      Device.findOneAndUpdate({
+        codeName: deviceCodeName
+      }, {
+        $set: {
+          currentOwner: user,
+          status: 'Taken'
+        }
+      }).catch(e => {
+        console.log('Error while toggling device:', e)
+      })
+
+      // Turn off logging for now
+      // Log.new(device)
 
     } else if (device.status === 'Taken') {
       device.status = 'Available'
       device.currentOwner = null
 
-      Log.findByDeviceAndClose(device)
+      Device.findOneAndUpdate({
+        codeName: deviceCodeName
+      }, {
+        $set: {
+          currentOwner: null,
+          status: 'Available'
+        }
+      }).catch(e => {
+        console.log('Error while toggling device:', e)
+      })
+      
+      // Turn off logging for now
+      // Log.findByDeviceAndClose(device)
     }
   }
 
