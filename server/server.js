@@ -207,15 +207,41 @@ app.get('/api-v1/devices/:codeName', (req, res) => {
       })
     }
 })
-app.post('/api-v1/devices', (req, res) => {
+app.post('/api-v1/devices', async (req, res) => {
   const devicesArray = req.body
+  let err = false
+  let erArr = []
+  let docArr = []
 
-  Device
-    .insertMany(devicesArray)
-    .then((docs) => {
-      res.send(docs)
-    }, (e) => {
-      res.status(400).send(e)
+  const updateObj    = await devicesArray.map(deviceObj => {
+    return Device
+      .update({
+        codeName: deviceObj.codeName },
+        deviceObj,
+        {
+          upsert: true,
+          setDefaultsOnInsert: true
+        })
+      .then(doc => {
+        docArr.push(deviceObj)
+        return doc
+      })
+      .catch(e => {
+        console.log(`Error while adding/updating ${deviceObj.codeName} in DB`)
+        console.log(`Error code`, e)
+        console.log(`Error with device data:`, deviceObj)
+        errArr.push(e)
+        er = true
+        return e
+      })
+  })
+
+  Promise
+    .all(updateObj)
+    .then(() => {
+      if (err) { res.status(400).send(errArr) }
+
+      res.send(docArr)
     })
 })
 app.delete('/api-v1/devices/:codeName', (req, res) => {
