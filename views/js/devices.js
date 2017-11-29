@@ -7,10 +7,17 @@ const retakeYesBtn = jQuery('#retake_yes_button')
 const retakeNoBtn = jQuery('#retake_no_button')
 const topMenu = jQuery('#top_menu')
 
+// User data
+let user
+
 // Timer
 let timeoutForRetake
 
 // Handling Events from server
+socket.on('sendUserData', (userData) => {
+  user = userData
+})
+
 socket.on('updateDevicesList', (devices) => {
     const activeSystemTab = jQuery('#os_submenu .active').attr("active-tab")
     let activeParamTab  = undefined
@@ -171,6 +178,15 @@ function populateTable(devices, activeSystemTab, activeParamTab) {
         activeParamTab.indexOf(shortOsVersion) !== -1 ? addRowWithDevice(device) : false
       })
     }
+
+    // My devices tab
+    if (activeSystemTab === 'my_devices') {
+      return devices.filter(device => {
+        if (deviceBelongsToCurrentUser(device,user)) {
+          addRowWithDevice(device)
+        }
+      })
+    }
 }
 
 function disableRowIfOngoingRetake(tableRow, deviceStatus) {
@@ -283,5 +299,13 @@ function handleSecondTabRendering(targetSystem) {
     $('#params_submenu_android').css('display', 'none')
     $('#params_submenu_ios').css('display', 'none')
     $('#params_submenu .active').removeClass('active')
+  }
+}
+
+function deviceBelongsToCurrentUser(device, user) {
+  if (device.status == 'Taken' && device.currentOwner._id === user._id) {
+    return true
+  } else {
+    return false
   }
 }
