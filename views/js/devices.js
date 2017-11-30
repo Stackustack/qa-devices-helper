@@ -290,15 +290,15 @@ function handleSecondTabRendering(targetSystem) {
   }
 
   if (targetSystem === 'Tablets') {
-    $('#params_submenu_android').css('display', 'none')
-    $('#params_submenu_ios').css('display', 'none')
-    $('#params_submenu .active').removeClass('active')
+    dontDisplaySecondTab()
   }
 
   if (targetSystem === 'BrowserStack') {
-    $('#params_submenu_android').css('display', 'none')
-    $('#params_submenu_ios').css('display', 'none')
-    $('#params_submenu .active').removeClass('active')
+    dontDisplaySecondTab()
+  }
+
+  if (targetSystem === 'My devices') {
+    dontDisplaySecondTab()
   }
 }
 
@@ -308,4 +308,10 @@ function deviceBelongsToCurrentUser(device, user) {
   } else {
     return false
   }
+}
+
+function dontDisplaySecondTab() {
+  $('#params_submenu_android').css('display', 'none')
+  $('#params_submenu_ios').css('display', 'none')
+  $('#params_submenu .active').removeClass('active')
 }
