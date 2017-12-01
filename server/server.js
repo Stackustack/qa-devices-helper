@@ -2,6 +2,7 @@
 require('./config/config');
 require('dotenv').config()
 
+var sslRedirect = require('heroku-ssl-redirect');
 const express = require('express')
 const app = express();
 const session = require('express-session')({
@@ -29,9 +30,10 @@ const { Device }   = require('./models/device.js')
 const { Devices }  = require('./utils/devices.js') // Device model is used here
 const devices      = new Devices()
 
-// Google Oauth2
+// Google Oauth2 and SSL
 var google = require('googleapis');
 var OAuth2 = google.auth.OAuth2;
+app.use(sslRedirect());
 app.use(session)
 
 // Express Handlebars
@@ -280,6 +282,6 @@ app.use('/', (req, res) => {
 keepHerokuFromIdling('0:25:00')
 
 server.listen(port, () => {
-    logServer(`Server started at ${port}`)
+    logServer(`Server started at ${port}, evn: ${process.env.NODE_ENV}`)
     logServer(`Connected to DB: ${process.env.MONGODB_URI}`)
 });
