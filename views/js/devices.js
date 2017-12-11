@@ -2,6 +2,7 @@ const socket = io();
 
 // Selectors
 const tBody = jQuery('tbody')
+let tableRow = jQuery('tbody tr')
 const retakeModal = jQuery('.ui.basic.modal')
 const retakeYesBtn = jQuery('#retake_yes_button')
 const retakeNoBtn = jQuery('#retake_no_button')
@@ -28,6 +29,8 @@ socket.on('updateDevicesList', (devices) => {
 
     clearTable()
     populateTable(devices, activeSystemTab, activeParamTab)
+
+    addEventListenersToActionButtons()
 })
 
 socket.on('redirect', function (url) {
@@ -50,24 +53,6 @@ socket.on('retakeDeviceFlow', function (deviceId) {
               .modal('show')
 
     hideModalAndUnblockDeviceAfterTimeout(socket, deviceId)
-})
-
-// Clicking row to emit 'toggle device state'
-tBody.on('click', 'tr', (data) => {
-    const deviceStatus = data.currentTarget.cells[5].textContent
-
-    // HANDLE SITUATION WHEN DEVICE IS BEING RETAKEN AND ITS NOT POSSIBLE TO TAKE IT RIGHT NOW
-    if (deviceStatus === 'RETAKE') { return }
-
-    // REFACTOR NEEDED
-    // why not just 'deviceCodeName = data.currentTarget.cells[6].textContent'
-    // and emit just that?
-    const deviceData = {
-        deviceIndex: data.currentTarget.cells[0].textContent,
-        // deviceCurrentlyTakenBy: data.currentTarget.cells[6].textContent
-    }
-
-    socket.emit('toggleDeviceState', deviceData.deviceIndex)
 })
 
 // Handling changing Android / Apple / BrowserStack
@@ -210,7 +195,7 @@ function addCorrectIconToLabel(label, deviceStatus) {
 function setupDeviceStatusCell(tableCell, device) {
   const status = device.status
   const span = jQuery(`<span>${status}</span>`)
-  const label = jQuery('<div></div>').addClass('ui label')
+  const label = jQuery('<div></div>').addClass('ui label take_action_button')
 
   addCorrectIconToLabel(label, status)
 
@@ -306,4 +291,19 @@ function dontDisplaySecondTab() {
   $('#params_submenu_android').css('display', 'none')
   $('#params_submenu_ios').css('display', 'none')
   $('#params_submenu .active').removeClass('active')
+}
+
+function addEventListenersToActionButtons() {
+  tableRow = jQuery('tbody tr')
+
+  tableRow.on('click', '.take_action_button', (data) => {
+    const device = {
+      status: data.currentTarget.textContent,
+      id: data.delegateTarget.id
+    }
+      
+    if (device.status === 'RETAKE') { return }
+
+    socket.emit('toggleDeviceState', device.id)
+  })
 }
