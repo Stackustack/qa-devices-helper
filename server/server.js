@@ -28,7 +28,7 @@ const { User }     = require('./models/user.js')
 const { Log }      = require('./models/log.js')
 const { Device }   = require('./models/device.js')
 const { Devices }  = require('./utils/devices.js') // Device model is used here
-const devices      = new Devices()
+let devices        = new Devices()
 
 // Google Oauth2 and SSL
 var google = require('googleapis');
@@ -244,9 +244,11 @@ app.post('/api-v1/devices', async (req, res) => {
     .then(() => {
       if (err) { res.status(400).send(errArr) }
 
+      devices = new Devices()
       res.send(docArr)
     })
 })
+
 app.delete('/api-v1/devices/:codeName', (req, res) => {
   const codeName = req.params.codeName
 
