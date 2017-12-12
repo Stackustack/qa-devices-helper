@@ -165,6 +165,17 @@ app.use("/oauthCallback", (req, res) => {
     })
 })
 
+app.get('/devices/:id', (req, res) => {
+    const deviceId = req.params.id    
+    const device = devices.find(deviceId)
+    
+    if (!req.session.user) {
+        return res.redirect('/')
+    }
+
+    res.render('editDevices', { device })
+})
+
 app.use('/devices', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/')
