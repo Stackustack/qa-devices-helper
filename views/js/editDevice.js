@@ -36,7 +36,7 @@ saveButton.on('click', (data) => {
       alert('Oups! Something went wrong.');
     })
 
-    XHR.open('POST', 'http://localhost:3000/api-v1/devices');
+    XHR.open('POST', 'https://qa-devices-helper.herokuapp.com/api-v1/devices');
     XHR.setRequestHeader('Content-Type', 'application/json');
     XHR.send(deviceDataJson, (req, res) => {
         console.log(res)
