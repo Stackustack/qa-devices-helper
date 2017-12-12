@@ -87,6 +87,10 @@ function addDeviceDataToTableRow(tr, device) {
           setupDeviceStatusCell(td, device)
       } else if (dataType === 'currentOwner') {
           setupDeviceTakenByCell(td, device)
+      } else if (dataType === 'osVersion') {
+          let icon = setupSettingsIcon(td, device[dataType])
+
+          td.append(icon)
       } else {
           setupOtherTableCell(td, device[dataType])
       }
@@ -305,5 +309,23 @@ function addEventListenersToActionButtons() {
     if (device.status === 'RETAKE') { return }
 
     socket.emit('toggleDeviceState', device.id)
+  })
+
+  addClickListenersToEditButtons()
+}
+
+function setupSettingsIcon(td, fieldData) {
+  const button = jQuery('<button class="ui tiny right labeled icon button edit_button"></button>')
+  const icon = jQuery('<i class="settings icon"></i>')
+
+  return button.append(icon).append(fieldData)
+}
+
+function addClickListenersToEditButtons() {  
+  let tableRow = jQuery('tbody tr')
+
+  tableRow.on('click', 'button.edit_button', (event) => {
+    const clickedDeviceId = event.delegateTarget.id
+    window.location.href = '/devices/' + clickedDeviceId;
   })
 }

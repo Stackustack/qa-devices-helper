@@ -92,3 +92,10 @@ body {
 #error_message {
   padding: 40px;
 }
+
+/* EDIT DEVICE PAGE */
+
+#edit_device_form {
+    padding: 40px;
+    margin: 100px 200px 100px 200px;
+}
