@@ -30,6 +30,25 @@ const { Device }   = require('./models/device.js')
 const { Devices }  = require('./utils/devices.js') // Device model is used here
 let devices        = new Devices()
 
+// well... I dont have time to play with asyncs xDDDD Fuck this app xD
+setTimeout(() => {
+    devices.list.sort((deviceA,deviceB) => {
+        let codeNameA = deviceA.codeName.toUpperCase()
+        let codeNameB = deviceB.codeName.toUpperCase() 
+    
+        if (codeNameA < codeNameB) {
+          return -1;
+        }
+        if (codeNameA > codeNameB) {
+          return 1;
+        }
+      
+        // codeNames are be equal
+        return 0;
+    })
+}, 5000)
+
+
 // Google Oauth2 and SSL
 var google = require('googleapis');
 var OAuth2 = google.auth.OAuth2;
