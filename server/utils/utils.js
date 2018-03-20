@@ -14,6 +14,23 @@ const logServer = (data) => {
     console.log(`[${timestamp}]: ${data}`)
 }
 
+const sortDevices = (devices) => {
+    devices.list.sort((deviceA,deviceB) => {
+        let codeNameA = deviceA.codeName.toUpperCase()
+        let codeNameB = deviceB.codeName.toUpperCase() 
+        
+        if (codeNameA < codeNameB) {
+            return -1;
+        }
+        if (codeNameA > codeNameB) {
+            return 1;
+        }
+        
+        // codeNames are be equal - this case should not happen
+        return 0;
+    })
+}
+
 const getUserDataFromOAuthClient = (req, res, client) => {
     return new Promise((resolve, reject) => {
         plus.people.get({
@@ -83,5 +100,6 @@ module.exports = {
     ensureRetakeStatusReset,
     parseUserFromOAuth,
     renderUserUnauthorisedNotification,
-    newUserToDB
+    newUserToDB,
+    sortDevices
 }

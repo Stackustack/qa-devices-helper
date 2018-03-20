@@ -30,25 +30,6 @@ const { Device }   = require('./models/device.js')
 const { Devices }  = require('./utils/devices.js') // Device model is used here
 let devices        = new Devices()
 
-// well... I dont have time to play with asyncs xDDDD Fuck this app xD
-setTimeout(() => {
-    devices.list.sort((deviceA,deviceB) => {
-        let codeNameA = deviceA.codeName.toUpperCase()
-        let codeNameB = deviceB.codeName.toUpperCase() 
-    
-        if (codeNameA < codeNameB) {
-          return -1;
-        }
-        if (codeNameA > codeNameB) {
-          return 1;
-        }
-      
-        // codeNames are be equal
-        return 0;
-    })
-}, 5000)
-
-
 // Google Oauth2 and SSL
 var google = require('googleapis');
 var OAuth2 = google.auth.OAuth2;
@@ -62,7 +43,6 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static(publicPath));
 
-
 // Other usefull stuff
 const {
     logServer,
@@ -74,8 +54,14 @@ const {
     ensureRetakeStatusReset,
     parseUserFromOAuth,
     renderUserUnauthorisedNotification,
-    newUserToDB
+    newUserToDB,
+    sortDevices
 } = require('./utils/utils.js')
+
+// well... I dont have time to play with asyncs xDDDD Fuck this app xD
+setTimeout(() => {
+    sortDevices(devices)    
+}, 5000)
 
 // BodyParser
 const bodyParser = require('body-parser')
@@ -272,11 +258,15 @@ app.post('/api-v1/devices', async (req, res) => {
   Promise
     .all(updateObj)
     .then(() => {
-      if (err) { res.status(400).send(errArr) }
+        if (err) { res.status(400).send(errArr) }
 
-      devices = new Devices()
-      res.send(docArr)
+        devices = new Devices()
+        res.send(docArr)
     })
+    
+    setTimeout(() => {
+        sortDevices(devices)    
+    }, 5000)
 })
 
 app.delete('/api-v1/devices/:codeName', (req, res) => {
