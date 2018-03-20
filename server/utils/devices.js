@@ -120,6 +120,9 @@ class Devices {
       }).catch(e => {
         console.log('Error while toggling device:', e)
       })
+
+      Log.new(device, user)
+
     } else if (device.status === 'Taken') {
       Device.findOneAndUpdate({
         codeName: deviceCodeName
@@ -131,6 +134,8 @@ class Devices {
       }).catch(e => {
         console.log('Error while toggling device:', e)
       })
+
+      Log.findByDeviceAndClose(device)
     }
   }
 
@@ -151,7 +156,7 @@ class Devices {
     device.currentOwner = user
 
     // Start new DeviceLog for new User
-    Log.new(device)
+    Log.new(device, user)
   }
 
   currentOwnerOf(deviceId) {

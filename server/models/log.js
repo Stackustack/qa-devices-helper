@@ -2,8 +2,7 @@ const mongoose = require('mongoose')
 
 const LogSchema = mongoose.Schema({
   takenTimestamp: {
-    type: Number,
-    default: Math.floor(Date.now() / 1000)
+    type: Number
   },
   returnTimestamp: {
     default: null,
@@ -23,22 +22,27 @@ const LogSchema = mongoose.Schema({
   },
 })
 
-LogSchema.statics.new = function(device) {
+LogSchema.statics.new = function(device, user) {
   const Log = this
 
-  console.log('device w log.new():', device)
+  console.log('device for log.new():', device)
 
   return new Log({
     _device: device._id,
-    _deviceTakenByUser: device.currentOwner._id
+    _deviceTakenByUser: user,
+    takenTimestamp: Math.floor(Date.now() / 1000)
   }).save()
 }
 
 LogSchema.statics.findByDeviceAndClose = function(deviceObj) {
   const Log = this
 
+  console.log('device for log.findByDeviceAndClose():', deviceObj)
+
+
   Log.findOneAndUpdate({
-    _device: deviceObj._id
+    _device: deviceObj._id,
+    deviceReturned: false
   }, {
     $set: {
       deviceReturned: true,
