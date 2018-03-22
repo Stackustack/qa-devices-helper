@@ -28,6 +28,13 @@ UserSchema.statics.findByEmail = function(email) {
   })
 }
 
+UserSchema.statics.getNamesList = function() {
+  const User = this
+
+  return User
+    .find({}, {name: 1})
+}
+
 UserSchema.methods.isAuthorized = function() {
   const user = this
   const domain = user.email.split('@')[1]

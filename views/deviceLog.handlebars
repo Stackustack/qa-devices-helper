@@ -1,0 +1,45 @@
+<div class="ui segment" id="device_logs_table">
+    <table class="ui celled striped table">
+        <thead>
+            <tr>
+                <th colspan="4">
+                    Logs for {{device.brand}} {{device.model}}, code name: "{{device.codeName}}"
+                </th>
+            </tr>
+            <tr>
+                <th colspan="1">
+                    User
+                </th>
+                <th colspan="1">
+                    Taken at
+                </th>
+                <th colspan="1">
+                    Returned at
+                </th>
+                <th colspan="1">
+                    Returned
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {{!--
+            <tr>
+                <td>test</td>
+                <td>Initial commit</td>
+                <td>10 hours ago</td>
+            </tr> --}}
+            
+             {{#parsedLogs}}
+            <tr>
+                <td>{{user}}</td>
+                <td>{{takenWhen}}</td>
+                <td>{{returnedWhen}}</td>
+                <td>{{returned}}</td>
+            </tr>
+            {{/parsedLogs}}
+
+        </tbody>
+    </table>
+</div>
+
+

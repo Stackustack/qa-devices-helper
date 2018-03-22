@@ -37,9 +37,6 @@ LogSchema.statics.new = function(device, user) {
 LogSchema.statics.findByDeviceAndClose = function(deviceObj) {
   const Log = this
 
-  console.log('device for log.findByDeviceAndClose():', deviceObj)
-
-
   Log.findOneAndUpdate({
     _device: deviceObj._id,
     deviceReturned: false
@@ -53,6 +50,14 @@ LogSchema.statics.findByDeviceAndClose = function(deviceObj) {
   }).catch(e => {
     console.log('Error while closing DeviceLog:', e)
   })
+}
+
+LogSchema.statics.findAllForDevice = function(deviceObj) {
+  const Log = this
+
+  return Log.find({
+    _device: deviceObj._id,
+  }, {takenTimestamp: 1, returnTimestamp: 1, _deviceTakenByUser: 1, deviceReturned: 1})
 }
 
 const Log = mongoose.model('Log', LogSchema)

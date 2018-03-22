@@ -1,6 +1,7 @@
 // SELECTORS
 const saveButton = jQuery('#save_changes_button')
 const goBack = jQuery('#go_back')
+const redirectToLogsButton = jQuery('#redirect_to_logs')
 
 // INITIALIZE DROPDOWN 
 $(".ui.selection.dropdown").dropdown()
@@ -49,3 +50,8 @@ saveButton.on('click', (data) => {
 goBack.on('click', () => {
     window.location.href = '/devices'; 
 })
+
+redirectToLogsButton.on('click', () => {
+    window.location.href +=  '/log'
+})
+

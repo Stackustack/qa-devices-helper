@@ -58,6 +58,8 @@ const {
     sortDevices
 } = require('./utils/utils.js')
 
+const moment = require('moment')
+
 // well... I dont have time to play with asyncs xDDDD Fuck this app xD
 setTimeout(() => {
     sortDevices(devices)    
@@ -181,6 +183,46 @@ app.get('/devices/:id', (req, res) => {
     res.render('editDevices', { device })
 })
 
+app.get('/devices/:id/log', async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/')
+    }
+    
+    const deviceId = req.params.id
+    const device = devices.find(deviceId)
+
+    const deviceLogs = await Log.findAllForDevice(device)
+    const usersList  = await User.getNamesList()
+
+    let parsedLogs = []
+
+    deviceLogs.forEach(log => {
+        let logObj = { 
+            user: "Unknown",
+            returned: log.deviceReturned
+        }
+
+        //Parse Users from UsersIDs
+        usersList.forEach(user => {
+            if (user._id.equals(log._deviceTakenByUser)) {
+                logObj.user = user.name
+            } 
+        })
+
+        //Parse takenTimestamp
+        logObj.takenWhen = moment.unix(log.takenTimestamp).format('MMMM Do YYYY, H:mm:ss')
+
+        //Parse returnTimestamp
+        if (log.returnTimestamp) {
+            logObj.returnedWhen = moment.unix(log.returnTimestamp).format('MMMM Do YYYY, H:mm:ss')
+        }
+
+        parsedLogs.push(logObj)
+    })
+
+    res.render('deviceLog', {device, parsedLogs})
+})
+
 app.use('/devices', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/')
@@ -226,6 +268,7 @@ app.get('/api-v1/devices/:codeName', (req, res) => {
       })
     }
 })
+
 app.post('/api-v1/devices', async (req, res) => {
   const devicesArray = req.body
   let err = false

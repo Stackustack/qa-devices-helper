@@ -25,6 +25,7 @@
     "googleapis": "^20.2.0",
     "heroku-ssl-redirect": "0.0.4",
     "mocha": "^3.5.0",
+    "moment": "^2.21.0",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.13",
     "numeral": "^2.0.6",
