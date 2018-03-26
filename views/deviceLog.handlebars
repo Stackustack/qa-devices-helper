@@ -28,15 +28,20 @@
                 <td>Initial commit</td>
                 <td>10 hours ago</td>
             </tr> --}}
-            
-             {{#parsedLogs}}
-            <tr>
-                <td>{{user}}</td>
-                <td>{{takenWhen}}</td>
-                <td>{{returnedWhen}}</td>
-                <td>{{returned}}</td>
-            </tr>
-            {{/parsedLogs}}
+            {{#if parsedLogs}}
+                {{#parsedLogs}}
+                <tr>
+                    <td>{{user}}</td>
+                    <td>{{takenWhen}}</td>
+                    <td>{{returnedWhen}}</td>
+                    <td>{{returned}}</td>
+                </tr>
+                {{/parsedLogs}}
+            {{else}}
+                <tr>
+                    <td colspan="4" style="text-align: center;">This device has no logs yet :(</td>
+                </tr>
+            {{/if}}
 
         </tbody>
     </table>
