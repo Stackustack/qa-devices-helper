@@ -139,6 +139,22 @@ class Devices {
     }
   }
 
+  passDeviceToUserInDB(deviceCodeName, sessionUser) {
+    const device = this.find(deviceCodeName)
+
+    Device
+      .findOneAndUpdate({
+        codeName: deviceCodeName
+      }, {
+        $set: {
+          currentOwner: sessionUser
+        }
+      })
+      .catch(e => {
+        console.log('Error during retake device flow: ', e)
+      })
+  }
+
   // UNIT TESTS NEEDED
   setStatus(deviceIndex, status) {
     const device = this.find(deviceIndex)

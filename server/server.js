@@ -129,6 +129,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('retakeDevice', (deviceIndex) => {
+        devices.passDeviceToUserInDB(deviceIndex, sessionUser)
         devices.passDeviceToUser(deviceIndex, sessionUser)
         io.emit('updateDevicesList', devices.all())
     })
