@@ -28,7 +28,6 @@ body {
     font-size: 1.50rem;
     letter-spacing: 0.33rem;
     padding-bottom: 5%;
-
 }
 
 #header-text .header {
@@ -127,3 +126,39 @@ body {
     padding: 40px;
     margin: 100px 200px 100px 200px;
 }
+
+
+/* ONLINE INDICATOR */
+.spinner {
+    width: 15px;
+    height: 15px;
+    /* margin: 0px auto; */
+    margin-right: 10px;
+    margin-left: 10px;
+
+
+    background-color: green;
+  
+    border-radius: 100%;  
+    -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+    animation: sk-scaleout 1.0s infinite ease-in-out;
+  }
+  
+  @-webkit-keyframes sk-scaleout {
+    0% { -webkit-transform: scale(0) }
+    100% {
+      -webkit-transform: scale(1.0);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes sk-scaleout {
+    0% { 
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    } 100% {
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+      opacity: 0;
+    }
+  }

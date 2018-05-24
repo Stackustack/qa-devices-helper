@@ -1,123 +1,130 @@
 {{!-- 'ARE YOU SURE YOU WANT TO TAKE THIS DEVICE FROM OTHER USER?' MODAL--}}
 <div id="retake_modal" class="ui basic modal">
-    <div class="ui icon huge header">
-        <i class="warning sign icon"></i> You're about to retake this device from other QA!
-        <br><br>
-        <p>Does current owner of the device know about this?</p>
-    </div>
-    <div class="content">
-        <p>(This window closes automatically after 10 seconds)</p>
-    </div>
-    <div class="actions">
-        <div id="retake_yes_button" class="ui green ok inverted huge button">
-            <i class="checkmark icon"></i> Yeap
-        </div>
-        <div id="retake_no_button" class="ui red basic cancel inverted huge button">
-            <i class="remove center icon"></i> Nope
-        </div>
-    </div>
+	<div class="ui icon huge header">
+		<i class="warning sign icon"></i> You're about to retake this device from other QA!
+		<br>
+		<br>
+		<p>Does current owner of the device know about this?</p>
+	</div>
+	<div class="content">
+		<p>(This window closes automatically after 10 seconds)</p>
+	</div>
+	<div class="actions">
+		<div id="retake_yes_button" class="ui green ok inverted huge button">
+			<i class="checkmark icon"></i> Yeap
+		</div>
+		<div id="retake_no_button" class="ui red basic cancel inverted huge button">
+			<i class="remove center icon"></i> Nope
+		</div>
+	</div>
 </div>
 
 <div id='devices_page'>
-
-    {{!-- DEVICES SUBMENU (ANDROID/APPLE/BROWSERSTACK) --}}
-    <div id="top_menu">
-      <div id="os_submenu">
-        <div class="ui secondary pointing menu">
-          <a class="active item" active-tab="android">
-            <i class="android icon"></i>
-            Android
-          </a>
-          <a class="item" id="ios" active-tab="ios">
-            <i class="apple icon"></i>
-            iOS
-          </a>
-          <a class="item" active-tab="tablet">
-            <i class="tablet icon"></i>
-            Tablets
-          </a>
-          <a class="item" active-tab="browserstack">
-            <i class="desktop icon"></i>
-            BrowserStack
-          </a>
-          <div class="right menu">
-            <a class="ui item" active-tab="my_devices">
-              <i class="Birthday icon"></i>
-              My devices
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {{!-- PARAMS SUBMENU (Android version etc) --}}
-      <div id="params_submenu">
-        <div id="params_submenu_android">
-          <div class="ui secondary pointing menu">
-            <a class="active item">
-              ALL
-            </a>
-            <a class="item">
-              Oldies (4.1 and 4.3)
-            </a>
-            <a class="item">
-              KitKat (4.4)
-            </a>
-            <a class="item">
-              Lollipop (5.0 and 5.1)
-            </a>
-            <a class="item">
-              Marshmallow (6.0)
-            </a>
-            <a class="item">
-              Nougat (7.0 and 7.1)
-            </a>
-            <a class="item">
-              Oreo (8.0 and 8.1)
-            </a>
-          </div>
-        </div>
-
-        <div id="params_submenu_ios" style="display: none">
-          <div class="ui secondary pointing menu">
-            <a class="active item">
-              ALL
-            </a>
-            <a class="item">
-              iOS 8.x
-            </a>
-            <a class="item">
-              iOS 9.x
-            </a>
-            <a class="item">
-              iOS 10.x
-            </a>
-            <a class="item">
-              iOS 11.x
-            </a>
-          </div>
-        </div>
-      </div>
-
-    </div>
+	{{!-- DEVICES SUBMENU (ANDROID/APPLE/BROWSERSTACK) --}}
+	<div id="top_menu">
+		<div id="os_submenu">
+			<div class="ui secondary pointing menu">
+				<a class="item" active-tab="android">
+					<i class="android icon"></i>
+					Android
+				</a>
+				<a class="item" id="ios" active-tab="ios">
+					<i class="apple icon"></i>
+					iOS
+				</a>
+				<a class="item" active-tab="tablet">
+					<i class="tablet icon"></i>
+					Tablets
+				</a>
+				<a class="item" active-tab="browserstack">
+					<i class="desktop icon"></i>
+					BrowserStack
+				</a>
+				<div class="right menu">
+					<a class="ui active item" active-tab="my_devices">
+						<i class="Birthday icon"></i>
+						My devices
+					</a>
+					<span data-tooltip="App is updated in realtime, no need to refresh it each time you want to take device :)" data-position="left center">
+					<div class="ui item">
+						<div class="spinner"></div>
+					</div>
+					</span>
 
 
+				</div>
+			</div>
+		</div>
 
-    {{!-- DEVICES TABLE --}}
-    <div class="container table-container">
-        <table class="ui celled table fixed green selectable">
-            <thead>
-                <tr>
-                    <th class="one wide center aligned">ID</th>
-                    <th class="two wide center aligned">Brand</th>
-                    <th class="two wide center aligned">Model</th>
-                    <th class="two wide center aligned">OS Version</th>
-                    <th class="four wide center aligned">Additional Notes</th>
-                    <th class="two wide center aligned">Status</th>
-                    <th class="three wide center aligned">Taken By:</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Populated with './js/devices.js', structure as follows:
+		{{!-- PARAMS SUBMENU (Android version etc) --}}
+		<div id="params_submenu">
+			<div id="params_submenu_android" style="display: none">
+				<div class="ui secondary pointing menu">
+					<a class="active item">
+						ALL
+					</a>
+					<a class="item">
+						Oldies (4.1 and 4.3)
+					</a>
+					<a class="item">
+						KitKat (4.4)
+					</a>
+					<a class="item">
+						Lollipop (5.0 and 5.1)
+					</a>
+					<a class="item">
+						Marshmallow (6.0)
+					</a>
+					<a class="item">
+						Nougat (7.0 and 7.1)
+					</a>
+					<a class="item">
+						Oreo (8.0 and 8.1)
+					</a>
+				</div>
+			</div>
+
+			<div id="params_submenu_ios" style="display: none">
+				<div class="ui secondary pointing menu">
+					<a class="active item">
+						ALL
+					</a>
+					<a class="item">
+						iOS 8.x
+					</a>
+					<a class="item">
+						iOS 9.x
+					</a>
+					<a class="item">
+						iOS 10.x
+					</a>
+					<a class="item">
+						iOS 11.x
+					</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+
+	{{!-- DEVICES TABLE --}}
+	<div class="container table-container">
+		<table class="ui celled table fixed green selectable">
+			<thead>
+				<tr>
+					<th class="one wide center aligned">ID</th>
+					<th class="two wide center aligned">Brand</th>
+					<th class="two wide center aligned">Model</th>
+					<th class="two wide center aligned">OS Version</th>
+					<th class="four wide center aligned">Additional Notes</th>
+					<th class="two wide center aligned">Status</th>
+					<th class="three wide center aligned">Taken By:</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Populated with './js/devices.js', structure as follows:
                     <tr id="{{deviceIndex}}">
                         <td>{{id}}</td>
                         <td>{{model}}</td>
@@ -127,20 +134,14 @@
                         <td>{{takenBy}}</td>
                     </tr>
                 -->
-            </tbody>
-        </table>
-    </div>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 {{!-- SOCKETS IO --}}
-<script src="/socket.io/socket.io.js"></script>
-
-{{!-- JQUERY --}}
+<script src="/socket.io/socket.io.js"></script> {{!-- JQUERY --}}
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-    crossorigin="anonymous"></script>
-
-{{!-- SEMANTIC UI --}}
-<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
-
-{{!-- JS POPULATING DECIVES TABLE AND TABLE EVENTS --}}
+ crossorigin="anonymous"></script> {{!-- SEMANTIC UI --}}
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script> {{!-- JS POPULATING DECIVES TABLE AND TABLE EVENTS --}}
 <script src="./js/devices.js"></script>
