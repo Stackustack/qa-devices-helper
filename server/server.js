@@ -204,7 +204,8 @@ app.get('/:location/devices/:id', (req, res) => {
 
     try {
         device = devices.findWithLocation(deviceId, location)
-    } catch {
+    } catch(err) {
+        console.log('redirecting to Global')
         return res.redirect(`/Global/devices/${deviceId}`)
     }
 
