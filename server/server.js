@@ -99,21 +99,20 @@ io.use(sharedsession(session, {
 
 io.on('connection', (socket) => {
     const sessionUser = socket.handshake.session.user
-
     // handling redirect users with no user session
     if (!sessionUser) { return socket.emit('redirect', '/') }
+    const currentUserDevices = devices.findTakenByUserId(sessionUser._id)
 
     socket.emit('sendUserData', sessionUser)
-    socket.emit('updateDevicesList', devices.findWithSystem('android'))
+    socket.emit('updateDevicesList', currentUserDevices)
 
-    // this need some refactor right now :)
-    socket.on('toggleDeviceState', (deviceCodeName) => {
-        const device = devices.find(deviceCodeName)
-        const currentOwner = devices.currentOwnerOf(deviceCodeName)
+    socket.on('toggleDeviceState', (deviceId) => {
+        const device = devices.findById(deviceId)
+        const currentOwner = devices.currentOwner
 
         if (currentOwner == null || currentOwner == sessionUser.name ) { // TODO: REFACTOR METHOD 'deviceReturnableByCurrentUser'
-            devices.toggleAvailabilityInDB(deviceCodeName, sessionUser)
-            devices.toggleAvailability(deviceCodeName, sessionUser)
+            devices.toggleAvailabilityInDB(deviceId, sessionUser)
+            devices.toggleAvailability(deviceId, sessionUser)
             io.emit('updateDevicesList', devices.all()) // REFACTOR NEEDED: .all() is the same as .list, so list shold be just used everywhere
         } else {
             devices.blockDevice(deviceCodeName)
@@ -165,20 +164,48 @@ app.use("/oauthCallback", (req, res) => {
 
             saveUserToSession(userFromDB, session)
 
+            if (session.user.location) {
+                res.redirect('devices')
+            } else {
+                res.redirect('select_location')
+            }
+
         } catch (err) {
             return res.render('error', { message: err })
         }
 
-        res.redirect('devices')
     })
 })
 
-app.get('/devices/:id', (req, res) => {
-    const deviceId = req.params.id    
-    const device = devices.find(deviceId)
-    
+app.get('/devices/new', (req,res) => {
     if (!req.session.user) {
         return res.redirect('/')
+    }
+
+    res.render('newDevices')
+})
+
+app.get('/select_location', (req,res) => {
+    if (!req.session.user) {
+        return res.redirect('/')
+    }
+
+    res.render('selectLocation', {user: req.session.user})
+})
+
+app.get('/:location/devices/:id', (req, res) => {
+    const deviceId = req.params.id    
+    const location = req.params.location
+    let device
+
+    if (!req.session.user) {
+        return res.redirect('/')
+    }
+
+    try {
+        device = devices.findWithLocation(deviceId, location)
+    } catch {
+        return res.redirect(`/Global/devices/${deviceId}`)
     }
 
     res.render('editDevices', { device })
@@ -229,7 +256,7 @@ app.use('/devices', (req, res) => {
         return res.redirect('/')
     }
 
-    res.render('devices')
+    res.render('devices', {location: req.session.user.location})
 })
 
 app.use('/debug', (req, res) => {
@@ -239,11 +266,36 @@ app.use('/debug', (req, res) => {
 
 
 // API DEVICES ENDPOINT
+app.post('/api-v1/set_location', (req, res) => {
+    const user = req.session.user
+    const location = req.body.location
+
+    if (!location) {
+        res.status(400).send( {
+            error: `Failed to update user`,
+            message: `Error while updating User '${user.name}', location was not provided`
+        })
+    }
+
+    User.findByIdAndUpdate(user._id, {$set: {location}}, {new: true})
+        .then(updatedUser => {
+            user.location = location
+
+            res.send({updatedUser})
+        }, e => {
+            res.status(400).send({
+                error: `Failed to update user`,
+                message: `Error while updating User '${user.name}' with location '${location}'`
+            })
+        }
+    )
+})
+
 app.get('/api-v1/devices', (req, res) => {
   Device
     .find()
     .then((devices) => {
-      res.send({ devices })
+      res.redirect('/devices')
     }), (e) => {
       res.status(400).send(e)
     }
@@ -273,15 +325,15 @@ app.get('/api-v1/devices/:codeName', (req, res) => {
 app.post('/api-v1/devices', async (req, res) => {
   const devicesArray = req.body
   let err = false
-  let erArr = []
+  let errArr = []
   let docArr = []
 
   const updateObj    = await devicesArray.map(deviceObj => {
     return Device
       .update({
-        codeName: deviceObj.codeName },
-        deviceObj,
-        {
+        codeName: deviceObj.codeName,
+        location: deviceObj.location
+        }, deviceObj, {
           upsert: true,
           setDefaultsOnInsert: true
         })

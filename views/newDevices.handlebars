@@ -1,23 +1,23 @@
 <div class="device-form">
-    <div class="ui segment" id="edit_device_form">
+    <div class="ui segment" id="new_device_form">
         <div>
             <form class="ui form">
-                <h4 class="ui dividing header">Edit Device: {{device.codeName}} </h4>
+                <h4 class="ui dividing header">New device</h4>
                 <div class="field">
                     <label>General info</label>
                     <div class="three fields">
                         <div class="field">
-                            <input disabled="" id="codeName" type="text" placeholder="Device ID..." value="{{device.codeName}}" name="codeName">
+                            <input id="codeName" type="text" placeholder="Device ID..." name="codeName">
                         </div>
                         <div class="field">
-                            <input id="brand" type="text" placeholder="Device brand..." value="{{device.brand}}" name="brand">
+                            <input id="brand" type="text" placeholder="Device brand..." name="brand">
                         </div>
                         <div class="field">
-                            <input id="model" type="text" placeholder="Device model..." value="{{device.model}}" name="model">
+                            <input id="model" type="text" placeholder="Device model..." name="model">
                         </div>
                         <div class="field">
                             <div class="ui selection dropdown">
-                                <input type="hidden" id="location" name="location" value="{{device.location}}">
+                                <input type="hidden" id="location" name="location">
                                 <i class="dropdown icon"></i>
                                 <div class="default text">Location</div>
                                 <div class="menu">
@@ -36,38 +36,39 @@
                     <div class="fields">
                         <div class="field">
                             <div class="ui selection dropdown">
-                                <input type="hidden" name="os_type" name="osType">
+                                <input type="hidden" name="osType">
                                 <i class="dropdown icon"></i>
-                                <div class="text" id="osTypeSelected">{{device.osType}}</div>
+                                <div class="default text" id="osTypeSelected">OS</div>
                                 <div class="menu">
                                     <div class="item" data-value="ios">ios</div>
                                     <div class="item" data-value="android">android</div>
+                                    <div class="item" data-value="other">other</div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="field">
+                            <input id="osVersion" type="text" placeholder="OS Version" name="osVersion">
                         </div>
                         <div class="field">
                             <div class="ui selection dropdown">
-                                <input type="hidden" name="device_type" name="deviceType">
+                                <input type="hidden" name="deviceType">
                                 <i class="dropdown icon"></i>
-                                <div class="text" id="deviceTypeSelected">{{device.deviceType}}</div>
+                                <div class="default text" id="deviceTypeSelected">Device type</div>
                                 <div class="menu">
                                     <div class="item" data-value="phone">phone</div>
                                     <div class="item" data-value="tablet">tablet</div>
+                                    <div class="item" data-value="other">other</div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="field">
-                            <input id="osVersion" type="text" placeholder="OS Version" value="{{device.osVersion}}" name="osVersion">
                         </div>
                     </div>
                 </div>
                 <div class="field">
                     <label for="">Additional Informations / Notes</label>
-                    <input id="notes" type="text" placeholder="Currently assigned to..." value="{{device.notes}}" name="notes">
+                    <input id="notes" type="text" placeholder='"Currently assigned to..." and other info' name="notes">
                 </div>
-                <button class="ui primary button" type="button" id="save_changes_button">Save Changes</button>
-                <button class="ui button" type="button" id="go_back">Go Back to Devices</button>
-                <button class="ui button" type="button" id="redirect_to_logs">Check Logs</button>
+                <button class="ui primary button submit" type="button" id="add_button">Add</button>
+                <button class="ui button" type="button" id="go_back">Cancel</button>
             </form>
         </div>
     </div>
@@ -81,4 +82,4 @@
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<script src="/js/editDevice.js"></script>
+<script src="/js/newDevice.js"></script>

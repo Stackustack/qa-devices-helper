@@ -5,7 +5,6 @@ const DeviceSchema = mongoose.Schema({
     required: true,
     type: String,
     trim: true,
-    unique: true
   },
   brand: {
     required: true,
@@ -44,6 +43,10 @@ const DeviceSchema = mongoose.Schema({
   currentOwner: {
     default: null, // is it allowed to set 'default' to 'null' and 'type' to 'String' at the same time?
     type: Object,
+  },
+  location: {
+    type: String,
+    required: true
   }
 })
 

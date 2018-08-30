@@ -113,9 +113,9 @@ body {
   padding: 40px;
 }
 
-/* EDIT DEVICE PAGE */
+/* FORM (EDIT AND NEW DEVICE) */
 
-#edit_device_form {
+.device-form {
     padding: 40px;
     margin: 100px 200px 100px 200px;
 }
@@ -162,3 +162,39 @@ body {
       opacity: 0;
     }
   }
+
+/* SELECT CITY PAGE */
+#select-city-maintext {
+    padding-top: 9%;
+    font-size: 2.3rem;
+}
+
+#select-city-subtext {
+    font-size: 1.5rem;
+    font-weight: 100;
+}
+
+#select-location-wrapper {
+    width: 100%;
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+#select-location-dropdown {
+    width: 30%;
+}
+
+#select-location-send-button {
+    margin-top: 20px;
+    width: 30%;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.ui.dropdown .menu>.item{
+    font-size: 1.2rem;
+}

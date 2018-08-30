@@ -11,8 +11,14 @@ const topMenu = jQuery('#top_menu')
 // User data
 let user
 
+// Devices
+let allDevices
+
 // Timer
 let timeoutForRetake
+
+// INITIALIZE DROPDOWN 
+$('.dropdown').dropdown()
 
 // Handling Events from server
 socket.on('sendUserData', (userData) => {
@@ -20,12 +26,19 @@ socket.on('sendUserData', (userData) => {
 })
 
 socket.on('updateDevicesList', (devices) => {
+    allDevices = devices
+    console.log(devices)
+
     const activeSystemTab = jQuery('#os_submenu .active').attr("active-tab")
     let activeParamTab  = undefined
 
     if (activeSystemTab === 'ios' || activeSystemTab === 'android') {
       activeParamTab = jQuery('#params_submenu .active')[0].innerText
     }
+
+    devices = devices.filter(device => {
+      return device.location == "Global" || device.location == user.location 
+    })
 
     clearTable()
     populateTable(devices, activeSystemTab, activeParamTab)
@@ -114,7 +127,7 @@ function populateTable(devices, activeSystemTab, activeParamTab) {
     // BrowserStack
     if (activeSystemTab === 'browserstack') {
       return devices.filter(device => {
-        device.osType === 'browserstack' ? addRowWithDevice(device) : false
+        (device.osType === 'browserstack' || device.osType === 'other') ? addRowWithDevice(device) : false
       })
     }
 
@@ -249,7 +262,7 @@ function handleParamsTabActivationAndDeactivation(data) {
 }
 
 function addRowWithDevice(device) {
-  const tr = jQuery('<tr></tr>').attr('id', device.codeName).addClass('center aligned')
+  const tr = jQuery(`<tr deviceId=${device._id}></tr>`).attr('id', device.codeName).addClass('center aligned')
 
   addDeviceDataToTableRow(tr, device)
   tBody.append(tr)
@@ -301,14 +314,16 @@ function addEventListenersToActionButtons() {
   tableRow = jQuery('tbody tr')
 
   tableRow.on('click', '.take_action_button', (data) => {
+    
     const device = {
       status: data.currentTarget.textContent,
-      id: data.delegateTarget.id
+      id: data.delegateTarget.id, //should not use this, istead use deviceId (hash)
+      deviceId: data.delegateTarget.attributes.deviceId.value
     }
       
     if (device.status === 'RETAKE') { return }
 
-    socket.emit('toggleDeviceState', device.id)
+    socket.emit('toggleDeviceState', device.deviceId)
   })
 
   addClickListenersToEditButtons()
@@ -325,7 +340,8 @@ function addClickListenersToEditButtons() {
   let tableRow = jQuery('tbody tr')
 
   tableRow.on('click', 'button.edit_button', (event) => {
+    // TODO: add location = event.delegateTarget.atribute etc (also remove findWithLocation)
     const clickedDeviceId = event.delegateTarget.id
-    window.location.href = '/devices/' + clickedDeviceId;
+    window.location.href = user.location + '/devices/' + clickedDeviceId;
   })
 }

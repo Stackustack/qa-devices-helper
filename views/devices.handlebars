@@ -41,14 +41,38 @@
 					BrowserStack
 				</a>
 				<div class="right menu">
+
+
+					<div class="ui item dropdown">
+						<i class="settings icon"></i>
+						<div class="menu">
+							<div class="header">Current location: {{location}}</div>
+							<div class="divider"></div>
+
+							<a href="/select_location">
+								<div class="item">
+									<i class="Map icon"></i>
+									Location settings
+								</div>
+							</a>
+							<a href="/devices/new">
+								<div class="item">
+									<i class="Plus icon"></i>
+									Add device
+								</div>
+							</a>
+						</div>
+					</div>
+
+
 					<a class="ui active item" active-tab="my_devices">
 						<i class="Birthday icon"></i>
 						My devices
 					</a>
 					<span data-tooltip="App is updated in realtime, no need to refresh it each time you want to take device :)" data-position="left center">
-					<div class="ui item">
-						<div class="spinner"></div>
-					</div>
+						<div class="ui item">
+							<div class="spinner"></div>
+						</div>
 					</span>
 
 
@@ -143,5 +167,6 @@
 <script src="/socket.io/socket.io.js"></script> {{!-- JQUERY --}}
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
  crossorigin="anonymous"></script> {{!-- SEMANTIC UI --}}
-<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script> {{!-- JS POPULATING DECIVES TABLE AND TABLE EVENTS --}}
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script> {{!-- JS POPULATING DECIVES TABLE AND
+TABLE EVENTS --}}
 <script src="./js/devices.js"></script>

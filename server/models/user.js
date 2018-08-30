@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
     type: String,
     // unique: true // disabled for debuging purposes
+  },
+  location: {
+    default: null,
+    type: String
   }
 })
 

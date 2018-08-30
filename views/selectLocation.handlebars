@@ -1,0 +1,56 @@
+<div class="container">
+    <div id="header-text">
+        {{#if user.location}}
+        <h1 class="ui center aligned inverted header" id="select-city-maintext">
+            Here you can change your location!
+        </h1>
+        <h2 class="ui center aligned inverted header" id="select-city-subtext">
+            ( This way you can get access to different devices )
+        </h2>
+        {{else}}
+        <h1 class="ui center aligned inverted header" id="select-city-maintext">
+            Hey, seems like you haven't selected yours city yet!
+        </h1>
+        <h2 class="ui center aligned inverted header" id="select-city-subtext">
+            ( Pss! Select a city from dropdown below! )
+        </h2>
+        {{/if}}
+    </div>
+
+    <div class="ui form" id="select-location-wrapper">
+        <div class="field required">
+            <select class="ui dropdown" id="select-location-dropdown">
+                <option value="0">Poznan</option>
+                <option value="1">Warsaw</option>
+                <option value="2">Bialystok</option>
+            </select>
+        </div>
+
+        <button class="ui primary button" id="select-location-send-button" type="submit">
+            Save location
+        </button>
+    </div>
+
+    <div class="footer" id="footer-center">
+        Created with <i class="heart icon"></i>
+        by Michał Jung (@juni)
+    </div>
+
+    <div class='footer' id="footer-right">
+        <a href="https://github.com/Stackustack/qa-devices-helper"><i class="github icon"></i></a>
+    </div>
+</div>
+
+{{!-- JQUERY --}}
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script> 
+
+{{!-- SEMANTIC UI --}}
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+
+{{!-- AXIOS --}}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/socket.io/socket.io.js"></script> 
+
+
+<script src="/js/selectLocation.js"></script>

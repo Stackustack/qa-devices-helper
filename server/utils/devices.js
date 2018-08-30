@@ -7,36 +7,60 @@
 //     osType: 'Android',
 //     osVersion: '7.1',
 //     currentOwner: null,
-//     status: 'Available' // or 'Taken', 'Retake'
+//     status: 'Available' // or 'Taken', 'Retake',
+//     location: 'Bialystok'
 // },
 // { ...
 // } ]
 
-const { Device }  = require('./../models/device.js')
-const { Log }     = require('./../models/log.js')
+const ObjectId = require('mongoose').Types.ObjectId;
+const {
+  Device
+} = require('./../models/device.js')
+const {
+  Log
+} = require('./../models/log.js')
 
 class Devices {
   constructor() {
     Device
       .fetchAll()
-      .then(res => { this.list = res })
-      .catch(e  => { console.log(e) })
+      .then(res => {
+        this.list = res
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   all() {
     return this.list
   }
 
-  find(deviceCodeName) {
+  findWithLocation(deviceCodeName, location) {
     const device = this.list.find((device) => {
-      return device.codeName === deviceCodeName
+      return device.codeName === deviceCodeName && device.location === location
     })
 
     if (device) {
       return device
     }
 
-    throw new Error(`Could not find device with ID: ${deviceCodeName}`)
+    throw new Error(`Could not find device with ID: ${deviceCodeName} and location ${location} `)
+  }
+
+  findById(deviceId) {
+    deviceId = new ObjectId(deviceId)
+
+    const device = this.list.filter(device => {
+      return device.id == deviceId
+    })[0]
+
+    if (device) {
+      return device
+    }
+
+    throw new Error(`Could not find device with ID: ${deviceId}`)
   }
 
   findWithSystem(systemType) {
@@ -47,13 +71,26 @@ class Devices {
     return devices
   }
 
+  findTakenByUserId(userId) {
+    const userObjId = new ObjectId(userId)
+
+    const devices = this.list.filter((device) => {
+      if (device.currentOwner) {
+        console.log(device.currentOwner._id + " vs " + userObjId)
+        return device.currentOwner._id == userObjId
+      } else {
+        return false
+      }
+    })
+
+    return devices
+  }
+
   blockDevice(deviceIndex) {
     const device = this.find(deviceIndex)
-    // console.log("device: ", device)
-
 
     if (device.status !== 'Available') {
-        device.status  = 'RETAKE'
+      device.status = 'RETAKE'
     }
   }
 
@@ -61,19 +98,20 @@ class Devices {
     const device = this.find(deviceIndex)
 
     if (device.status !== 'Available') {
-        device.status  = 'Taken'
+      device.status = 'Taken'
     }
   }
 
-  toggleAvailability(deviceCodeName, user) {
-    const device = this.find(deviceCodeName)
+  toggleAvailability(deviceId, user) {
+    const device = this.findById(deviceId)
+    deviceId = new ObjectId(deviceId)
 
     if (device.status === 'Available') {
       device.status = 'Taken'
       device.currentOwner = user
 
       Device.findOneAndUpdate({
-        codeName: deviceCodeName
+        _id: deviceId
       }, {
         $set: {
           currentOwner: user,
@@ -83,15 +121,12 @@ class Devices {
         console.log('Error while toggling device:', e)
       })
 
-      // Turn off logging for now
-      // Log.new(device)
-
     } else if (device.status === 'Taken') {
       device.status = 'Available'
       device.currentOwner = null
 
       Device.findOneAndUpdate({
-        codeName: deviceCodeName
+        _id: deviceId
       }, {
         $set: {
           currentOwner: null,
@@ -100,18 +135,16 @@ class Devices {
       }).catch(e => {
         console.log('Error while toggling device:', e)
       })
-
-      // Turn off logging for now
-      // Log.findByDeviceAndClose(device)
     }
   }
 
-  toggleAvailabilityInDB(deviceCodeName, user) {
-    const device = this.find(deviceCodeName)
+  toggleAvailabilityInDB(deviceId, user) {
+    const device = this.findById(deviceId)
+    deviceId = new ObjectId(deviceId)
 
     if (device.status === 'Available') {
       Device.findOneAndUpdate({
-        codeName: deviceCodeName
+        _id: deviceId
       }, {
         $set: {
           currentOwner: user,
@@ -125,7 +158,7 @@ class Devices {
 
     } else if (device.status === 'Taken') {
       Device.findOneAndUpdate({
-        codeName: deviceCodeName
+        _id: deviceId
       }, {
         $set: {
           currentOwner: null,
@@ -178,9 +211,15 @@ class Devices {
   currentOwnerOf(deviceId) {
     const device = this.find(deviceId)
 
-    if (device.currentOwner != null) { return device.currentOwner.name }
-    if (device.currentOwner == null) { return null }
+    if (device.currentOwner != null) {
+      return device.currentOwner.name
+    }
+    if (device.currentOwner == null) {
+      return null
+    }
   }
 }
 
-module.exports = { Devices };
+module.exports = {
+  Devices
+};
