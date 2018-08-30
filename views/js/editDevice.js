@@ -11,8 +11,6 @@ saveButton.on('click', (data) => {
     if (formValid()) {
         let deviceData = fetchFormValues()
 
-        console.log(deviceData)
-
         axios.post('/api-v1/devices', [deviceData])
             .then(res => {
                 alert('Device added')

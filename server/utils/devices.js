@@ -76,7 +76,6 @@ class Devices {
 
     const devices = this.list.filter((device) => {
       if (device.currentOwner) {
-        console.log(device.currentOwner._id + " vs " + userObjId)
         return device.currentOwner._id == userObjId
       } else {
         return false

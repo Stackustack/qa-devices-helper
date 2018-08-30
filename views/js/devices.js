@@ -27,7 +27,6 @@ socket.on('sendUserData', (userData) => {
 
 socket.on('updateDevicesList', (devices) => {
     allDevices = devices
-    console.log(devices)
 
     const activeSystemTab = jQuery('#os_submenu .active').attr("active-tab")
     let activeParamTab  = undefined
