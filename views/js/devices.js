@@ -123,8 +123,8 @@ function populateTable(devices, activeSystemTab, activeParamTab) {
       })
     }
 
-    // BrowserStack
-    if (activeSystemTab === 'browserstack') {
+    // Others
+    if (activeSystemTab === 'others') {
       return devices.filter(device => {
         (device.osType === 'browserstack' || device.osType === 'other') ? addRowWithDevice(device) : false
       })
