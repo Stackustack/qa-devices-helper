@@ -212,13 +212,15 @@ app.get('/:location/devices/:id', (req, res) => {
     res.render('editDevices', { device })
 })
 
-app.get('/devices/:id/log', async (req, res) => {
+app.get('/:location/devices/:codeName/log', async (req, res) => {
     if (!req.session.user) {
         return res.redirect('/')
     }
-    
-    const deviceId = req.params.id
-    const device = devices.find(deviceId)
+
+    const codeName = req.params.codeName
+    const location = req.params.location 
+
+    const device = devices.findWithLocation(codeName, location)
 
     const deviceLogs = await Log.findAllForDevice(device)
     const usersList  = await User.getNamesList()
