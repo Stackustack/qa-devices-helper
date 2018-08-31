@@ -8,6 +8,21 @@ const deviceId = $('#deviceForm')[0].attributes['device-id'].value
 // INITIALIZE DROPDOWN 
 $(".ui.selection.dropdown").dropdown()
 
+// VALIDATION
+$('.ui.form')
+    .form({
+        fields: {
+            codeName: 'empty',
+            brand: 'empty',
+            model: 'empty',
+            location: 'empty',
+
+            osType: 'empty',
+            osVersion: 'empty',
+            deviceType: 'empty',
+        }
+    });
+
 saveButton.on('click', (data) => {
     if (formValid()) {
         let deviceData = fetchFormValues()

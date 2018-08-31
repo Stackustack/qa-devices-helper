@@ -36,25 +36,25 @@
                     <div class="fields">
                         <div class="field">
                             <div class="ui selection dropdown">
-                                <input type="hidden" name="os_type" name="osType">
+                                <input type="hidden" name="osType" value="{{device.osType}}">
                                 <i class="dropdown icon"></i>
-                                <div class="text" id="osTypeSelected">{{device.osType}}</div>
+                                <div class="text default">OS</div>
                                 <div class="menu">
                                     <div class="item" data-value="ios">ios</div>
                                     <div class="item" data-value="android">android</div>
-                                    <div class="item" data-value="android">other</div>
+                                    <div class="item" data-value="other">other</div>
                                 </div>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui selection dropdown">
-                                <input type="hidden" name="device_type" name="deviceType">
+                                <input type="hidden" name="deviceType" value="{{device.deviceType}}">
                                 <i class="dropdown icon"></i>
-                                <div class="text" id="deviceTypeSelected">{{device.deviceType}}</div>
+                                <div class="text default">Device Type</div>
                                 <div class="menu">
                                     <div class="item" data-value="phone">phone</div>
                                     <div class="item" data-value="tablet">tablet</div>
-                                    <div class="item" data-value="tablet">other</div>
+                                    <div class="item" data-value="other">other</div>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                     <label for="">Additional Informations / Notes</label>
                     <input id="notes" type="text" placeholder="Currently assigned to..." value="{{device.notes}}" name="notes">
                 </div>
-                <button class="ui primary button" type="button" id="save_changes_button">Save Changes</button>
+                <button class="ui primary button submit" type="button" id="save_changes_button">Save Changes</button>
                 <button class="ui button" type="button" id="go_back">Go Back to Devices</button>
                 <button class="ui button" type="button" id="redirect_to_logs">Check Logs</button>
             </form>

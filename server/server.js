@@ -333,6 +333,7 @@ app.post('/api-v1/devices', async (req, res) => {
 
   const updateObj    = await devicesArray.map(deviceObj => {
     // HANDLE EDIT ACTION BY DEVICE ObjectId, TODO: Move this to two different actions for more clarity
+    // or actually upsert: true should do the trick... 
     if (deviceObj.actionType == 'edit') {
         let editedDeviceData = deviceObj.deviceData
         let deviceObjId = new ObjectId(editedDeviceData.deviceId)

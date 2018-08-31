@@ -6,6 +6,7 @@ const form = $('.ui.form')
 // INITIALIZE DROPDOWN 
 $(".ui.selection.dropdown").dropdown()
 
+// VALIDATION
 $('.ui.form')
     .form({
         fields: {
