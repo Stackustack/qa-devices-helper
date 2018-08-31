@@ -15,6 +15,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const port = process.env.PORT || 3000
 const path = require('path')
+const ObjectId = require('mongoose').Types.ObjectId;
 // const publicPath = path.join(__dirname, '../public'); // when using public path
 const publicPath = path.join(__dirname, '../views'); // when using handlebars
 
@@ -205,7 +206,6 @@ app.get('/:location/devices/:id', (req, res) => {
     try {
         device = devices.findWithLocation(deviceId, location)
     } catch(err) {
-        console.log('redirecting to Global')
         return res.redirect(`/Global/devices/${deviceId}`)
     }
 
@@ -332,26 +332,49 @@ app.post('/api-v1/devices', async (req, res) => {
   let docArr = []
 
   const updateObj    = await devicesArray.map(deviceObj => {
-    return Device
-      .update({
-        codeName: deviceObj.codeName,
-        location: deviceObj.location
-        }, deviceObj, {
-          upsert: true,
-          setDefaultsOnInsert: true
+    // HANDLE EDIT ACTION BY DEVICE ObjectId, TODO: Move this to two different actions for more clarity
+    if (deviceObj.actionType == 'edit') {
+        let editedDeviceData = deviceObj.deviceData
+        let deviceObjId = new ObjectId(editedDeviceData.deviceId)
+
+        return Device.update({
+            _id: deviceObjId
+        }, editedDeviceData, {
+            upsert: true,
+            setDefaultsOnInsert: true
+        }).then(doc => {
+            doc.push(editedDeviceData)
+        }).catch(e => {
+            console.log(`Error while editing ${deviceObj.codeName} in DB`)
+            console.log(`Error code`, e)
+            console.log(`Error with device data:`, deviceObj)
+            errArr.push(e)
+            er = true
+            return e
         })
-      .then(doc => {
-        docArr.push(deviceObj)
-        return doc
-      })
-      .catch(e => {
-        console.log(`Error while adding/updating ${deviceObj.codeName} in DB`)
-        console.log(`Error code`, e)
-        console.log(`Error with device data:`, deviceObj)
-        errArr.push(e)
-        er = true
-        return e
-      })
+    } else {
+        // HANDLE NEW DEVICE OR DEVICES (ARRAY OF DEVICES)
+        return Device
+        .update({
+          codeName: deviceObj.codeName,
+          location: deviceObj.location
+          }, deviceObj, {
+            upsert: true,
+            setDefaultsOnInsert: true
+          })
+        .then(doc => {
+          docArr.push(deviceObj)
+          return doc
+        })
+        .catch(e => {
+          console.log(`Error while adding ${deviceObj.codeName} in DB`)
+          console.log(`Error code`, e)
+          console.log(`Error with device data:`, deviceObj)
+          errArr.push(e)
+          er = true
+          return e
+        })
+    }
   })
 
   Promise

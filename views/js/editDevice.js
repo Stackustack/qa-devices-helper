@@ -3,6 +3,7 @@ const saveButton = jQuery('#save_changes_button')
 const goBack = jQuery('#go_back')
 const redirectToLogsButton = jQuery('#redirect_to_logs')
 const form = $('.ui.form')
+const deviceId = $('#deviceForm')[0].attributes['device-id'].value 
 
 // INITIALIZE DROPDOWN 
 $(".ui.selection.dropdown").dropdown()
@@ -11,9 +12,17 @@ saveButton.on('click', (data) => {
     if (formValid()) {
         let deviceData = fetchFormValues()
 
-        axios.post('/api-v1/devices', [deviceData])
+        data = {
+            deviceData: {
+                ...deviceData,
+                deviceId: deviceId
+            },
+            actionType: 'edit'
+        }
+
+        axios.post('/api-v1/devices', [data])
             .then(res => {
-                alert('Device added')
+                alert('Device edited')
                 window.location.href = '/devices';
             })
             .catch(e => {

@@ -3,11 +3,11 @@
         <div>
             <form class="ui form">
                 <h4 class="ui dividing header">Edit Device: {{device.codeName}} </h4>
-                <div class="field">
+                <div class="field" id="deviceForm" device-id="{{device._id}}">
                     <label>General info</label>
                     <div class="three fields">
                         <div class="field">
-                            <input disabled="" id="codeName" type="text" placeholder="Device ID..." value="{{device.codeName}}" name="codeName">
+                            <input id="codeName" type="text" placeholder="Device ID..." value="{{device.codeName}}" name="codeName">
                         </div>
                         <div class="field">
                             <input id="brand" type="text" placeholder="Device brand..." value="{{device.brand}}" name="brand">
