@@ -145,9 +145,13 @@ function populateTable(devices, activeSystemTab, activeParamTab) {
 
       return androidDevices.filter(device => {
         const regexOsShortAndroid = /\d\.\d/
-        const shortOsVersion = device.osVersion.match(regexOsShortAndroid)[0]
+        let shortOsVersion
 
-        activeParamTab.indexOf(shortOsVersion) !== -1 ? addRowWithDevice(device) : false
+        if (device.osVersion.match(regexOsShortAndroid)) {
+          shortOsVersion = device.osVersion.match(regexOsShortAndroid)[0]
+        }
+
+        activeParamTab.includes(shortOsVersion) ? addRowWithDevice(device) : false
       })
     }
 
