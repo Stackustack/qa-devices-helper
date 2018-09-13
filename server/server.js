@@ -111,9 +111,6 @@ io.on('connection', (socket) => {
         const device = devices.findById(deviceId)
         const currentOwner = device.currentOwner
 
-        console.log(currentOwner)
-        console.log(sessionUser)
-
         if (currentOwner == null || currentOwner._id == sessionUser._id ) { // TODO: REFACTOR METHOD "if (deviceBelongsToUser(device, user))"
             devices.toggleAvailabilityInDB(deviceId, sessionUser)
             devices.toggleAvailability(deviceId, sessionUser)
