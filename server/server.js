@@ -393,26 +393,33 @@ app.post('/api-v1/devices', async (req, res) => {
     }, 5000)
 })
 
-app.delete('/api-v1/devices/:codeName', (req, res) => {
-  const codeName = req.params.codeName
+app.delete('/api-v1/devices/:deviceId', (req, res) => {
+    let deviceId = req.params.deviceId
 
-  Device
-    .findOneAndRemove({codeName})
-    .then((doc) => {
-      if (!doc) {
-        return res.status(404).send({
-          message: `Device with code name "${codeName}" not found`
+    if (!ObjectId.isValid(req.params.deviceId)) {
+        res.status(401).send({
+            error: `Provided ID (${deviceId}) is not valid Mongo ObjectID`,
+            message: `Argument passed in must be a single String of 12 bytes or a string of 24 hex characters`
         })
-      }
+    }
 
-      res.send({doc})
-    })
-    .catch((e) => {
-      res.status(400).send({
-        errors: `${e}`,
-        message: `Error while removing device "${codeName}".`
-      })
-    })
+    Device
+        .findByIdAndRemove(deviceId)
+        .then((doc) => {
+            if (!doc) {
+                return res.status(404).send({
+                    message: `Device with ID"${deviceId}" not found`
+                })
+            }
+
+            res.send(doc)
+        })
+        .catch((e) => {
+            res.status(400).send({
+                errors: `${e}`,
+                message: `Error while removing device with ID "${deviceId}".`
+            })
+        })
 })
 
 app.use('/', (req, res) => {
