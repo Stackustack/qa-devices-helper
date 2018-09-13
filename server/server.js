@@ -109,22 +109,26 @@ io.on('connection', (socket) => {
 
     socket.on('toggleDeviceState', (deviceId) => {
         const device = devices.findById(deviceId)
-        const currentOwner = devices.currentOwner
+        const currentOwner = device.currentOwner
 
-        if (currentOwner == null || currentOwner == sessionUser.name ) { // TODO: REFACTOR METHOD 'deviceReturnableByCurrentUser'
+        console.log(currentOwner)
+        console.log(sessionUser)
+
+        if (currentOwner == null || currentOwner._id == sessionUser._id ) { // TODO: REFACTOR METHOD "if (deviceBelongsToUser(device, user))"
             devices.toggleAvailabilityInDB(deviceId, sessionUser)
             devices.toggleAvailability(deviceId, sessionUser)
             io.emit('updateDevicesList', devices.all()) // REFACTOR NEEDED: .all() is the same as .list, so list shold be just used everywhere
         } else {
-            devices.blockDevice(deviceCodeName)
+
+            devices.blockDevice(device.id)
             io.emit('updateDevicesList', devices.all())
 
-            socket.emit('retakeDeviceFlow', deviceCodeName)
+            socket.emit('retakeDeviceFlow', device.id)
 
             // ENSURE DEVICE WAS UNBLOCKED AFTER 20 SECONDS (IN CASE USER CLOSED THE TAB / REFRESHED THE PAGE)
             // I think this might be done with something like on.disconnect or something...
-            // I really need to refactor this abomination xDDDDD
-            ensureRetakeStatusReset(device, devices, io, deviceCodeName)
+            // I really need to refactor this abomination
+            ensureRetakeStatusReset(device, devices, io, deviceId)
         }
     })
 

@@ -85,16 +85,16 @@ class Devices {
     return devices
   }
 
-  blockDevice(deviceIndex) {
-    const device = this.find(deviceIndex)
+  blockDevice(deviceId) {
+    const device = this.findById(deviceId)
 
     if (device.status !== 'Available') {
       device.status = 'RETAKE'
     }
   }
 
-  unblockDevice(deviceIndex) {
-    const device = this.find(deviceIndex)
+  unblockDevice(deviceId) {
+    const device = this.findById(deviceId)
 
     if (device.status !== 'Available') {
       device.status = 'Taken'
@@ -171,12 +171,13 @@ class Devices {
     }
   }
 
-  passDeviceToUserInDB(deviceCodeName, sessionUser) {
-    const device = this.find(deviceCodeName)
+  passDeviceToUserInDB(deviceId, sessionUser) {
+    const device = this.findById(deviceId)
+    deviceId = new ObjectId(deviceId)
 
     Device
       .findOneAndUpdate({
-        codeName: deviceCodeName
+        _id: deviceId
       }, {
         $set: {
           currentOwner: sessionUser
@@ -194,8 +195,8 @@ class Devices {
   }
 
   // UNIT TESTS NEEDED
-  passDeviceToUser(deviceIndex, user) {
-    const device = this.find(deviceIndex)
+  passDeviceToUser(deviceId, user) {
+    const device = this.findById(deviceId)
 
     // Finish DeviceLog for current User
     Log.findByDeviceAndClose(device)
