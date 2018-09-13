@@ -344,7 +344,7 @@ app.post('/api-v1/devices', async (req, res) => {
             upsert: true,
             setDefaultsOnInsert: true
         }).then(doc => {
-            doc.push(editedDeviceData)
+            docArr.push(editedDeviceData)
         }).catch(e => {
             console.log(`Error while editing ${deviceObj.codeName} in DB`)
             console.log(`Error code`, e)
