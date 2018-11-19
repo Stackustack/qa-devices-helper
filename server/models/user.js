@@ -1,7 +1,12 @@
 require('dotenv').config()
 
-
+const axios = require('axios')
 const mongoose = require('mongoose')
+
+const {
+  fetchFreshServiceUserId,
+} = require('./../utils/usersUtils.js')
+
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -21,6 +26,10 @@ const UserSchema = new mongoose.Schema({
   location: {
     default: null,
     type: String
+  },
+  freshServiceUserId: {
+    default: null,
+    type: Number
   }
 })
 
@@ -50,6 +59,16 @@ UserSchema.methods.isUnauthorized = function() {
   const user = this
 
   return !user.isAuthorized()
+}
+
+UserSchema.methods.addFreshServiceUserId = async function() {
+  const user = this
+  const freshServiceUserId = await fetchFreshServiceUserId(user.email)
+
+  user.freshServiceUserId = freshServiceUserId
+  user.save()
+
+  return user
 }
 
 const User = mongoose.model('User', UserSchema)
