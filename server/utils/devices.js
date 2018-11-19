@@ -13,6 +13,8 @@
 // { ...
 // } ]
 
+const axios = require('axios')
+
 const ObjectId = require('mongoose').Types.ObjectId;
 const {
   Device
@@ -108,32 +110,9 @@ class Devices {
     if (device.status === 'Available') {
       device.status = 'Taken'
       device.currentOwner = user
-
-      Device.findOneAndUpdate({
-        _id: deviceId
-      }, {
-        $set: {
-          currentOwner: user,
-          status: 'Taken'
-        }
-      }).catch(e => {
-        console.log('Error while toggling device:', e)
-      })
-
     } else if (device.status === 'Taken') {
       device.status = 'Available'
       device.currentOwner = null
-
-      Device.findOneAndUpdate({
-        _id: deviceId
-      }, {
-        $set: {
-          currentOwner: null,
-          status: 'Available'
-        }
-      }).catch(e => {
-        console.log('Error while toggling device:', e)
-      })
     }
   }
 
@@ -154,6 +133,7 @@ class Devices {
       })
 
       Log.new(device, user)
+      handleFreshServiceIntegration(device, user.freshServiceUserId)
 
     } else if (device.status === 'Taken') {
       Device.findOneAndUpdate({
@@ -168,6 +148,7 @@ class Devices {
       })
 
       Log.findByDeviceAndClose(device)
+      handleFreshServiceIntegration(device)
     }
   }
 
@@ -206,6 +187,7 @@ class Devices {
 
     // Start new DeviceLog for new User
     Log.new(device, user)
+    handleFreshServiceIntegration(device, user.freshServiceUserId)
   }
 
   currentOwnerOf(deviceId) {
@@ -217,6 +199,34 @@ class Devices {
     if (device.currentOwner == null) {
       return null
     }
+  }
+}
+
+const setDeviceStatusInFreshService = (device, userFreshServiceIdOrNull = null) => {
+  const urlFreshServiceUpdateDeviceState = `${process.env.FRESH_SERVICE_DOMAIN}/cmdb/items/${device.freshServiceAssetId}.json`
+
+  axios({
+    method: 'put',
+    url: urlFreshServiceUpdateDeviceState,
+    auth: {
+      username: process.env.FRESH_SERVICE_ADMIN_TOKEN,
+      password: 'X'
+    },
+    headers: { 'Content-Type': 'application/json' },
+    data: {
+      cmdb_config_item: {
+        name: device.freshServiceName,
+        user_id: `${userFreshServiceIdOrNull}` // API expects String here, its ok to send "null" as String
+      }
+    }
+  }).catch(e => {
+    console.log(e)
+  })
+}
+
+const handleFreshServiceIntegration = (device, userFreshServiceIdOrNull) => {
+  if (process.env.FRESHSERVICE_INTEGRATION == "true" && device.freshServiceAssetId && device.freshServiceName) {
+    setDeviceStatusInFreshService(device, userFreshServiceIdOrNull)
   }
 }
 

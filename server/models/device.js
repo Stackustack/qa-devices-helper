@@ -47,6 +47,14 @@ const DeviceSchema = mongoose.Schema({
   location: {
     type: String,
     required: true
+  },
+  freshServiceAssetId: {
+    default: null,
+    type: Number
+  },
+  freshServiceName: {
+    default: null,
+    type: String
   }
 })
 
