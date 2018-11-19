@@ -65,8 +65,24 @@
                 </div>
                 <div class="field">
                     <label for="">Additional Informations / Notes</label>
-                    <input id="notes" type="text" placeholder="Currently assigned to..." value="{{device.notes}}" name="notes">
+                    <input id="notes" type="text" placeholder="For example: Broken / Impossible do turn on / Currently assigned to..." value="{{device.notes}}" name="notes">
                 </div>
+
+                <h4 class="ui dividing header">Fresh Service Integration Data</h4>
+                <div class="field">
+                    <div class="fields">
+                        <div class="field">
+                            <label for="">Asset ID (display_id):</label>
+                            <input id="freshServiceAssetId" type="text" placeholder="For example: 432472834" value="{{device.freshServiceAssetId}}"
+                                name="freshServiceAssetId">
+                        </div>
+                        <div class="field">
+                            <label for="">Asset name (name):</label>
+                            <input id="freshServiceName" type="text" placeholder="For example: TEL#1234" value="{{device.freshServiceName}}" name="freshServiceName">
+                        </div>
+                    </div>
+                </div>
+
                 <button class="ui primary button submit" type="button" id="save_changes_button">Save Changes</button>
                 <button class="ui button" type="button" id="go_back">Go Back to Devices</button>
                 <button class="ui button" type="button" id="redirect_to_logs">Check Logs</button>
