@@ -41,7 +41,8 @@ saveButton.on('click', (data) => {
                 window.location.href = '/devices';
             })
             .catch(e => {
-                alert('Something went terribly wrong xD Please contact @juni')
+                console.log(e)
+                alert('Something went wrong, check console and contact @juni')
             })
     }
 })
