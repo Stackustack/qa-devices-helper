@@ -161,7 +161,7 @@ app.use("/oauthCallback", (req, res) => {
             const user          = parseUserFromOAuth(userFromOAuth)
             let userFromDB    = await User.findByEmail(user.email) || await newUserToDB(user)
 
-            handleFreshServiceIntegration(userFromDB) // Fetches Fresh Service user_id and stores it in DB, also updates current userFromDB
+            userFromDB = await handleFreshServiceIntegration(userFromDB) // Fetches Fresh Service user_id and stores it in DB, also updates current userFromDB
 
             if (userFromDB.isUnauthorized()) {
                 throw new Error(renderUserUnauthorisedNotification(userFromDB.email))

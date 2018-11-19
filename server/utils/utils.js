@@ -94,6 +94,8 @@ const handleFreshServiceIntegration = async (userFromDB) => {
     if (process.env.FRESHSERVICE_INTEGRATION == "true" && !userFromDB.freshServiceUserId) {
         userFromDB = await userFromDB.addFreshServiceUserId()
     }
+
+    return userFromDB
 }
 
 module.exports = {
