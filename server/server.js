@@ -56,7 +56,8 @@ const {
     parseUserFromOAuth,
     renderUserUnauthorisedNotification,
     newUserToDB,
-    sortDevices
+    sortDevices,
+    handleFreshServiceIntegration
 } = require('./utils/utils.js')
 
 const moment = require('moment')
@@ -158,7 +159,9 @@ app.use("/oauthCallback", (req, res) => {
         try {
             const userFromOAuth = await getUserDataFromOAuthClient(req, res, oauth2Client)
             const user          = parseUserFromOAuth(userFromOAuth)
-            const userFromDB    = await User.findByEmail(user.email) || await newUserToDB(user)
+            let userFromDB    = await User.findByEmail(user.email) || await newUserToDB(user)
+
+            handleFreshServiceIntegration(userFromDB) // Fetches Fresh Service user_id and stores it in DB, also updates current userFromDB
 
             if (userFromDB.isUnauthorized()) {
                 throw new Error(renderUserUnauthorisedNotification(userFromDB.email))

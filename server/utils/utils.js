@@ -90,6 +90,12 @@ const newUserToDB = (parsedUser) => {
   return new User(parsedUser).save()
 }
 
+const handleFreshServiceIntegration = async (userFromDB) => {
+    if (process.env.FRESHSERVICE_INTEGRATION == "true" && !userFromDB.freshServiceUserId) {
+        userFromDB = await userFromDB.addFreshServiceUserId()
+    }
+}
+
 module.exports = {
     logServer,
     getUserDataFromOAuthClient,
@@ -101,5 +107,6 @@ module.exports = {
     parseUserFromOAuth,
     renderUserUnauthorisedNotification,
     newUserToDB,
-    sortDevices
+    sortDevices,
+    handleFreshServiceIntegration
 }
