@@ -25,8 +25,6 @@ const LogSchema = mongoose.Schema({
 LogSchema.statics.new = function(device, user) {
   const Log = this
 
-  console.log('device for log.new():', device)
-
   return new Log({
     _device: device._id,
     _deviceTakenByUser: user,
