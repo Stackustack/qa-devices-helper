@@ -269,7 +269,11 @@ function handleParamsTabActivationAndDeactivation(data) {
 }
 
 function addRowWithDevice(device) {
-  const tr = jQuery(`<tr deviceId=${device._id}></tr>`).attr('id', device.codeName).addClass('center aligned')
+  const tr = jQuery(`<tr></tr>`)
+    .attr('deviceId', device._id)
+    .attr('id', device.codeName)
+    .attr('location', device.location)
+    .addClass('center aligned')
 
   addDeviceDataToTableRow(tr, device)
   tBody.append(tr)
@@ -347,8 +351,8 @@ function addClickListenersToEditButtons() {
   let tableRow = jQuery('tbody tr')
 
   tableRow.on('click', 'button.edit_button', (event) => {
-    // TODO: add location = event.delegateTarget.atribute etc (also remove findWithLocation)
+    const location = event.delegateTarget.attributes.location.value
     const clickedDeviceId = event.delegateTarget.id
-    window.location.href = user.location + '/devices/' + clickedDeviceId;
+    window.location.href = location + '/devices/' + clickedDeviceId;
   })
 }

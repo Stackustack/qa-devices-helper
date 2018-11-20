@@ -207,13 +207,14 @@ app.get('/:location/devices/:id', (req, res) => {
         return res.redirect('/')
     }
 
+    // TODO: send device._id (objectId) as a header, search by it and then we can remove findWithLocation
     try {
         device = devices.findWithLocation(deviceId, location)
     } catch(err) {
-        return res.redirect(`/Global/devices/${deviceId}`)
+        return res.render('error', { message: err })
     }
 
-    res.render('editDevices', { device })
+    return res.render('editDevices', { device })
 })
 
 app.get('/:location/devices/:codeName/log', async (req, res) => {
