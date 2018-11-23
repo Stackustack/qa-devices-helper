@@ -1,6 +1,5 @@
 const axios = require('axios')
 
-// NEW 
 const fetchFreshServiceUserId = async (userMail) => {
     const login = userMail.split("@")[0]
     const domains = ["netguru.pl", "netguru.co"]
@@ -16,6 +15,20 @@ const fetchFreshServiceUserId = async (userMail) => {
     }
 }
 
+const checkForIdWithPossibleMails = async (possibleMails, userType) => {
+    let id = null
+
+    for (let mail of possibleMails) {
+        id = await fetchUserId(mail, userType)
+
+        if (id) {
+            break
+        }
+    }
+    
+    return id
+}
+
 const fetchUserId = async (userMail, userType) => {
     let url = null
 
@@ -27,8 +40,10 @@ const fetchUserId = async (userMail, userType) => {
 
     const response = await callToFreshServiceAPI(url)
 
-    if (response.data[0]) {
-        return response.data[0].user.id || response.data[0].agent.user_id
+    if (response.data[0] && userType === "agent") {
+        return response.data[0].agent.user_id
+    } else if (response.data[0] && userType === "requester") {
+        return response.data[0].user.id
     } else {
         return null
     }
@@ -49,20 +64,6 @@ const callToFreshServiceAPI = async (url) => {
     })
 
     return response
-}
-
-const checkForIdWithPossibleMails = async (possibleMails, userType) => {
-    let id = null
-
-    for (let mail of possibleMails) {
-        id = await fetchUserId(mail, userType)
-
-        if (id) {
-            break
-        }
-    }
-    
-    return id
 }
 
 module.exports = {

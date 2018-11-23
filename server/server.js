@@ -176,6 +176,7 @@ app.use("/oauthCallback", (req, res) => {
             }
 
         } catch (err) {
+            console.log(err)
             return res.render('error', { message: err })
         }
 
