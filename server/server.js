@@ -49,8 +49,6 @@ const {
     logServer,
     getUserDataFromOAuthClient,
     keepHerokuFromIdling,
-    deviceReturnableByCurrentUser,
-    authorizedUser,
     saveUserToSession,
     ensureRetakeStatusReset,
     parseUserFromOAuth,
@@ -62,7 +60,7 @@ const {
 
 const moment = require('moment')
 
-// well... I dont have time to play with asyncs xDDDD Fuck this app xD
+// well... I dont have time to play with asyncs
 setTimeout(() => {
     sortDevices(devices)    
 }, 5000)
