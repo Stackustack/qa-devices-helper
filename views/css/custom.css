@@ -1,7 +1,7 @@
 /* GENERAL */
 
 body {
-    white-space: nowrap;
+    /* white-space: nowrap; */
     min-height: 100%;
     min-width: 100%;
 
@@ -11,7 +11,7 @@ body {
 }
 
 .container {
-    white-space: nowrap;
+    /* white-space: nowrap; */
     min-height: 100%;
     min-width: 100%;
 }
