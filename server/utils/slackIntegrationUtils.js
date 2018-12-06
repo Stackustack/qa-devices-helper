@@ -22,8 +22,8 @@ const createSlackMessage = (errorData) => {
 						"short": true
 					},
 					{
-						"title": "User",
-						"value": errorData.userMail,
+						"title": "Caused by",
+						"value": errorData.source,
 						"short": true
 					}, {
 						"title": "Details",
