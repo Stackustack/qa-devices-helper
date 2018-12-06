@@ -15,6 +15,8 @@
 
 const axios = require('axios')
 
+const { notifySupport } = require('./slackIntegrationUtils')
+
 const ObjectId = require('mongoose').Types.ObjectId;
 const {
   Device
@@ -133,7 +135,7 @@ class Devices {
       })
 
       Log.new(device, user)
-      handleFreshServiceIntegration(device, user.freshServiceUserId)
+      handleFreshServiceIntegration(device, user)
 
     } else if (device.status === 'Taken') {
       Device.findOneAndUpdate({
@@ -187,7 +189,7 @@ class Devices {
 
     // Start new DeviceLog for new User
     Log.new(device, user)
-    handleFreshServiceIntegration(device, user.freshServiceUserId)
+    handleFreshServiceIntegration(device, user)
   }
 
   currentOwnerOf(deviceId) {
@@ -202,8 +204,13 @@ class Devices {
   }
 }
 
-const setDeviceStatusInFreshService = (device, userFreshServiceIdOrNull = null) => {
-  const urlFreshServiceUpdateDeviceState = `${process.env.FRESH_SERVICE_DOMAIN}/cmdb/items/${device.freshServiceAssetId}.json`
+const setDeviceStatusInFreshService = (device, user = null) => {
+  const urlFreshServiceUpdateDeviceState = `${process.env.FRESH_SERVICE_DOMAIN}/cmdb/itemss/${device.freshServiceAssetId}.json`
+  let userFreshServiceId = null
+
+  if (user) {
+    userFreshServiceId = user.freshServiceAssetId
+  } 
 
   axios({
     method: 'put',
@@ -216,17 +223,22 @@ const setDeviceStatusInFreshService = (device, userFreshServiceIdOrNull = null) 
     data: {
       cmdb_config_item: {
         name: device.freshServiceName,
-        user_id: `${userFreshServiceIdOrNull}` // API expects String here, its ok to send "null" as String
+        user_id: `${userFreshServiceId}` // API expects String here, its ok to send "null" as String
       }
     }
   }).catch(e => {
-    console.log(e)
+    console.log(device)
+    notifySupport({
+      source: ':robot_face: Fresh Service API',
+      shortMessage: `${e.response.status} ${e.response.statusText}`,
+      longMessage: `_Seems like Fresh Service API returned error while Helper tried to change status for_ \`${device.codeName}\` _located in ${device.location}. Might be issue with incorrectly set_ \`Fresh Service Integration Data\` _in Helper. Request URL:_ \`${e.response.config.url}\``
+    })
   })
 }
 
-const handleFreshServiceIntegration = (device, userFreshServiceIdOrNull) => {
+const handleFreshServiceIntegration = (device, user) => {
   if (process.env.FRESHSERVICE_INTEGRATION == "true" && device.freshServiceAssetId && device.freshServiceName) {
-    setDeviceStatusInFreshService(device, userFreshServiceIdOrNull)
+    setDeviceStatusInFreshService(device, user)
   }
 }
 
