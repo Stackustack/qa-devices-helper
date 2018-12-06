@@ -1,11 +1,10 @@
 require('dotenv').config()
 
-const axios = require('axios')
 const mongoose = require('mongoose')
 
 const {
   fetchFreshServiceUserId,
-} = require('./../utils/usersUtils.js')
+} = require('../utils/freshServiceUtils.js')
 
 
 const UserSchema = new mongoose.Schema({
