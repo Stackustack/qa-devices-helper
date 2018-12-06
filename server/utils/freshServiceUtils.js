@@ -1,4 +1,5 @@
 const axios = require('axios')
+const { notifySupport } = require('./slackIntegrationUtils')
 
 const fetchFreshServiceUserId = async (userMail) => {
     const login = userMail.split("@")[0]
@@ -6,12 +7,17 @@ const fetchFreshServiceUserId = async (userMail) => {
     const possibleMails = domains.map(domain => login + "@" + domain)
     let freshServiceId = null
 
-    freshServiceId = await checkForIdWithPossibleMails(possibleMails, "requester") || checkForIdWithPossibleMails(possibleMails, "agent")
+    freshServiceId = await checkForIdWithPossibleMails(possibleMails, "requester") || await checkForIdWithPossibleMails(possibleMails, "agent")
 
     if (freshServiceId) {
         return freshServiceId
     } else {
-        throw new Error("Couldn't fetch FreshService UserID (using both Requester and Agent endpoints) - might be that FreshService API is down, please try in a while and contact @juni")
+        notifySupport({
+            source: userMail,
+            shortMessage: `Fresh Service Id not found`,
+            longMessage: "_App was not able to get Fresh Service Id for this User -_ `null` _value returned for all possible emails. Might be that users email is not verified or is not set correctly in theirs Fresh Service account._"
+        })
+        throw new Error("Couldn't get your Fresh Service ID. #Support team has already been notified about your issue, but you can still reach to them directly :)")
     }
 }
 
