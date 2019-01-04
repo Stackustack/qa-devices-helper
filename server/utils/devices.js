@@ -67,6 +67,19 @@ class Devices {
     throw new Error(`Could not find device with ID: ${deviceId}`)
   }
 
+  findByCodeName(codeName) {
+    const device = this.list.filter(device => {
+      return device.codeName == codeName
+    })[0]
+
+    if (device) {
+      return device
+    }
+
+    throw new Error(`Could not find device with codeName: ${deviceId}`)
+
+  }
+
   findWithSystem(systemType) {
     const devices = this.list.filter((device) => {
       return device.osType === systemType
