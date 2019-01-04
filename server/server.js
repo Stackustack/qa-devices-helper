@@ -396,6 +396,38 @@ app.post('/api-v1/devices', async (req, res) => {
     }, 5000)
 })
 
+app.post('/api-v1/devices/:codeName', async (req, res) => {
+    const user = req.body.user
+    const deviceState = req.body.deviceState
+    const codeName = req.params.codeName
+    let userObj = null
+
+    // find User in DB (only needed when User takes device)
+    if (deviceState == "Taken") {
+        userObj = await User.findOne({
+            email: new RegExp(user)
+        })
+    }
+
+    Device.findOneAndUpdate({
+        "codeName": codeName
+    }, {
+        $set: {
+            currentOwner: userObj, 
+            status: deviceState
+        }
+    }).then(doc => {
+        devices.findByCodeName(codeName).status = deviceState
+        devices.findByCodeName(codeName).currentOwner = userObj
+        io.emit('updateDevicesList', devices.all())
+
+        res.send()
+    }).catch(err => {
+        res.status(400).send(err)
+    })
+})
+
+
 app.delete('/api-v1/devices/:deviceId', (req, res) => {
     let deviceId = req.params.deviceId
 
