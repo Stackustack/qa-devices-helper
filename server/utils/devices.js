@@ -222,8 +222,8 @@ const setDeviceStatusInFreshService = (device, user = null) => {
   let userFreshServiceId = null
 
   if (user) {
-    userFreshServiceId = user.freshServiceAssetId
-  } 
+    userFreshServiceId = user.freshServiceUserId
+  }
 
   axios({
     method: 'put',
@@ -240,7 +240,6 @@ const setDeviceStatusInFreshService = (device, user = null) => {
       }
     }
   }).catch(e => {
-    console.log(device)
     notifySupport({
       source: ':robot_face: Fresh Service API',
       shortMessage: `${e.response.status} ${e.response.statusText}`,
