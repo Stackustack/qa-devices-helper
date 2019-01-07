@@ -218,7 +218,7 @@ class Devices {
 }
 
 const setDeviceStatusInFreshService = (device, user = null) => {
-  const urlFreshServiceUpdateDeviceState = `${process.env.FRESH_SERVICE_DOMAIN}/cmdb/itemss/${device.freshServiceAssetId}.json`
+  const urlFreshServiceUpdateDeviceState = `${process.env.FRESH_SERVICE_DOMAIN}/cmdb/items/${device.freshServiceAssetId}.json`
   let userFreshServiceId = null
 
   if (user) {
