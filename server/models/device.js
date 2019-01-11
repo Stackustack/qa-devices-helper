@@ -48,6 +48,10 @@ const DeviceSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  hub: {
+    default: null,
+    type: String,
+  },
   freshServiceAssetId: {
     default: null,
     type: Number
