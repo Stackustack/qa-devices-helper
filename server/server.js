@@ -481,10 +481,10 @@ app.patch('/api-v2/devices', async (req, res) => {
 
   await Promise.all(patch.map(async ([codeName, deviceInfo]) => {
     try {
-      if (deviceInfo.takenBy) {
-        deviceInfo.currentOwner = await User.findOne({
+      if (deviceInfo.takenBy !== undefined) {
+        deviceInfo.currentOwner = deviceInfo.takenBy ? await User.findOne({
             email: new RegExp(deviceInfo.takenBy)
-        })
+        }) : null
         delete deviceInfo.takenBy
       }
       const doc = await Device.update({
