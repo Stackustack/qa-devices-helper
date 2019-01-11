@@ -231,9 +231,7 @@ function setupDeviceStatusCell(tableCell, device) {
 }
 
 function setupDeviceTakenByCell(tableCell, device) {
-  const deviceStatus = device.status
-
-  if (deviceStatus === 'Taken' || deviceStatus === 'RETAKE') {
+  if (device.currentOwner) {
       const label = jQuery('<div></div>').addClass('ui image label basic orange')
       const img = jQuery('<img></img>').addClass('ui avatar image').attr('src', device.currentOwner.picture)
 

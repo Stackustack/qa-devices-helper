@@ -457,6 +457,64 @@ app.delete('/api-v1/devices/:deviceId', (req, res) => {
         })
 })
 
+function Object__fromEntries (iterable) {
+  return [...iterable]
+    .reduce((obj, { 0: key, 1: val }) => Object.assign(obj, { [key]: val }), {})
+}
+
+app.get('/api-v2/devices', (req, res) => {
+  Device
+    .find()
+    .then((devices) => {
+      const ret = new Map(devices.map((device) => [device.codeName, device]))
+      res.send(Object__fromEntries(ret))
+    }), (e) => {
+      res.status(400).send(e)
+    }
+})
+
+app.patch('/api-v2/devices', async (req, res) => {
+  let errArr = []
+  let docArr = []
+
+  const patch = Object.entries(req.body)
+
+  await Promise.all(patch.map(async ([codeName, deviceInfo]) => {
+    try {
+      if (deviceInfo.takenBy) {
+        deviceInfo.currentOwner = await User.findOne({
+            email: new RegExp(deviceInfo.takenBy)
+        })
+        delete deviceInfo.takenBy
+      }
+      const doc = await Device.update({
+          codeName,
+        }, deviceInfo, {
+          upsert: true,
+          setDefaultsOnInsert: true,
+        })
+      docArr.push(doc)
+    } catch (e) {
+      console.log(`Error while patching ${codeName} in DB`)
+      console.log(`Error code`, e)
+      console.log(`Error with device data:`, deviceInfo)
+      errArr.push(e)
+    }
+  }))
+
+  if (errArr.length) {
+    res.status(400).send(errArr)
+  } else {
+    res.send(docArr)
+  }
+
+  devices = new Devices()
+
+  setTimeout(() => {
+    sortDevices(devices)
+  }, 5000)
+})
+
 app.use('/', (req, res) => {
     // redirect to /devices if user session is available
     if (req.session.user) {
