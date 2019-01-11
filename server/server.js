@@ -462,15 +462,19 @@ function Object__fromEntries (iterable) {
     .reduce((obj, { 0: key, 1: val }) => Object.assign(obj, { [key]: val }), {})
 }
 
-app.get('/api-v2/devices', (req, res) => {
-  Device
-    .find()
-    .then((devices) => {
-      const ret = new Map(devices.map((device) => [device.codeName, device]))
-      res.send(Object__fromEntries(ret))
-    }), (e) => {
-      res.status(400).send(e)
-    }
+function serializeDevices (devices) {
+  return Object__fromEntries(devices.map((device) => [device.codeName, {
+    ...device.toObject(),
+    takenBy: device.currentOwner ? device.currentOwner.email : null,
+  }]))
+}
+
+app.get('/api-v2/devices', async (req, res) => {
+  try {
+    res.send(serializeDevices(await Device.find()))
+  } catch (e) {
+    res.status(500).send(e)
+  }
 })
 
 app.patch('/api-v2/devices', async (req, res) => {
@@ -505,7 +509,15 @@ app.patch('/api-v2/devices', async (req, res) => {
   if (errArr.length) {
     res.status(400).send(errArr)
   } else {
-    res.send(docArr)
+    try {
+      res.send(serializeDevices(await Device.find({
+        codeName: {
+          $in: Array.from((new Map(patch)).keys())
+        }
+      })))
+    } catch (e) {
+      res.status(500).send(e)
+    }
   }
 
   devices = new Devices()
