@@ -471,7 +471,7 @@ function serializeDevices (devices) {
 
 app.get('/api-v2/devices', async (req, res) => {
   try {
-    res.send(serializeDevices(await Device.find()))
+    res.send(serializeDevices(await Device.find(req.query)))
   } catch (e) {
     res.status(500).send(e)
   }
