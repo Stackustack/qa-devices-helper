@@ -463,7 +463,7 @@ function Object__fromEntries (iterable) {
 }
 
 function serializeDevices (devices) {
-  return Object__fromEntries(devices.map((device) => [device.codeName, {
+  return Object__fromEntries(devices.map((device) => [device.hwId, {
     ...device.toObject(),
     takenBy: device.currentOwner ? device.currentOwner.email : null,
   }]))
@@ -471,7 +471,10 @@ function serializeDevices (devices) {
 
 app.get('/api-v2/devices', async (req, res) => {
   try {
-    res.send(serializeDevices(await Device.find(req.query)))
+    res.send(serializeDevices(await Device.find({
+      hwId: {$ne: null},
+      ...req.query,
+    })))
   } catch (e) {
     res.status(500).send(e)
   }
@@ -483,7 +486,7 @@ app.patch('/api-v2/devices', async (req, res) => {
 
   const patch = Object.entries(req.body)
 
-  await Promise.all(patch.map(async ([codeName, deviceInfo]) => {
+  await Promise.all(patch.map(async ([hwId, deviceInfo]) => {
     try {
       if (deviceInfo.takenBy !== undefined) {
         deviceInfo.currentOwner = deviceInfo.takenBy ? await User.findOne({
@@ -492,14 +495,19 @@ app.patch('/api-v2/devices', async (req, res) => {
         delete deviceInfo.takenBy
       }
       const doc = await Device.update({
-          codeName,
-        }, deviceInfo, {
+          hwId,
+        }, {
+          ...deviceInfo,
+          $setOnInsert: deviceInfo.codeName ? deviceInfo.codeName : {
+            codeName: hwId
+          },
+        }, {
           upsert: true,
           setDefaultsOnInsert: true,
         })
       docArr.push(doc)
     } catch (e) {
-      console.log(`Error while patching ${codeName} in DB`)
+      console.log(`Error while patching ${hwId} in DB`)
       console.log(`Error code`, e)
       console.log(`Error with device data:`, deviceInfo)
       errArr.push(e)
@@ -511,7 +519,7 @@ app.patch('/api-v2/devices', async (req, res) => {
   } else {
     try {
       res.send(serializeDevices(await Device.find({
-        codeName: {
+        hwId: {
           $in: Array.from((new Map(patch)).keys())
         }
       })))

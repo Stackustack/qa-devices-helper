@@ -6,6 +6,12 @@ const DeviceSchema = mongoose.Schema({
     type: String,
     trim: true,
   },
+  hwId: {
+    default: null,
+    required: false,
+    type: String,
+    trim: true
+  },
   brand: {
     required: true,
     type: String,
