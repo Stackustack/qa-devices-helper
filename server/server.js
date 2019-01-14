@@ -490,7 +490,7 @@ app.patch('/api-v2/devices', async (req, res) => {
     try {
       if (deviceInfo.takenBy !== undefined) {
         deviceInfo.currentOwner = deviceInfo.takenBy ? await User.findOne({
-            email: new RegExp(deviceInfo.takenBy)
+            email: new RegExp(deviceInfo.takenBy.replace('@netguru.co', '@netguru.pl'))
         }) : null
         delete deviceInfo.takenBy
       }
