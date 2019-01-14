@@ -532,6 +532,7 @@ app.patch('/api-v2/devices', async (req, res) => {
 
   setTimeout(() => {
     sortDevices(devices)
+    io.emit('updateDevicesList', devices.all())
   }, 5000)
 })
 
