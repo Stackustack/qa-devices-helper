@@ -49,9 +49,11 @@ UserSchema.statics.getNamesList = function() {
 
 UserSchema.methods.isAuthorized = function() {
   const user = this
-  const domain = user.email.split('@')[1]
+  const userDomain = user.email.split('@')[1]
 
-  return (domain === process.env.AUTHRORIZATION_DOMAIN) ? true : false
+  possibleDomainsArr = process.env.AUTHRORIZATION_DOMAIN.split(',')
+
+  return possibleDomainsArr.includes(userDomain)
 }
 
 UserSchema.methods.isUnauthorized = function() {

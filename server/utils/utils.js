@@ -83,7 +83,7 @@ const parseUserFromOAuth = (userObjFromOAuth) => {
 }
 
 const renderUserUnauthorisedNotification = (userEmail) => {
-  return `Account you're authenticating with (${userEmail}) doesn't have NETGURU.PL domain :(`
+  return `Account you're authenticating with (${userEmail}) doesn't have netguru.pl / .co / .com domain :(`
 }
 
 const newUserToDB = (parsedUser) => {
