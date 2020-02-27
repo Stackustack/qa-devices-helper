@@ -1,3 +1,7 @@
+⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
+THIS REPOSITORY IS NO LONGER USED - PROJECT MOVED TO INTERNAL REPO OF COMPANY IM WORKING FOR AT THE TIME BEING (NETGURU)
+⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
+
 # QA Device Taker 
 
 Real-time app for managing mobile devices status:
