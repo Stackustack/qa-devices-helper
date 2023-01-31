@@ -28,7 +28,7 @@
     "mocha": "^3.5.0",
     "moment": "^2.21.0",
     "mongodb": "^2.2.31",
-    "mongoose": "^4.11.13",
+    "mongoose": "^5.13.15",
     "numeral": "^2.0.6",
     "serve-favicon": "^2.4.5",
     "socket.io": "^2.0.3"
